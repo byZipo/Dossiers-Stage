@@ -1,0 +1,117 @@
+TRAVAIL REALISE : 
+
+06/03/17 : début du stage.
+			- Récupération des articles liés à l'état de l'art de la segmentation et du RaPC pour la détection du cancer du rein chez l'enfant.
+			- Lecture, compréhension et résumé des articles/projets : 	
+				- Application d’imagerie médicale pour l'aide au traitement du cancer de rein chez l'enfant (Pradal et Ouardiane)
+				- Segmentations d'images médicales (Boissard et Lavier)
+				- État de l'art des RaPC réalisé par J.Henriet
+			- J'ai fais une arborescence de fichiers claire pour classer tous mes travaux de stage
+
+
+07/03/17 : 
+			- Lecture, compréhension et résumé du projet : 
+				- Développement d'un outil de modélisation 3D pour la chirurgie conservatrice du rein (Chaussy)
+			- Récupération et étude du code de Boissard et Lavier sur le projet de segmentation par split&merge puis croissance par régions. Dessin de leur "modèle algorithmique" sur papier (voir feuille "Algo segmentation de Boissard").
+			- Déduction d'un premier "modèle" de ce que je vais devoir implémenter, en utilisant le RaPC à la place du split&merge pour déterminer les pixels germes des régions.
+			- Dessin d'un schéma résumant ce "modèle" (Déroulement_RaPC_Croissance.png). Le modèle a aussi été fait sur papier (voir feuille "Utilisation du RaPC pour ensuite faire la croissance par régions").
+			- Lecture (non approfondie) d'articles concernant la segmentation : 
+				- An Automatic Method for Renal Cortex Segmentation on CT images: Évaluation on Kidney Donors
+			- Récupération d'articles sur le RaPC appliqué à la segmentation d'images, fournis par Julien.
+			- Questionnements sur la démarche à adopter pour construire la base de cas du RaPC : 
+				- il faut avoir une base de tous les cas de base / générés par l'algorithme
+				- il faut pouvoir y accéder à tout moment (dans l'algorithme par exemple)
+				- il faut donc stocker cette base dans :
+					- un fichier (Excel, Access, .txt, etc.) ?
+					- une base de données (PhpMyAdmin, MySql, etc.) ?
+					- ou autre ?
+				- les cas générés par l'algorithme doivent persister pour améliorer la base de cas à chaque nouvelle exécution.
+
+08/03/17 :
+			oublié de noter mais ça devait être des lectures d'articles sur le RaPC
+
+
+09/03/17 : 
+			- Début de la lecture des articles fournis par Florent sur le RaPC appliqué à l'imagerie : 
+				- Pertra_Perner_Case_Based_Reasoning_For_Signals_And_Images --> sorte de résumé complet de ce qu'est le RaPC
+					--> uniquement le 1. et une partie du 2. pour le moment
+				- Perner_CaseImageDescriptionForWatershed_2009
+			- Réflexion concernant le RaPC et la mesure de similarité entre deux cas : 
+				- approche par Classes de cas dans la base de cas pour diminuer la complexité de recherche de meilleure solution
+				- voir feuille "MESURE DE SIMILARITE ENTRE CAS"
+				- écriture d'un premier algo en pseudo code java pour me rendre compte de l'implémentation du RaPC.
+				- j'ai posé plusieurs problèmes (voir feuille aussi): 
+					- normalisation nécessaire pour ne pas avoir des données prises en compte de manière beaucoup trop importante (ex: une taille en centimètres)
+					- choix des caractéristiques des cas (voir article 1) 
+					- perte de précision si utilisation de classes
+					- faut-il ajouter un poids à chaque caractéristique pour plus + ou - la prendre en compte ?
+					- comment choisir le nombre de classes si on utilise des classes de cas dans la base de cas ? 
+					- comment ça se passe si on choisit des classes mais que le nombre de germes n'est pas constant au sein d'une même classe (pour faire la moyenne)?
+					- il existe plusieurs manières de constituer les classes (voir figure 2.20  : file:///C:/Users/Thibault/Documents/M2-Info/Stage/Etat%20de%20l'art/Articles/Ressources%20biblio%20R%C3%A0PC/Pertra_Perner_Case_Based_Reasoning_For_Signals_And_Images.pdf)
+					- étant donné le nombre de problèmes que l'approche par classes soulève, est-ce vraiment une bonne manière de voir les choses pour notre cas d'étude ?
+					- je ne vois toujours pas comment faire pour la phase d'adaptation d'une solution.
+					- pour construire la base de cas, comment va t-on s'y prendre ?
+			- Lecture du l'état de l'art de Florent sur le RaPC + sa présentation sur les méthodes de segmentations.
+
+
+10/03/17 : 
+			- Trois nouveaux articles : 
+				- Case Completion and Similarity in Case-Based
+				- Similarity and Metrics in Case-Based Reasoning
+				- An architecture for a CBR image segmentation system
+			- Réflexion vis à vis de la similarité encore une fois, voir feuille : "MODELISATION DES CAS POUR OPTIMISER LA MESURE DE SIMILARITE"
+			- Distinction entre distance et similarité --> d = 1-sim
+			- Étude de plusieurs fonctions de distances (articles + wiki)
+			- Premier patron de construction du fichier de base de cas, ici sous forme .txt, voir fichier : Exemple_BaseDeCas.txt
+			- Bien souvent ils utilisent la fonction de distance de Manhattan pour sa rapidité. d(x, y) = Somme de j=1 à n |xj − yj |
+
+
+13/03/17 : 
+			- Aujourd'hui on va se pencher sur l'adaptation dans un CBR.
+			- on a déjà vu l'approche hiérarchique, ou par moyenne des cas similaires, mais il existe d'autres manières de faire de l'adaptation.
+			- (à noter qu'il est aussi envisageable de ne pas faire d'adaptation, si le veut dans un premier temps obtenir un modèle simple)
+			- wiki nous donne deux méthodes d'adaptation : 
+				- transformationnelle (modification légère d'un cas remémoré, il n'existe pas de méthode "universelle", tout dépend du domaine d'étude)
+				- dérivative (semble compliquée)
+			- le wiki : (https://fr.wikipedia.org/wiki/Raisonnement_par_cas#R.C3.A9utilisation_de_cas_et_adaptation) est pas mal fait
+
+			- En vue d'une présentation lundi prochain, je vais me concentrer sur la caractérisation d'un cas.
+				- Lecture du chapitre 11 du livre de Perner.
+				- Case-based object recognition for airborne fungi recognition (Petra Perner, Silke Janichen, Horst Perner)
+				- CASE-BASED-REASONING FOR IMAGE SEGMENTATION (MARIA FRUCCI, PETRA PERNER and GABRIELLA SANNITI DI BAJA)
+				- file:///C:/Users/Thibault/Documents/M2-Info/Stage/Etat%20de%20l'art/Articles/Ressources%20biblio%20R%C3%A0PC/Elsayed_ImageCategorisationUsingTimeSeriesCBR_2011.pdf
+				- file:///C:/Users/Thibault/Documents/M2-Info/Stage/Etat%20de%20l'art/Articles/Ressources%20biblio%20R%C3%A0PC/Perner_CaseBasedObjectRecognition_2005.pdf
+				- file:///C:/Users/Thibault/Documents/M2-Info/Stage/Etat%20de%20l'art/Articles/Ressources%20biblio%20R%C3%A0PC/Perner_ImageInterpretationWithCBR_2001.pdf
+				- http://download.springer.com/static/pdf/301/chp%253A10.1007%252F3-540-44527-7_38.pdf?originUrl=http%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F3-540-44527-7_38&token2=exp=1489420775~acl=%2Fstatic%2Fpdf%2F301%2Fchp%25253A10.1007%25252F3-540-44527-7_38.pdf%3ForiginUrl%3Dhttp%253A%252F%252Flink.springer.com%252Fchapter%252F10.1007%252F3-540-44527-7_38*~hmac=bbd97fc0f86644335017df002a63809c96d82c5aaa8f3f383f3198badaa3eb2c
+				- http://www.ibai-institut.de/files/eaai01.pdf
+				- 
+
+			- J'ai essayé mes programmes ImageJ sur des scanners, c'est pas mal.
+
+14/03/17 
+		- Réalisation d'une synthèse du travail déjà effectué, sous forme d'un powerpoint qui présente : 
+			- le RaPC de manière générale
+			- la formalisation des cas
+			- la modélisation de la base de cas
+			- la mesure de similartié
+
+		- il faut creuser du côté de la croissance par régions, ses inconvénient, les problèmes qui vont se poser pour délimiter les régions même si l'on a les bons germes. Faire attention aux seuils.
+
+		- Réception et configuration de l'ordi fixe avec un ubuntu dessus.
+		- La présentation n'est pas terminée, il reste les points suivants à remplir :
+			- similarité
+			- modélisation d'un cas de notre étude (p.18)
+			- modélisation d'une base de cas (état de l'art + dans notre cas d'étude)
+	
+
+15/03/17
+		- Le diapo est quasi fini
+		- Lecture de plusieurs articles, notamement :
+			Raisonnement_a_partir_de_cas_et_agronomie_des_territoires.pdf écrit par J.Lieber qui est très bien écrit.
+		- Etude des différentes caractéristiques statistiques présentées dans le diapo, notamment le Kurtosis et l'Asymétrie.
+		- Du coup, prise en compte de nouveaux facteurs pour une modelisation d'un RaPC :
+			- les graphes
+			- les représentation de K (RDFS par exemple)
+		- Au niveau de la croissance par régions :
+			- les seuils (local et global)
+		- Je pourrai peut-être lire cet article demain : https://tel.archives-ouvertes.fr/tel-00586317/document il a l'air pas mal.

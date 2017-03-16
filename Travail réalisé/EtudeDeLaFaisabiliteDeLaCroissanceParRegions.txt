@@ -1,0 +1,5 @@
+ETUDE DE LA FAISABILITE DE LA CROISSANCE PAR REGIONS POUR NOTRE PROBLEME
+
+de ce que j'ai pu lire, cette méthode a comme avantages d'être rapide et facile à implementer.
+Cependant, elle est assez sensible au bruit, et on peut vite avoir des phénomènes de fuite des régions dans le cas d'un dégradé. --> importance du seuil Global.
+--> voir cours : http://m.i.c.h.e.l.e.free.fr/CoursSegmentation.pdf

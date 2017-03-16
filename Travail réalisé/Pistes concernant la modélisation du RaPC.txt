@@ -1,0 +1,26 @@
+Pistes concernant la modélisation du RaPC
+
+
+
+Qu'est-ce qu'un cas ?
+
+une représentation dans une base : problème -> solution
+
+Ici le problème est représenté par les caractéristiques du patient et du scanner du patient, soit par exemple : 
+	- âge
+	- taille
+	- sexe
+	- poids
+	- rein étudié
+
+	- intensité des niveaux de gris
+	- écart-type entre les intensités de gris
+	- brillance
+	- concavité
+	- etc.
+
+
+
+Ainsi quand on aura un nouveau problème, on va se remémorer les problèmes de la base, puis choisir le plus adapté, puis regarder sa solution, puis adapter cette solution à notre problème courant, puis insérer le problème courant + sa solution trouvée dans la base pour l'enrichir.
+
+Le choix du problème le plus adapté se fait à l'aide d'une mesure de similarité entre deux problèmes, en comparant les différents critères précédemment énoncés.

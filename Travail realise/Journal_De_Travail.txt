@@ -115,3 +115,13 @@ TRAVAIL REALISE :
 		- Au niveau de la croissance par régions :
 			- les seuils (local et global)
 		- Je pourrai peut-être lire cet article demain : https://tel.archives-ouvertes.fr/tel-00586317/document il a l'air pas mal.
+
+
+16/03/17 
+		- Au final cet article est bof (https://tel.archives-ouvertes.fr/tel-00586317/document)
+		- Lecture : 
+			- https://members.loria.fr/JLieber/hdr/hdr-lieber.pdf
+			- https://www.greyc.fr/sites/default/files/secretariat/theses-soutenues-1999/These-Valerie-Ficet-1999.pdf
+			- http://liris.cnrs.fr/amelie.cordier/wiki/lib/exe/fetch.php?media=ens:coursrapc.pdf
+			- http://liris.cnrs.fr/~rapc/wiki/doku.php/theses
+			

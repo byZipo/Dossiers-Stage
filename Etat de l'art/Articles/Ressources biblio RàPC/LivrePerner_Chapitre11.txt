@@ -1,0 +1,98 @@
+
+ETAT DE L'ART DES CARACTERISTIQUES UTILISEES POUR DEFINIR UN CAS
+
+Utilisation du RaPC pour déterminer de manière automatique les paramètres a, b et T de l'algorithme de Watershed (les paramètres de merge pour réduire la sur-segmentation).
+
+En 11.3 cela parle de la maintenance, i.e. de l'évaluation d'une solution, et de sa modification si nécessaire (si mauvais résultats).
+Ca parle aussi de regrouper les cas en classes et d'en faire des moyennes pour eviter d'obtenir une base trop grande.
+
+Ils disent d'une manière générale que lorsqu'on est dans un domaine bien précis (c'est notre cas), il est plus facile d'uitliser des caracs nonimage.
+Ces caractéristiques peuvent provenirs de descritpions annotées à côté des images, ou directement inscrites dans leurs en-têtes.
+
+--> Image information should reflect the link between the behavior of the segmentation algorithm and the image characteristics.
+--> Image information should describe the characteristics of an image in terms of contrast, noise, and illumination.
+
+Vu que leurs images de test sont très différentes (images de tous types), ils ne peuvent pas vraiment utiliser de caracs nonimage.
+Ils se sont donc concentrés sur les carcs images, et ont utilisé trois types de caractéristiques : 
+	1. statistiques de niveaux de gris
+		- moyenne
+		- asymétrie
+		- coéfficient de variation
+		- centroide
+		- variance
+		- entropie
+		- etc.
+
+	2. caracs de textures
+		- energie
+		- correlation
+		- homogénéité locale
+		- contraste
+
+	3. combinaison des deux
+
+Pour déterminer quels sont les meilleurs paramètres à utiliser (entre les 3.) on dessine le dendogramme qui présente les regroupements en fonction des distances calculées entre chaque image. 
+(la distance est calculé avec une fonction de distance classique entre deux images selon les paramètres, ex: distance entre img1 et img2 entre les caracs statistiques.)
+Ensuite il faut comparer les regroupement obtenus par rapport aux solutions optimales connues pour chaque image. Si les clusters générés ne contienent que des images ayant des solutions proches, alors on est bon.
+
+Du coup il me faudrait des scanners sur lesquels sont définits les positions optimales des germes ainsi que les seuils de la croissance par régions.
+
+L'article : file:///C:/Users/Thibault/Documents/M2-Info/Stage/Etat%20de%20l'art/Articles/Ressources%20biblio%20R%C3%A0PC/frucci_CBRForImageSeg_2008.pdf
+fait la même chôse, il utilise le RaPC pour déterminer les valeurs des paramètres du Watershed.
+
+Dans cet article ils utilisent les caractéristiques suivantes : 
+	- mean, 
+	- variance, 
+	- skewness, 
+	- kurtosis, 
+	- variation coefficients, 
+	- energy,
+    - entropy, 
+    - centroid
+
+ Ce sont globalement les mêmes caracs que dans l'article précédent.
+Il faudra que je définisse (via les formules) à quoi correspondent ces grandeurs.
+
+JE POURRAIS AUSSI POURQUOI PAS M'INSPIRER DES MOMENTS GEOMETRIQUES VUS EN COURS DE RECO DE FORMES, d'ailleurs ils en parlent dans l'article : (file:///C:/Users/Thibault/Documents/M2-Info/Stage/Etat%20de%20l'art/Articles/Ressources%20biblio%20R%C3%A0PC/Perner_CaseImageDescriptionForWatershed_2009.pdf)
+
+(petite parenthèse : leur formule de similarité est assez originale)
+
+Dans l'article : (file:///C:/Users/Thibault/Documents/M2-Info/Stage/Etat%20de%20l'art/Articles/Ressources%20biblio%20R%C3%A0PC/Perner_CaseBasedObjectRecognition_2005.pdf), ils ne regardent pas les caracs de l'image en entier, mais ne s'intéressent qu' à une certaine partie. Ici ils se concentrent sur les contours des objets, calculés grâce à une filtre de Sobel classique. Cette technique me parrait bizarre.
+
+
+
+Souvent, les images en entrées sont des gradients des images (des sobel par exemple)
+
+Texture = distribution des régions
+Statistical = signal caracs
+
+voir résumé Perner_CaseImageDescriptionForWatershed_2009
+
+Concernant les caractéristiques nonimage, un RaPC a déjà été effectué pour la segmentation du cerveau humain, et ils avaient utilisé : 
+	- age (grosses différences selon l'âge)
+	- sexe (idem que pour l'âge)
+	- nombre de coupes
+	- epaisseur de la coupe (ces deux paramètres sont disponibles dans l'en-tête des scanners)
+
+
+NE PAS OUBLIER DE NORMALISER ?
+
+
+Un autre article : (A Case-Based Approach to Image Recognition Alessandro Micarelli1, Alessandro Neri2, and Giuseppe Sansonetti1)
+
+propose d'utiliser d'autres caractéristiques, à savoir : 
+- Wavelet transform
+- Transfromée de Fourrier
+qui sont toutes deux invariantes aux rotation, translations, changements d'échelles, etc.
+
+Mais je ne pense pas que l'on ait besoin de ces méthodes compliquées, car nos images sont trè ssemblables de base, ne subissant pas de changements d'echelle ni de rotation.
+
+--> ICI On a aussi des approches où l'on stocke la position de certains objets, mais du coup cela siginifie qu'il faut un algorithme capable d'extraire ces données, donc je ne vois pas l'interêt de faire un RaPC après si l'on est deja capable d'extraire des objets de l'image.
+Ils utilisent par exemple des ROI (Region Of Interest)
+
+Par contre on pourrait très bien imaginer appliquer un filtre (genre seuillage ou sobel), et ensuite extraire des caracs depuis ces images filtrées.
+
+
+L'article : (file:///C:/Users/Thibault/Documents/M2-Info/Stage/Etat%20de%20l'art/Articles/Ressources%20biblio%20R%C3%A0PC/Elsayed_ImageCategorisationUsingTimeSeriesCBR_2011.pdf)
+propose une méthode où les images sont représentées sous forme de série temporelle (ex: DTW). 
+

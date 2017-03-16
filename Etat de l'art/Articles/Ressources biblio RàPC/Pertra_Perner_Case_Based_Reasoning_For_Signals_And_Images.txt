@@ -1,0 +1,135 @@
+Case-Based Reasoning on Images and Signals (Perner)
+C'est un livre qui aborde tous les aspects du RaPC (un peu une bible)
+Petra PERNER a l'air d'être "Madame" RaPC appliquée à l'imagerie.
+
+
+1. Introduction to Case-Based Reasoning for Signals and Images
+
+Si le résultat du programme avec RaPC n'est pas satisfaisant (mauvaise segmentation par exemple), ou si le système de trovue pas de cas suffsiamment similaire au cas courant, on peut passer pas une étape de révision de la base de cas, pour mieux "coller" aux données d'entrée.
+
+
+Maintenance de la base de cas : 
+	- un nouveau cas doit être stocké dans la base de cas si aucun des cas présents n'est assez similaire. Cela correspond à un manque dans la base de cas.
+	- les cas de la base doivent être "rangés" de manière "propre" dans la base, une sorte de tri.
+	- il faut faire attention aux paramètres des cas (du problème), car s'ils sont mal ajustés, ont va par exemple choisir de trop nombreux cas similaires potentiels, ou des cas faux.
+	- on peut très bien partir d'une base de cas très petite, avec une très mauvaise adaptation des cas au cas courant, et pourtant après beaucoup d'itérations/ajouts dans la base, on peut améliorer les adaptations/sélections/paramètres, etc. et ainsi obtenir de bons résultats et du coup on peut même réduire la taille de la base ainsi crée puisque à la fin les paramètres sont bons.
+
+
+
+
+Modélisation : 
+	- les questions de modélisations que je me suis posées correspondent à celles énoncées ici : 
+		1. What is the right case description?
+		2. What is an appropriate similarity measure for the problem?
+		3. How to organize a large number of cases for efficient retrieval?
+		4. How to acquire and to refine a new case for entry in the case base?
+		5. How to generalize specific cases to a case that is applicable to a wide range
+		of situations?
+	- concernant la modélisation c'est bien comme je pensais, problème->solution (on peut ajouter une description de la solution)
+	- pour utiliser le RaPC en segmentation d'images, ils ont trouvé qu'une approche "pixels" est plus intéressante qu'une approche "propriétés statistiques de l'image", pourquoi ? Cependant ils ne vont bien entendu pas stocker comme cas tous les pixels de l'image, ils ont des niveau d'abstraction qui résument l'image.
+
+
+
+Mesure de similarité : 
+	- le critère de similarité est un critère numérique.
+	- beaucoup de définitions très générales, comme par exemple le fait que la relations de similarité entre deux cas n'est pas forcément symétrique, si l'on prend l'exemple suivant : 
+		" Le fils ressemble à son père" (fils et père étant les cas), est juste alors que "le père ressemble à son fils n'a pas vraiment de sens logique. Dans notre cas je ne pense pas qu'il faille prendre en compte ce genre de facteurs, puisque l'on compare deux scanners, qui sont des objets(cas) de même type, donc symétriques. (mêmes remarques pour la transitivité)
+	-les données constituant le vecteur de paramètres des cas (problèmes) doivent êtres homogènes, il faut faire attention si l'on veut attribuer des poids à des données. Ça doit être cohérent car on va calculer des distances entre ces vecteurs.
+	- on a donc une fonction de distance entre deux problèmes, soit deux vecteurs x et y : 
+		d(x,y)
+		- vaut 0 si égalité entre les deux vecteurs.
+		- d(x,y) = d(y,x) si symétrie.
+
+	- plusieurs distances utilisables : 	
+		- euclidienne
+		- Manhattan
+		- et d'autres paramètres pour Minkowski
+		le problème de ces fonctions de distance est que l'on traite indépendamment chaque composante des vecteurs, puis on somme donc c'est pas forcément logique de faire cela.
+		De plus, si on a des données qui ne sont pas juste une valeur numérique simple (une taille ou un poids par exemple), un calcul de distance simple n'est pas adéquat.
+		Pour pallier ce problème on peut utiliser des fonction de distances prédéfinies qui retournent une valeur fixe en fonction de x et y.
+		ex : 
+			For example, let a be an attribute a=spatial relationship and
+			Wa = {behind right, behind left, in front right,... }.
+			Then we could define:
+			distancea(behind right, behind right) = 0
+			distancea(behind right, in front right) = 0.25
+			distancea(behind right, behind left) = 0.75
+		Ainsi on peux comparer des données non numériques et transformer le résultat en valeur numérique, pour ensuite utiliser notre fonction de distance classique.
+		Y'a aussi d'autres moyen de comparer la similarité de certains types de données, voir article.
+
+		Pour les images : 
+			Ca parle de problèmes de rotation, translation, etc, mais je pense que l'on ne sera pas confronté à ce problème dans notre projet ?
+			On peut modéliser les mesures de simliarité selon trois catégories : 
+				1. Pixel (iconic)-matrix based similarity measures
+				2. Feature-based similarity measures (numerical or symbolical or mixed type)
+				3. Structural similarity measures
+			Pour le moment je n'ai pas d'infos précises concernant chacune des possibilités.
+			Comme pour notre cas d'étude, ils abordent le fait que souvent on doit combiner des infos concernant à la fois l'image et la "nonimage", soit par exemple les informations du patient. (voir [6]). --> on pourrait imaginer deux indices de similarité, un pour l'image et un pour le patient, puis les combiner.
+
+
+Organisation de la base de cas :
+
+	deux méthodes : 
+		- "bourrin", organisation plate
+			-> lors de l'évaluation, on doit parcourir l'ensemble des cas de la bas car rien n'est "trié" --> take time
+			-> généralement on fait du parallélisme quand on utilise ce mode de fonctionnement.
+		- "malin", hiérarchie
+			-> on peut faire ça sous forme de graphe de décision en triant les cas selon leur similarité, mais j'ai du mal à me le représenter.
+			-> d'une manière générale le but est de trier les cas de la base en fonction de leur similarité (faire des paquets, clusters de similarité proche)
+
+	Pour moi cet aspect peut correspondre à de l'optimisation du programme.
+
+
+
+Apprentissage dans un système de RaPC
+
+	On peut définir des ensembles de cas similaire, qui constituent un cluster, et définir un cas représentatif de ce cluster, appelé Medoid.
+
+	De manière générale le plus simple pour faire apprendre la base est de simplement ajouter à chaque itération un cas x tel que : CBn+1 = CBn ∪ {x}
+	--> si le cas (problème + solution) donne un résultat satisfaisant ?
+
+
+	Ils disent que la suppression de cas est moins intéressante que l'ajout de cas, car de toute manière si un cas est déjà dans la base si qu'il correspond à une configuration possible qui a déjà existé, et qui a déjà été résolue.
+	Le seul avantage à supprimer des cas est de maintenir une taille de base de cas constante, ou raisonnable. Dans cette optique on supprime les cas qui n'ont pas été sélectionné (remémorés) depuis un certain temps (voir [46]).
+
+	On peut aussi apprendre des poids sur les caractéristiques des cas, pour donner une importance plus ou moins importante à certaines caractéristiques.
+	Par exemple on pourrait apprendre que le poids de la personne est beaucoup plus important que sa taille, et ainsi ajuster les poids de ces deux caractéristiques. [43, 44]
+	Du coup on pourrait imaginer un test du genre : 
+		1. on choisit le cas avec la plus grande similarité 
+		2. on applique la croissance de régions avec les paramètres associés
+		3. on évalue la qualité de la segmentation obtenue (comment ?)
+		4. si le résultat est bon, rien à toucher à priori
+		5. si le résultat est mauvais, deux possibilités : 
+			5.1 aucun cas remémoré n'était pas assez similaire donc le cas choisi était trop éloigné
+			5.2 on a mal choisit le cas remémoré à cause de la mesure de similarité, donc des poids
+				--> il faut donc mettre à jour les poids (comment ?, réseau de neurones ?, RaPC ?, ...) (ça devient compliqué)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2. Similarity 
+
+
+CA RESUME BIEN LE RaPC : CBR – Paradigm: If two problems are similar then they have similar solutions
+
+
+
+
+
+
+
+
+
+
+
+

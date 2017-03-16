@@ -1,0 +1,28 @@
+TITRE :  Développement 	d'un outil 	de modélisation 3D pour la chirurgie conservatrice du rein. Application au traitement des néphroblastomes chez l'enfant.
+(Yan Chaussy 2012)
+
+Étude du gain apporté par l'utilisation d'une segmentation semi-automatique du rein, on peut donc penser que si les résultats sont bons, ils le seraient bien évidement aussi pour une segmentation totalement automatique. Le rapport est assez orienté médecine.
+
+
+Ils s'intéressent au un certain type de tumeur du rein : la tumeur de Wilms.
+
+dans ce genre de cas de médecine, on commence par pratiquer une échographie abdominale, qui offre une vue panoramique de l'activité abdominale, et permet de détecter la présence de tumeur. Si on en détecte une, on pratique ensuite le scanner pour plus de précision.
+
+Ils vont essayer de proposer un modèle qui détermine en fonction de la caractéristique de la tumeur, la meilleur opération chirurgicale à effectuer.
+
+Ils parlent d'une méthode de segmentation : la méthode du snake : https://en.wikipedia.org/wiki/Active_contour_model
+qui se base sur les contours, constitué par une courbe qui vient se "coller" autour de la forme.
+
+Ils comparent les temps d'exécution nécessaires à l'approche automatique vs humaine et logiquement la méthode automatique est bien plus rapide.
+
+On a aussi la méthode m-rep, également par approche contours.
+
+MISE EN EVIDENCE DE L'INTERET DE LA SEGMENTATION POUR LA DETECTION DE TUMEUR (chez l'enfant)
+
+pour plusieurs patients atteints d'une tumeur ils réalisent des segmentations et des représentations 3D. Et ils tirent des conclusions sur les opérations chirurgicales à effectuer.
+
+Ils disent que la 3D est très utilise pour que le chirurgien se rende compte de la tâche chirurgical qu'il va avoir à effectuer. En effet par défaut il n'est pas facile de se représenter la configuration du la tumeur sur le rein.
+
+Ils utilisent une méthode de segmentation pas du tout automatique qui nécessite l'intervention humaine pour les paramètres (seuils).
+
+Ils s’intéressent non seulement à représenter le rein mais aussi les cavités rénales qui selon eux apportent aussi des informations importantes, car l'état de ces cavités va pouvoir dire si telle ou telle chirurgie est possible

@@ -1,0 +1,47 @@
+État de l'art des segmentations par approche région liées à la détection du cancer du rein chez l'enfant
+
+TITRE : Application d’imagerie médicale pour l’aide au traitement du cancer du rein chez l’enfant (Pradal et Ouardiane)
+
+Ce qui fait que l'intervention humaine est un problème dans le détection du cancer du rein c'est qu'il est nécessaire d'évaluer en moyenne 250 images par patient, 
+donc le temps nécessaire est très important.
+
+But de l'article : 
+	- construire Base de K
+	- IA pour optimiser la segmentation
+	- représentation 3D des organes segmentés
+
+Le but de la 3D est de passer de 250 images à une seule --> gain de temps
+
+Le format DICOM est standard à tous les établissement médicaux, et facilite le partage des données.
+
+Pour améliorer la qualité des scanners ils injectent en intraveineuse un produit qui rehausse les contrastes.
+Ils obtiennent deux types de scanners : tardifs et vasculaires (chacun des deux permet de distinguer un certain nombre de détails différents)
+le but va être de combiner les informations que l'on peut tirer sur chacun des scanners pour résoudre le problème.
+Pour ce faire la solution est de superposer les segmentations des deux scanners en ajoutant de la transparence. Ce processus nécessite un point de référence car entre les deux images il y a forcément des variations car les deux scanners sont pris à 10min d'intervalle. ils choisissent la vertèbre lombaire L2 comme point fixe.
+
+Leur approche est orientée SMA, et on a des agents pour : 
+	- la segmentation
+	- l'arbitrage
+	- le logiciel (E/S)
+les agents sont utiles au niveau de la parallélisation du programme, ou chaque agent va pouvoir lancer telle ou telle tache en fonction des ressources disponibles.
+
+
+RaPC pour automatiser les interventions humaines (paramètres, choix de la segmentation à réaliser, etc.)
+
+Pour représenter les données, on définit des types d'informations permettant d'évaluer une image : 
+	- informations propres à l'images
+	- informations propres au patient 
+(voir : file:///C:/Users/Thibault/Desktop/Pour%20Thibault/Etat%20Art%20Segmentation%20R%C3%A0PC.pdf)
+
+Leur SMA a une organisation de type Coopération (collaboration pour un but commun), et chaque agent utilise le RaPC pour déterminer son action.
+Au final ils ont choisit de n'utiliser qu'un seul agent pour le choix de la segmentation à appliquer.
+Le problème du RaPC est de savoir quoi faire quand aucune donnée en entrée ne se rapproche d'un des cas de la base.
+Du coup il faut construire une base de cas suffisamment représentative des cas possibles, et peut-être entraîner la base de cas pour l'étoffer.
+
+Si un cas est trop "loin" de tous les autres, i.e. qu'il ne satisfait pas un critère d'optimalité vis à vis d'un autre cas, alors il faut essayer de lancer toutes les segmentations possibles et d'évaluer quelle est la meilleure.
+
+Conclusion : Ce projet pose les bases de modélisation du problème, c'est intéressant au niveau de la définition du RaPC sur ce problème (qui est le miens).
+			Cependant aucune implantation n'a été réalisée.
+
+			
+

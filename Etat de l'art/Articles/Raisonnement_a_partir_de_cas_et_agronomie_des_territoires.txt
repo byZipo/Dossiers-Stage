@@ -1,0 +1,18 @@
+Raisonnement à partir de cas et agronomie des territoires
+Article écrit par  Pierre-Louis Osty, Florence Le Ber et Jean Lieber
+
+
+L'ARTICE EST TRES BIEN ECRIT ET RESUME TRES BIEN LE RaPC
+
+Pose aussi les base du RaPC
+au niveau de la remémoration, et plus particulièrement du stockage de la base de cas, on définit un index pour un porblème, qui est une sorte d'abstraction du problème.
+L'exemple donné est le suivant :
+	En particulier, l’indexation a en général pour objectif de généraliser (et/ou abstraire) le problème source en vue de la résolution de problème qui a conduit à la solution du cas source. Si, pour préparer une tarte aux pommes, l’expert-cuisinier explique (a) qu’il faut des pommes mais (b) que la cannelle est optionnelle et (c) que le type de pommes importe peu, l’indexation gardera du cas (a) mais omettra (b) et (c). De façon générale, l’explication de ce qui « joue un rôle » dans la résolution de problème est utile à l’indexation.
+En gros dans notre cas d'étude l'indexation pourrait être un forme de réduction du problème à 1 ou 2 caractéristiques qui sont les plus représentatives/discriminantes des problèmes rencontrés.
+L'indéxation peut remplacer ou se faire en complément de la mesure de similartié.
+
+Pour la recherche / remémoration d'un cas similaire, il y'a quelque chose d'intéressant qui est expliqué : 
+	
+Pour certains systèmes de RàPC, plusieurs cas peuvent être remémorés afin de résoudre un seul problème cible. Cela peut se faire d'au moins deux façons. Soit, le module de remémoration sélectionne plusieurs cas sources puis, un module de combinaison de ces cas sources permet de construire une solution du problème cible. Soit, le module de remémoration sélectionne un seul cas source qui va donner une solution partielle au problème cible, puis, la remémoration sélectionne un nouveau cas source qui va contribuer à compléter la solution, et ainsi de suite, jusqu'à avoir une solution complète. Par exemple, si on cherche à préparer une Tarte Tatin aux poires, on peut s'inspirer des recettes de la Tarte Tatin aux pommes et de la Tarte aux poires.
+
+L'article est orienté agronomie mais c'est tout de même un très bon exemple de système à RaPC.

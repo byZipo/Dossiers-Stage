@@ -1,0 +1,112 @@
+État de l'art des segmentations par approche région liées à la détection du cancer du rein chez l'enfant
+
+
+
+PAPIER 1 : Segmentations d'images médicales (Olivier Boissard et Antoine Lavier, 2016)
+(L'article n'est pas terminé il manque entre autres les screens)
+
+Segmentations possibles : 
+	- Approche par seuillage (ex: LPE) -->problèmes si l'image (le scanner) est trop complexe pour être résumée via l'histogramme de l'image.
+	- Approche par régions : 
+		- croissance (ascendante, bottom-up) --> initialisation avec des pixels germes et croissance à partir de ces germes en satisfaisant une contrainte d'homogénéité (similarité).
+			- simple à implémenter
+			- sensible aux anomalies des détails de  l'image.
+
+		- division-fusion (top-down) --> voir cours de RecoFormes de M2
+			- moins sensible au bruit 
+			- plus complexe à implémenter
+			- parfois non fidèle à l'image
+		- fusion de régions --> permet après une division/fusion de supprimer la sur-segmentation en fusionnant des régions homogènes.
+
+
+Image en entrée : un scanner du rein, soit une image en niveaux de gris, où chaque nuance de gris correspond à un tissu différent.
+
+Définitions médicales : 
+	Rein situé dans l'abdomen, zone des organes digestifs.
+	Organe vital car responsable de la régulation de la tension, et de l'élimination des toxines avec le fois et les poumons.
+	Deux reins chez l'Homme, le rein gauche se situe plus haut que le rein droit.
+	Plusieurs traitements possibles en cas de détection d'une tumeur.
+
+
+Algorithme utilisé dans la détection de cancer du rein chez l'enfant pour cet article : 
+	1. simplification de l'image à l'aide d'un algorithme de minimisation par variance
+	2. segmentation par division/fusion
+	3. croissance par régions pour isoler les contours des régions précédemment calculées.
+
+Langage utilisé : C++
+	Avec l'outil CMake : http://florian-goujeon.developpez.com/cours/cmake/initiation/
+	Bibliothèque Imebra Dicom SDK leur permet de manipuler les entrées, des images au format DICOM --> ils les convertissent en JPEG.
+	OpenCV, libraire pour le traitement d'images (E/S, histogrammes, filtres, etc.)
+	Qt pour la GUI.
+
+1. simplification de l'image à l'aide d'un algorithme de minimisation par variance
+	ils utilisent K-means
+
+2. segmentation par division/fusion
+	comme vu en cours, les algos sont dans l'article.
+
+3. croissance par régions pour isoler les contours des régions précédemment calculées.
+	Pour chaque germe, on regarde ses voisins, et si ils n'appartiennent pas à la régions courante et qu'ils sont homogènes, on les ajoute à la régions courante, puis on recommence pour leurs voisins. 
+	la limite de chaque région correspond aux différents contours des formes.
+	l'algorithme est détaillé 4.4.2
+
+
+
+Problème 1 : quelle que soit la segmentation utilisée, elle nécessite l'intervention de l'homme pour déterminer quelle régions correspond au rein.
+Problème 2 : la méthode proposée ne construit que des régions rectangulaires, qui ne correspondent pas forcément aux régions désirées (le calcul des germes se base sur des rectangles et la précision n'est donc pas très bonne). En plus des fois leur centre de la forme (germe) se trouve en dehors de la régions (vertèbre), une piste proposée serait d'utiliser Voronoi.
+
+Conclusion : ce projet pose les bases de la segmentation pour passer à l'étape suivante (mon travail), l'arbitrage (position des organes selon les régions) et la détection de cancer.
+
+
+
+
+
+
+ETUDE DE LEUR CODE DE SEGMENTATION 
+
+Phase 1 : package dicom2jpeg pour convertir les images DICOM en images JPEG.
+	librairie Imebra, code open-source.
+
+Phase 2 : package gui 
+	géré par Qt et OpenCV (je ne me suis pas encore penché dessus)
+
+Phase 3 : package kmeans_segmentation
+	doit faire ce qu'ils ont dit dans leur rapport au niveau de la segmentation par minimisation de la variance mais j'ai l'impression qu'aucun main n'utilise ces classes.
+
+Phase 4 : package split_and_merge 
+	réalise le split and merge comme décrit dans le rapport (division/fusion)
+	la fonction de split() est récursive.
+	la fonction de merge() s'arrête quand la convergence est atteinte (plus de modifications)
+
+	Un graphe d'adjacences AdjacencyGraph représente la disposition des régions pendant le split and merge et sert aussi pour la croissance par régions
+	Il y a un truc que je n'ai pas compris avec le merge : 
+	ils disent que les régions finales ne peuvent être que rectangulaires ou carrées, alors qu'en cours en a vu des fusions avec des régions polygonales carrées (des ensembles de carrés/rectangles).
+	--> cela vient peut-être de son implémentation ?
+
+
+Phase 5 : package regions_growing
+	réalise la croissance par régions :
+
+	main.cpp instancie un SplitAndMerge et un RegionsGrowing et lance le split & merge et la croissance, puis affiche le résultat.
+	RegionsGrowing.cpp est une sorte de Modèle qui lance l'initialisation des listes, images, les tests d'homogénéité, la croissance, l'affichage, etc.
+
+	- RegionsGrowing contient une liste de GrowRegions (m_regions) qui correspondent aux différentes régions de l'image.
+	- GrowRegions contient une liste de PixelsRegion, qui correspondent aux pixels du contour de chaque région.
+	- Un PixelRegion est définit par un niveau de gris, un id de région, une limite(pour savoir si il est sur un contour j'imagine), et est définit spatialement à l'aide d'une instance de Coordinate.
+	- Un Coordinate est simplement un Point 2D représenté par ses coordonnées x et y.
+
+
+
+
+En fait l'algorithme de division/fusion leur sert à déterminer où se trouve les germes, puisque les germes sont définis comme étant les centres des régions du split and merge. L'idée est plutôt bonne.
+
+VOIR MA FEUILLE OU J'AI DESSINE LE DEROULEMENT DE L'ALGORITHME.
+
+
+
+
+
+Il y a un package CBR mais il correspond juste à une copie du package regions_growing pour le moment.
+Il y a plusieurs main.cpp mais ils font la même chose.
+
+Ce que je dois faire par rapport à son travail c'est remplacer la partie split&merge par un RaPC pour déterminer l’emplacement des pixels germes.

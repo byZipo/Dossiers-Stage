@@ -1,0 +1,42 @@
+Similarity and Metrics in Case-Based Reasoning (Gavin Finnie et Zhaohao Sun†, 2002)
+
+
+
+
+On parle d'un système R4 : Retrieve – Reuse – Revise – Retain
+
+Ils parlent aussi d'adaptation mais j'ai du mal à voir concrètement comment faire.
+Concernant les poids, cela revient à "trier" les caractéristiques du cas (problème) par ordre d'importance : 
+Par exemple si l'on découvre que l'écart type est la carac la plus importante, on y attribue un poids de 0.9, alors que si l'on découvre que l'âge n'a pas grande importance, on y attribue un poids de 0.2. 
+
+
+//Piste
+On peut aussi imaginer utiliser deux vecteurs problèmes par cas : 
+	- un vecteur pour les informations sur image (variance, brillance, etc.) + poids
+	- un vecteur pour les informations non-image (âge, poids, taille, etc.) + poids
+puis calculer séparément la similitude entre deux cas vecteur par vecteur, puis ajouter un poids image et non-image, puis faire la somme des deux valeurs.
+Ainsi on pourrait paramétrer de manière très précise l'importance des caractéristiques.
+Le choix des caracs et des poids requiert une analyse statistique à mon avis. Il faudrait prendre des entrées (scanner) dont on connait les solutions optimales (germes + seuil de niveau de gris) et tester + faire des stats sur les résultats obtenus en faisant varier tous ces paramètres. Cela rejoint l'article : 
+"Perner_CaseImageDescriptionForWatershed_2009"
+//
+
+
+Autre approche pour la mesure de similarité, ici ils n'appellent pas la fonction de distance/similarité sur les vecteurs, mais sur chaque composante des vecteurs (voir équation 7 page 278). ils utilisent aussi un poids pour chaque composante du vecteur.
+
+Comme d'en d'autres articles, ils évoquent la notion des ensembles flous pour la mesure de similarité, mais je ne vois pas bien si cela nous concerne, car nous on aura uniquement des informations numériques, ou du moins que l'on peut convertir en valeurs numériques, on aura pas de truc du genre : 
+	âge = vieux, brillance = assez sombre
+mais plutôt : 
+	âge = 5,  brillance = 25
+donc on ne se place pas dans les ensembles flous.
+
+Je pense qu'on va donc tout simplement s'orienter vers des fonctions de distance euclidienne, ou Manhattan car ceci devrait suffire à résoudre notre problème.
+
+Ils font la distinction entre métrique (distance par exemple) et similarité, où métrique = 1 - similarité, ce qui revient au même au final, c'est juste l'inverse.
+Une similarité de 1 indique que x=x, or une distance de 0 indique que x=x. Notre approche est donc plutôt orientée sur les distances car on va comparer deux vecteurs.
+
+du coup on a :  For any x,y appartenant à X, d(x, y) = 1 − Sm(x, y) = 1 − Sm(y, x) = d(y, x)
+où d() = distance, Sm() = similarité, et X = base de cas.
+
+la preuve de l’équation (15) page 282 est assez intéressante pour prouver que la mesure de similarité est bien une métrique.
+Par la suite on a plein d'autres déductions qui en découlent mais je ne suis pas sur que se soit très utile.
+

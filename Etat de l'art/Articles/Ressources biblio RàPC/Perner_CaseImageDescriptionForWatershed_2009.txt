@@ -1,0 +1,57 @@
+A Study on the Case Image Description for Learning the Model of the Watershed Segmentation
+
+Dans cet article le but est de trouver, pour une approche future RaPC, les meilleurs paramètres à utiliser pour définir les cas, dans le cadre d'un algorithme de LPE, pour une image donnée.
+C'est un peu la même chose que de trouver les meilleurs caracs (age, taille, sexe, etc) dans notre problème.
+
+Le principal problème dans l'interprétation d'un résultat obtenu est qu'il est sensible aux humains. Une personne peut juger un résultat satisfaisant alors qu'une autre le trouvera mauvais. Il faut donc trouver un moyen de dire automatiquement si un résultat (une segmentation) est bonne (satisfaisante) ou non
+
+Dans leur article, comme à chaque fois, un cas est définit par des caractéristiques de l'image et de nonimage (problème), et de paramètres pour l'algorithme (solution).
+
+Dans leur approche, ils ne veulent décrire une image que pas ces composantes propres, donc pas de nonimage.
+Le but est de "regrouper" les images similaires selon certaines caractéristiques, et appliquer le LPE avec les mêmes paramètres pour ces images ainsi regroupées.
+
+Du coup ils vont chercher quels sont les caractéristiques à utiliser pour représenter un cas.
+
+ Les paramètres optimaux (qui donnent la meilleure segmentation) sont calculés à la main avant les tests des caractéristiques des cas.
+Ils vont donc tester des manières de caractériser les cas, et regrouper les cas similaires, puis voir si les groupes sont constitués de cas où les paramètres optimaux précédemment calculés sont proches.
+
+
+
+Premier test : Statistical and Texture Features 
+statistiques --> (centroid, energy, entropy, kurtosis, mean, skewness, variance and variation coefficient)
+textures --> (energy, correlation, homogeneity, contrast)
+Pour ce test, la formule de distance entre deux images, et donc la mesure de similarité est la suivante : 
+	(voir article section 4.1 --> distAB)
+Pour évaluer leurs résultats, i.e. la manière donc les images de tets vont être regroupées/hiérarchisées, ils construisent un diagramme appelé Dendrogramme (voir wiki : https://fr.wikipedia.org/wiki/Dendrogramme)
+Il suffit de faire une "coupe" du graphe à une valeur de distance donnée, pour obtenir les groupes.
+Ils obtiennent un premier résultat mauvais puisque l'image à 180 et à 0 degrés se retrouvent dans le même groupe, alors que leurs paramètres optimaux précédemment calculés sont très différents, il doivent donc augmenter le poids d'un paramètre qui influe sur la rotation --> le centroide, pour ainsi essayer de séparer les images similaires mais ayant une rotation. donc du coup ils n'ont plus deux catégories de features (stat et texture) mais trois : stat, textures et centroid.
+Ils obtiennent bien un résultats où l'image avec rotation ne se retrouve plus dans le même groupe que la même mais sans rotation.
+
+
+Par la suite ils utilisent d'autres features et les comparent pour déterminer la meilleure manière de représenter les cas.
+J'AURAI A FAIRE CE TRAVAIL CAR IL VA FALLOIR CHOISIR QUELLES CARACTERISTIQUES UTILISER  POUR REPRESENTER LES CAS.
+ATTENTION DANS NOTRE CAS ON A PAS DE ROTATION J'IMAGINE
+
+
+Deuxième test :  Image Description based on Central Moments 
+
+C'est les mêmes moments que l'on a vu en cours de RecoDeFormes m00, m01, etc.
+
+
+
+Au final les résultats obtenus sont meilleurs pour la première solution, puisque les groupes obtenus correspondent mieux au paramètres optimaux précédemment calculés.
+
+
+
+
+
+
+Exemple simplifié appliqué à notre problème : 
+
+	On veut tester si c'est bien d'utiliser uniquement l'âge pour caractériser un cas.
+
+	On regroupe les cas par rapport à leur distance calculée en fonction de l'âge (on forme des classes/groupes)
+	On regarde si dans les groupes créés les paramètres optimaux (positions des germes) sont globalement aux mêmes endroits pour chacun des cas d'un même groupe.
+	Si oui, la caractéristique est intéressante.
+
+	Ceci nécessite de pouvoir calculer à la main les paramètres optimaux pour chaque image testée, ce n'est pas forcément facile à faire.

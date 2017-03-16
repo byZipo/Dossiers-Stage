@@ -1,0 +1,10 @@
+État de l'art des RaPC réalisé par J.Henriet
+
+
+Présentation de différents travaux utilisant le RaPC, pas forcément dans le milieu médical.
+Généralement, ces études n'explorent qu'une partie du RaPC, (la remémoration par exemple) il manque souvent une phase d'adaptation automatisée.
+Présentation de différents critères utilisés pour la comparaison (ex: périmètre, écart-type, brillance, etc.).
+Certaines études proposent des résultats stupéfiants puisque dans certains cas leur résultats sont meilleur que ceux d'experts.
+
+Le dernier modèle se base sur des fonctions mathématiques et non de l'IA, mais c'est intéressant car cela pourrait servir d'outil de comparaison des méthodes orientées IA.
+

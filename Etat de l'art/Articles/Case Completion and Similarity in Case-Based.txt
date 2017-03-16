@@ -1,0 +1,13 @@
+
+
+	Le début de l'article concerne des définitions très générales, qui reprennent les principes du RaPC.
+
+	Ils expliquent d'une information/caractéristique d'un cas (par exemple l'âge) est une entité atomique (une information simple)
+	Il est difficile de déterminer si un cas de la base est utile ou pas, la réponse est souvent apportée manuellement : C'est un critère évalué à posteriori.
+
+	Concernant la similarité, cet article est un peu le même que : Case Completion and Similarity in Case-Based Reasoning
+	On y apprend que sim(x,y) = 1 - d(x,y) entre autres.
+	On a aussi les formules de différentes fonctions de distance (équations (4),(5),(7),(26),(27),(31). Pages 45/46 on a plein d'exemples de fonctions de distance, 
+	on pourrait s'en inspirer pour améliorer nos résultats (le problème c'est que nous ne seront pas en 2D mais en n-D --> vecteurs de caracs).
+	
+

@@ -1,0 +1,42 @@
+Résumé du mémpire de Jean Lieber sur le RaPC : 
+
+Au départ, des généralités et des définitions, c'est toujours très bien expliqué pour poser les bases.
+
+Chapitre 5 Le RaPC / Les Cas / La similarité / etc
+
+5.1.2
+
+la mesure de distance s'appelle aussi dissimilarité, et du coup on n'a pas frocément sim = 1-dist, mais plutôt sim = 1/(1+dist)
+
+Le RaPC a été inventé, et utilisé pour pallier aux problèmes des méthodes simlaires existantes : 	
+	- Raisonnement à base de règles (couteux en terme d'aquisition et de K)
+	- Rasionnement par analogie 
+
+Le RaPC est un peu à mis chemin entre IA et raisonnement par comparaison.
+Le RaPC est cool car très rapide.
+
+L'adaptabilité guide la remémoration, grâce à la définition : "Si deux problèmes sont similaires alors leurs solutions sont similaires"
+De ce fait deux problèmes doivent être similaires uniquement si leurs solutions sont similaires.
+	
+Il donne un exemple où la mesure de similarité par distance n'est pas adaptée : 
+	Supposons à présent qu’un problème corresponde à une image en noir et blanc de a × b pixels (avec n = ab, noir = Vrai et blanc = Faux) accompagnée de la question « Quels sont les objets de cette image ? ». Soit alors Sol(srce) = {chaise blanche, table grise} une solution d’un problème srce. Si cible est le négatif de srce (xci = non(xsi) ), alors Sol(cible) = {chaise noire, table grise} résout cible. Si les connaissances d’adaptation permettent de réaliser ce raisonnement et que la similarité est complète vis-à- vis de l’adaptation, alors srce et cible sont similaires. Or ils sont, au sens de la distance de Hamming, très éloignés : dH (srce, cible) = maxpb,pb′€ Problèmes dH(pb, pb′ ). La distance de Hamming, qui nous semble naturelle pour comparer deux n-uplets de booléens, est inadaptée pour la comparaison de deux 
+	problèmes de reconnaissance d’objets dans des images.
+On a aussi la possibilité de retrouner plusieurs résultats lors de la remémoration, on peut ensuite en faire une solution moyenne. Il faudra ptester pour voir si cela peut être utile.
+
+Chapitre 6 les modèles hiérarchiques de bases de cas
+
+On distingue trois types de classifications hiérarchiques : 
+	- dure
+	- floue
+	- élastique
+(sûrement trop complexe pour notre problème constituté de données numériques)
+
+Indexation = résumé du cas (problème)
+
+Chapitre 7 concerne l'adaptation
+
+Chapitre 8 représentation des K
+
+On peut aussi faire ud RaPC en représentant les K comme on l'a vu en cours de CERO.
+Ici c'est utilisé dans le cadre d'un diagnostic de maladie en fonction des symptômes et des caractéristiques de la personne.
+Arbre de décision avec question du type "âge < 40 ?"

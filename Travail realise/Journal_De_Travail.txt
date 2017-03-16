@@ -124,4 +124,5 @@ TRAVAIL REALISE :
 			- https://www.greyc.fr/sites/default/files/secretariat/theses-soutenues-1999/These-Valerie-Ficet-1999.pdf
 			- http://liris.cnrs.fr/amelie.cordier/wiki/lib/exe/fetch.php?media=ens:coursrapc.pdf
 			- http://liris.cnrs.fr/~rapc/wiki/doku.php/theses
-			
+
+			- etude complète : https://members.loria.fr/JLieber/hdr/hdr-lieber.pdf

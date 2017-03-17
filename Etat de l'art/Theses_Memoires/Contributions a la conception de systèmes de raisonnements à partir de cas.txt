@@ -10,7 +10,12 @@ la mesure de distance s'appelle aussi dissimilarité, et du coup on n'a pas froc
 
 Le RaPC a été inventé, et utilisé pour pallier aux problèmes des méthodes simlaires existantes : 	
 	- Raisonnement à base de règles (couteux en terme d'aquisition et de K)
-	- Rasionnement par analogie 
+	- Rasionnement par analogie  --> forme de RaPC
+	voir aussi : 
+	- raisonnement déductif
+	- raisonnement inductif
+	- raisonnement abductif
+
 
 Le RaPC est un peu à mis chemin entre IA et raisonnement par comparaison.
 Le RaPC est cool car très rapide.

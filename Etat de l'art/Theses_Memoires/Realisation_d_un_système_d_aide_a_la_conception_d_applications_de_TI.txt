@@ -1,0 +1,19 @@
+Thèse soutenue par Valérie Ficet en 1999
+
+
+Présente un nombre important de projets réalisés à l'aide du RaPC.
+
+ On notera, par ailleurs, le besoin d’organiser la base et/ou les index dans des structures ou des hiérarchies à l’aide de ces différents critères de façon à accélérer la recherche d’un cas.
+
+ La thèse décrit aussi les différentes phase d'un RaPC.
+
+ Le système développé semble très complet et permet de réaliser un nombre très important de tâches liées au Traitement d'Images (TI), comme par exemple :
+ 	- isoler la partie claire de l'image
+ 	- supprimer le fond
+ 	- isoler les objets du fond
+ 	- classer les objets selon leur forme
+ 	- etc.
+
+
+ Après ce n'est pas vraiment adapté à notre problème de mon point de vue.
+ Ok c'est appliqué au traitement d'image, mais pas de notre manière, ici c'est plus du calcul de procédures à suivre pour un problème donné.

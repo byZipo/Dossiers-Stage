@@ -130,3 +130,12 @@ TRAVAIL REALISE :
 		- J'ai créé un git pour versionner tout mon travail de Stage, par précaution. Ne pas oublier de push chaque jour le travail réalisé.
 		- Il faudra creuser du côté de cet article, qui semble intéressant dans la défnition d'une base de cas : 
 			(https://www.greyc.fr/sites/default/files/secretariat/theses-soutenues-1999/These-Valerie-Ficet-1999.pdf)
+
+17/03/17 
+		- PowerPoint fini
+		- Verionnage OK
+		- Deux nouveaux articles : 
+			- Realisation_d_un_système_d_aide_a_la_conception_d_applications_de_TI
+			- Perner (je ne me souviens plus du titre exact : "Why is CBR goodd [...]")
+		- Codage d'une croissance par régions sour ImageJ, pas mal mais pour le moment je n'utilise que le seuil Global (et des germes en durs evidement).
+			- JE ME REND COMPTE QUE LES SEUILS SONT PEUT ETRE SPECIFIQUES A CHAQUE REGION --> PISTE A CONFIRMER

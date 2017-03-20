@@ -151,3 +151,4 @@ TRAVAIL REALISE :
 				http://m.i.c.h.e.l.e.free.fr/CoursSegmentation.pdf page 19 et pour les seuils page 27
 			- le programme fontionne plutôt bien, sauf pour l'image rein1_base.png qui est extrêment mauvaise par défaut (même à l'oeil nu c'est la merde)
 			- il faut peut-être que j'optimise l'enchainement de "if"
+		- je GIT le répértoire ImageJ que j'ai déplacé dans le dossier Stage.

@@ -139,3 +139,15 @@ TRAVAIL REALISE :
 			- Perner (je ne me souviens plus du titre exact : "Why is CBR goodd [...]")
 		- Codage d'une croissance par régions sour ImageJ, pas mal mais pour le moment je n'utilise que le seuil Global (et des germes en durs evidement).
 			- JE ME REND COMPTE QUE LES SEUILS SONT PEUT ETRE SPECIFIQUES A CHAQUE REGION --> PISTE A CONFIRMER
+
+20/03/17 
+		- présentation du mon avancé du projet devant l'équipe : 
+			- voir fichier CompteRendu_presentation.txt pour les détails de ce que je dois modifier/ajouter dans ma démarche
+		- du coup aujourd'hui j'ai modifié / refait mon plugin ImageJ de croissance par région, qui maintenant : 
+			- est commenté proprement
+			- utilise les deux seuils
+			- la moyenne de la région est mise à jour à chaque itération, du coup on ne compare pas (pour le seuil global) au pixel germe mais à cette moyenne.
+			- la vision de l'algo est différente, on ne dessine plus le point courant, mais les voisins, l'algo est inspiré du cours : 
+				http://m.i.c.h.e.l.e.free.fr/CoursSegmentation.pdf page 19 et pour les seuils page 27
+			- le programme fontionne plutôt bien, sauf pour l'image rein1_base.png qui est extrêment mauvaise par défaut (même à l'oeil nu c'est la merde)
+			- il faut peut-être que j'optimise l'enchainement de "if"

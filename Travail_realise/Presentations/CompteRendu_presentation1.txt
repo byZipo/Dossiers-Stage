@@ -5,3 +5,4 @@ compte rendu de ma présentation :
 	- on peut très bien avoir 1,2,3,4, etc. germes par tumeur, puisque selon la coupe la tmeur peut se séparer.
 	- ajouter en nonimage la taille, le poids quisont des caracs discriminantes pour notre problème --> grosses diff. à ces âges car croissance rapide.
 	- il m'a parlé de voxels aussi, carac à ajouter au nonimage, car selon les scanners on a pas la même résolution apparement (nocivité des scanners pour les enfants).
+	- Selon Julien Henriet, le probleme du RaPC dans notre projet est qu'il n'existe pas vraiment de bijection entre problème et solution, c.a.d. que d'après les caracétristiques d'une iamage on ne sait pas reproduire les formes/objets de l'image.

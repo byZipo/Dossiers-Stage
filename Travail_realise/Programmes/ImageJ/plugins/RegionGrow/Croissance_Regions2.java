@@ -3,32 +3,42 @@ import ij.*; 							// pour classes ImagePlus et IJ
 import ij.plugin.filter.PlugInFilter; 	// pour interface PlugInFilter
 import ij.process.*; 					// pour classe ImageProcessor
 import ij.gui.*;						// pour classe GenericDialog et Newimage
+import ij.process.ImageConverter;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Random;
 
 public class Croissance_Regions2 implements PlugInFilter {
 
 
-	byte[] pixels;
+	//byte[] pixels;
 	int h,w;
+	ImageProcessor ipr;
+	int[][] couleursPixels;
 	public int setup(String arg, ImagePlus imp) {
 
+		//L'image de base est automatiquement convertie en image 8-bit (pour obtenir une image en niveaux de gris)
+		ImageConverter ic = new ImageConverter(imp);
+		ic.convertToGray8();
+		imp.updateAndDraw();
 		return DOES_8G;
 	}
 
 	public void run(ImageProcessor ip){
 		
 		//Seuils
-		int SeuilGlobal = 10; 
+		int SeuilGlobal = 20; 
 		int SeuilLocal = 10;
 		
 		h=ip.getHeight();
 		w=ip.getWidth();	
-		pixels=(byte[])ip.getPixelsCopy();
-		ImageProcessor ipDT= new ByteProcessor(w,h);
+		//pixels=(byte[])ip.getPixelsCopy();
+
+		ImageProcessor ipDT= new ColorProcessor(w,h);
 		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);
-		ImageProcessor ipr = imageDT.getProcessor();
-		byte[] pixelsDT= (byte[])ipDT.getPixels();
+		ipr = imageDT.getProcessor();
+		//int[] pixelsDT= (int[])ipDT.getPixels();
 		int[][] pixelsA = ip.getIntArray();
 
 
@@ -36,12 +46,26 @@ public class Croissance_Regions2 implements PlugInFilter {
 		ArrayList<Point> germes = new ArrayList<Point>();
 
 		//TEST image reinbeau.jpg
-		/*germes.add(new Point(154,200));
+		germes.add(new Point(154,200));
 		germes.add(new Point(322,297));
 		germes.add(new Point(302,337));
 		germes.add(new Point(198,330));
-		germes.add(new Point(245,316));*/
+		germes.add(new Point(245,316));
+		germes.add(new Point(185,204));
+		germes.add(new Point(305,215));
+		germes.add(new Point(250,235));
+		germes.add(new Point(224,234));
+		germes.add(new Point(241,209));
+		germes.add(new Point(92,332));
+		germes.add(new Point(113,213));
+		germes.add(new Point(185,261));
+		germes.add(new Point(257,207));
+		germes.add(new Point(358,233));
+		germes.add(new Point(388,262));
 		
+
+		
+
 		//TEST image synth.pgm
 		/*germes.add(new Point(200,150));
 		germes.add(new Point(90,172));
@@ -50,17 +74,27 @@ public class Croissance_Regions2 implements PlugInFilter {
 		germes.add(new Point(231,85));*/
 
 		//TEST image rein1_base.png
-		germes.add(new Point(164,61));
+		/*germes.add(new Point(164,61));
 		germes.add(new Point(191,157));
 		germes.add(new Point(369,233));
 		germes.add(new Point(425,233));
-		
+		*/
+
+		//liste de correspondance germe (donc région) --> couleur, utile pour la fusion de deux régions
+		HashMap<Point,Integer> couleursRegions = new HashMap<Point,Integer>();
+		//stockage des couleurs des pixels de l'image, nécessaire pour la fusion
+		couleursPixels = new int[w][h];
 
 		//pour la couleur de la  région
-		int delta = 0;
+		int color = 255;
 
 		//pour chaque germe
 		for(int i = 0; i<germes.size(); i++){
+
+			//à chaque région on associe une couleur aléatoire
+			Random r = new Random();
+			color = r.nextInt(16777215);
+			couleursRegions.put(germes.get(i),color);
 
 			//récupération des coordonées 2D du germe
 			int xGerme = (int)germes.get(i).getX();
@@ -75,7 +109,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 
 			//ajout initial du germe pour la première itération
 			liste.add(new Point(xGerme,yGerme));
-			ipr.putPixel(xGerme,yGerme,255-delta);
+			ipr.putPixel(xGerme,yGerme,color);
 
 			//tant qu'on a des pixels à évaluer (i.e. des pixels potentiellement de la même région)
 			while(!liste.isEmpty()){
@@ -99,8 +133,9 @@ public class Croissance_Regions2 implements PlugInFilter {
 				if(xCourant<w-1 && pixelsA[xCourant+1][yCourant] != -1){
 					if(Math.abs(pixelsA[xCourant+1][yCourant]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant+1][yCourant])<=SeuilLocal)	{
 						liste.add(new Point(xCourant+1,yCourant));
-						ipr.putPixel(xCourant+1,yCourant,255-delta);
+						ipr.putPixel(xCourant+1,yCourant,color);
 						//mise à jour de la moyenne de la région
+						couleursPixels[xCourant+1][yCourant] = color;
 						moyenneRegion = ((moyenneRegion*nbPixelsRegion)+pixelsA[xCourant+1][yCourant])/(nbPixelsRegion+1);
 						nbPixelsRegion++;
 					}
@@ -111,7 +146,8 @@ public class Croissance_Regions2 implements PlugInFilter {
 				if(yCourant<h-1 && pixelsA[xCourant][yCourant+1] != -1){
 					if(Math.abs(pixelsA[xCourant][yCourant+1]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant][yCourant+1])<=SeuilLocal)	{
 						liste.add(new Point(xCourant,yCourant+1));
-						ipr.putPixel(xCourant,yCourant+1,255-delta);
+						ipr.putPixel(xCourant,yCourant+1,color);
+						couleursPixels[xCourant][yCourant+1] = color;
 						moyenneRegion = ((moyenneRegion*nbPixelsRegion)+pixelsA[xCourant][yCourant+1])/(nbPixelsRegion+1);
 						nbPixelsRegion++;
 					}
@@ -123,7 +159,8 @@ public class Croissance_Regions2 implements PlugInFilter {
 				if(xCourant>0  && pixelsA[xCourant-1][yCourant] != -1){
 					if(Math.abs(pixelsA[xCourant-1][yCourant]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant-1][yCourant])<=SeuilLocal)	{
 						liste.add(new Point(xCourant-1,yCourant));
-						ipr.putPixel(xCourant-1,yCourant,255-delta);
+						ipr.putPixel(xCourant-1,yCourant,color);
+						couleursPixels[xCourant-1][yCourant] = color;
 						moyenneRegion = ((moyenneRegion*nbPixelsRegion)+pixelsA[xCourant-1][yCourant])/(nbPixelsRegion+1);
 						nbPixelsRegion++;
 					}
@@ -133,14 +170,15 @@ public class Croissance_Regions2 implements PlugInFilter {
 				if(yCourant>0  && pixelsA[xCourant][yCourant-1] != -1){
 					if(Math.abs(pixelsA[xCourant][yCourant-1]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant][yCourant-1])<=SeuilLocal)	{
 						liste.add(new Point(xCourant,yCourant-1));
-						ipr.putPixel(xCourant,yCourant-1,255-delta);
+						ipr.putPixel(xCourant,yCourant-1,color);
+						couleursPixels[xCourant][yCourant-1] = color;
 						moyenneRegion = ((moyenneRegion*nbPixelsRegion)+pixelsA[xCourant][yCourant-1])/(nbPixelsRegion+1);
 						nbPixelsRegion++;
 					}
 				}
 
 
-				//marquage du point courant de la liste (sauf si c'est un pixel germe sinon on ne peux plus faire la comparaison avec le seuil)
+				//marquage du point courant de la liste
 				pixelsA[xCourant][yCourant] = -1;
 				
 				//suppression du point courant de la liste
@@ -158,11 +196,102 @@ public class Croissance_Regions2 implements PlugInFilter {
 					e.printStackTrace();
 				}*/
 			}
-
-			//mise à jour de la couleur de la région
-			delta += 50;
 		}
+
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
+		dilatation();
+		erosion();
 		imageDT.show();
 		imageDT.updateAndDraw();
 	}
+
+
+	//réalise la fusion de deux régions, i.e. leur attribue la même couleur de segmentation
+	public void fusionRegions(Point germe1, Point germe2, HashMap<Point, Integer> couleursRegions){
+		int color1 = couleursRegions.get(germe1);
+		int color2 = couleursRegions.get(germe2);
+		//la couleur de fusion est la moyenne des couleurs de chaque régions
+		int colorFusion = (color1+color2)/2;
+
+		for(int i = 0; i<w; i++){
+			for(int j = 0; j<h; j++){
+				if(couleursPixels[i][j]==color1 || couleursPixels[i][j]==color2){
+					ipr.putPixel(i,j,colorFusion);
+					couleursPixels[i][j] = colorFusion;
+				
+}			}
+		}
+	}
+
+	//MODIFIER LE TABLEAU COULEURS PIXELS PEDANT LA FUSION !!!!!!!
+
+
+	public void dilatation(){
+		//int[][] masque = {{0,1,0},{1,1,1},{0,1,0}};
+		int[][] masque = {{0,0,1,0,0},{0,1,1,1,0},{1,1,1,1,1},{0,1,1,1,0},{0,0,1,0,0}};
+		int mSize = 2;
+		int[][] tmp = new int[w][h];
+		for(int i = 0 ; i < w ; i++){
+			tmp[i] = couleursPixels[i].clone();
+		}
+
+		for(int i=mSize; i<couleursPixels.length-mSize;i++){
+			for(int j=mSize; j<couleursPixels[0].length-mSize; j++){
+				int color = 0;
+				boolean valide = false;
+				for(int k=-mSize; k<=mSize; k++){
+					for(int l=-mSize; l<=mSize; l++){
+						if(masque[k+mSize][l+mSize]==1 && couleursPixels[i+k][j+l]>0){
+							valide = true;
+							color = couleursPixels[i+k][j+l];
+						}
+					}
+				}
+				if(valide && couleursPixels[i][j]==0){
+					ipr.putPixel(i,j,color);
+					tmp[i][j] = color;
+				}
+			}
+		}
+		for(int i = 0 ; i < w ; i++){
+			couleursPixels[i] = tmp[i].clone();
+		}
+	}
+
+
+	public void erosion(){
+		//int[][] masque = {{0,1,0},{1,1,1},{0,1,0}};
+		int[][] masque = {{0,0,1,0,0},{0,1,1,1,0},{1,1,1,1,1},{0,1,1,1,0},{0,0,1,0,0}};
+		int mSize = 2;
+		int[][] tmp = new int[w][h];
+		for(int i = 0 ; i < w ; i++){
+			tmp[i] = couleursPixels[i].clone();
+		}
+		for(int i=mSize; i<couleursPixels.length-mSize;i++){
+			for(int j=mSize; j<couleursPixels[0].length-mSize; j++){
+				boolean valide = true;
+				for(int k=-mSize; k<=mSize; k++){
+					for(int l=-mSize; l<=mSize; l++){
+						if(masque[k+mSize][l+mSize]==1 && couleursPixels[i+k][j+l]==0)valide = false;
+					}
+				}
+				if(!valide && couleursPixels[i][j]>0){
+					ipr.putPixel(i,j,0);
+					tmp[i][j] = 0;
+				}
+			}
+		}
+		for(int i = 0 ; i < w ; i++){
+			couleursPixels[i] = tmp[i].clone();
+		}
+
+	}
+
 }

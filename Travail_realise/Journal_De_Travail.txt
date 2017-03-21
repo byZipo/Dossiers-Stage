@@ -152,3 +152,12 @@ TRAVAIL REALISE :
 			- le programme fontionne plutôt bien, sauf pour l'image rein1_base.png qui est extrêment mauvaise par défaut (même à l'oeil nu c'est la merde)
 			- il faut peut-être que j'optimise l'enchainement de "if"
 		- je GIT le répértoire ImageJ que j'ai déplacé dans le dossier Stage.
+
+
+21/03/17 
+		- la segmentation par croissance de regions est pas mal la :
+			- deux seuils fonctionnels
+			- colorisation des régions
+			- fonction de fusion de deux régions d'apèrs leurs germes fonctionnelle
+			- fonction d'ouverture (dilatation puis erosion) fonctionnelle --> mais peut-être à améliorer
+			

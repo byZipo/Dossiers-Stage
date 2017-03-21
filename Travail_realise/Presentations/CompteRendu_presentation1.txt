@@ -3,6 +3,7 @@ compte rendu de ma présentation :
 	- regarder au niveau du code existant/ de mon code ImageJ pour povoir définir les germes à partir d'un fichier (base de cas) --> fichier .txt
 	- la base de cas sera sûrement définie par une ontologie, donc il faudra voir comment cela se passe.
 	- on peut très bien avoir 1,2,3,4, etc. germes par tumeur, puisque selon la coupe la tmeur peut se séparer.
+	- du coup si on a plusieurs germes par tumeur, on va obtenir plusieurs régions qu'il va falloir fusionner ensuite.
 	- ajouter en nonimage la taille, le poids quisont des caracs discriminantes pour notre problème --> grosses diff. à ces âges car croissance rapide.
 	- il m'a parlé de voxels aussi, carac à ajouter au nonimage, car selon les scanners on a pas la même résolution apparement (nocivité des scanners pour les enfants).
 	- Selon Julien Henriet, le probleme du RaPC dans notre projet est qu'il n'existe pas vraiment de bijection entre problème et solution, c.a.d. que d'après les caracétristiques d'une iamage on ne sait pas reproduire les formes/objets de l'image.

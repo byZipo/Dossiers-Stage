@@ -160,4 +160,11 @@ TRAVAIL REALISE :
 			- colorisation des régions
 			- fonction de fusion de deux régions d'apèrs leurs germes fonctionnelle
 			- fonction d'ouverture (dilatation puis erosion) fonctionnelle --> mais peut-être à améliorer
-			
+		
+
+22/03/17
+		- faut que j'optimise la fusion / ouverture 
+			--> fait
+		- par contre pour l'image rein1_base.png ça ne marche pas bien, logique.
+			du coup j'ai essayé de faire un prétraitement de l'image avant de lancer la croissance, ça donne des résultats encourrageants, il faut creuser de ce côté.
+			voir fichier parametres_pretraitements_ImageJ.txt

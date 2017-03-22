@@ -1,0 +1,30 @@
+tentative de prétraitement pour la segmentation
+- unsharp max 30/0.6 x2
+- convolver  : 
+-1 -1 -1 -1 -1
+-1 -1 -1 -1 -1
+-1 -1 22 -1 -1
+-1 -1 -1 -1 -1
+-1 -1 -1 -1 -1
+- median radius 7
+
+
+///////////////////////////
+
+unsharp max 30/0.6 x1
+1 1 1 1 1
+1 1 1 1 1
+1 1 -23 1 1 
+1 1 1 1 1
+1 1 1 1 1
+- median radius 
+
+
+/////////////////////
+unsharp max 30/0.9 x1
+(median p-e)
+-1 -1 -1 -1 -1
+-1 -1 -1 -1 -1
+-1 -1 24 -1 -1
+-1 -1 -1 -1 -1
+-1 -1 -1 -1 -1

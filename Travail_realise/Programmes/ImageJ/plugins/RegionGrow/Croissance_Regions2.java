@@ -12,10 +12,12 @@ import java.util.Random;
 public class Croissance_Regions2 implements PlugInFilter {
 
 
-	//byte[] pixels;
+	//dimensions image
 	int h,w;
 	ImageProcessor ipr;
+	//couleur de chaque pixel de l'image
 	int[][] couleursPixels;
+
 	public int setup(String arg, ImagePlus imp) {
 
 		//L'image de base est automatiquement convertie en image 8-bit (pour obtenir une image en niveaux de gris)
@@ -27,9 +29,10 @@ public class Croissance_Regions2 implements PlugInFilter {
 
 	public void run(ImageProcessor ip){
 		
+
 		//Seuils
-		int SeuilGlobal = 20; 
-		int SeuilLocal = 10;
+		int SeuilGlobal = 60; 
+		int SeuilLocal = 20;
 		
 		h=ip.getHeight();
 		w=ip.getWidth();	
@@ -46,7 +49,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 		ArrayList<Point> germes = new ArrayList<Point>();
 
 		//TEST image reinbeau.jpg
-		germes.add(new Point(154,200));
+		/*germes.add(new Point(154,200));
 		germes.add(new Point(322,297));
 		germes.add(new Point(302,337));
 		germes.add(new Point(198,330));
@@ -61,7 +64,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 		germes.add(new Point(185,261));
 		germes.add(new Point(257,207));
 		germes.add(new Point(358,233));
-		germes.add(new Point(388,262));
+		germes.add(new Point(388,262));*/
 		
 
 		
@@ -74,15 +77,19 @@ public class Croissance_Regions2 implements PlugInFilter {
 		germes.add(new Point(231,85));*/
 
 		//TEST image rein1_base.png
-		/*germes.add(new Point(164,61));
-		germes.add(new Point(191,157));
-		germes.add(new Point(369,233));
-		germes.add(new Point(425,233));
-		*/
+		//germes.add(new Point(164,61)); //rein --> seuils optimaux 53/15
+		//germes.add(new Point(75,114));
+			//germes.add(new Point(229,113));
+		germes.add(new Point(223,146));
+		//germes.add(new Point(271,438));
+		//germes.add(new Point(191,157)); //tumeur
+		//germes.add(new Point(369,233)); //rond 1
+		//germes.add(new Point(425,233)); //rond 2
+
 
 		//liste de correspondance germe (donc région) --> couleur, utile pour la fusion de deux régions
 		HashMap<Point,Integer> couleursRegions = new HashMap<Point,Integer>();
-		//stockage des couleurs des pixels de l'image, nécessaire pour la fusion
+		//stockage des couleurs des pixels de l'image, nécessaire pour la fusion et pour la fermeture (dilatation et erosion)
 		couleursPixels = new int[w][h];
 
 		//pour la couleur de la  région
@@ -165,7 +172,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 						nbPixelsRegion++;
 					}
 				}
-				
+
 				//haut
 				if(yCourant>0  && pixelsA[xCourant][yCourant-1] != -1){
 					if(Math.abs(pixelsA[xCourant][yCourant-1]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant][yCourant-1])<=SeuilLocal)	{
@@ -180,7 +187,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 
 				//marquage du point courant de la liste
 				pixelsA[xCourant][yCourant] = -1;
-				
+
 				//suppression du point courant de la liste
 				liste.remove(0);
 
@@ -206,8 +213,8 @@ public class Croissance_Regions2 implements PlugInFilter {
 		}
 
 		//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
-		dilatation();
-		erosion();
+		fermeture();
+		//ouverture();
 		imageDT.show();
 		imageDT.updateAndDraw();
 	}
@@ -217,7 +224,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 	public void fusionRegions(Point germe1, Point germe2, HashMap<Point, Integer> couleursRegions){
 		int color1 = couleursRegions.get(germe1);
 		int color2 = couleursRegions.get(germe2);
-		//la couleur de fusion est la moyenne des couleurs de chaque régions
+		//la couleur de fusion est la moyenne des couleurs de chaque région
 		int colorFusion = (color1+color2)/2;
 
 		for(int i = 0; i<w; i++){
@@ -225,27 +232,30 @@ public class Croissance_Regions2 implements PlugInFilter {
 				if(couleursPixels[i][j]==color1 || couleursPixels[i][j]==color2){
 					ipr.putPixel(i,j,colorFusion);
 					couleursPixels[i][j] = colorFusion;
-				
-}			}
+				}			
+			}
 		}
 	}
 
-	//MODIFIER LE TABLEAU COULEURS PIXELS PEDANT LA FUSION !!!!!!!
 
 
+	//fonction de dilatation morphologique de l'image
 	public void dilatation(){
 		//int[][] masque = {{0,1,0},{1,1,1},{0,1,0}};
 		int[][] masque = {{0,0,1,0,0},{0,1,1,1,0},{1,1,1,1,1},{0,1,1,1,0},{0,0,1,0,0}};
-		int mSize = 2;
+		int mSize = masque.length/2;
+		//besoin d'une copie sinon si on modifie directement le vrai tableau en va colorier toute l'image
 		int[][] tmp = new int[w][h];
 		for(int i = 0 ; i < w ; i++){
 			tmp[i] = couleursPixels[i].clone();
 		}
 
-		for(int i=mSize; i<couleursPixels.length-mSize;i++){
-			for(int j=mSize; j<couleursPixels[0].length-mSize; j++){
+		//pour chaque pixel de l'image
+		for(int i=mSize; i<w-mSize;i++){
+			for(int j=mSize; j<h-mSize; j++){
 				int color = 0;
 				boolean valide = false;
+				//convolution
 				for(int k=-mSize; k<=mSize; k++){
 					for(int l=-mSize; l<=mSize; l++){
 						if(masque[k+mSize][l+mSize]==1 && couleursPixels[i+k][j+l]>0){
@@ -254,28 +264,31 @@ public class Croissance_Regions2 implements PlugInFilter {
 						}
 					}
 				}
+				//dessin et modification tableau
 				if(valide && couleursPixels[i][j]==0){
 					ipr.putPixel(i,j,color);
 					tmp[i][j] = color;
 				}
 			}
 		}
+
+		//copiage dans le vrai tableau
 		for(int i = 0 ; i < w ; i++){
 			couleursPixels[i] = tmp[i].clone();
 		}
 	}
 
-
+	//fonction d'erosion morphologique de l'image
 	public void erosion(){
 		//int[][] masque = {{0,1,0},{1,1,1},{0,1,0}};
 		int[][] masque = {{0,0,1,0,0},{0,1,1,1,0},{1,1,1,1,1},{0,1,1,1,0},{0,0,1,0,0}};
-		int mSize = 2;
+		int mSize = masque.length/2;
 		int[][] tmp = new int[w][h];
 		for(int i = 0 ; i < w ; i++){
 			tmp[i] = couleursPixels[i].clone();
 		}
-		for(int i=mSize; i<couleursPixels.length-mSize;i++){
-			for(int j=mSize; j<couleursPixels[0].length-mSize; j++){
+		for(int i=mSize; i<w-mSize;i++){
+			for(int j=mSize; j<h-mSize; j++){
 				boolean valide = true;
 				for(int k=-mSize; k<=mSize; k++){
 					for(int l=-mSize; l<=mSize; l++){
@@ -292,6 +305,18 @@ public class Croissance_Regions2 implements PlugInFilter {
 			couleursPixels[i] = tmp[i].clone();
 		}
 
+	}
+
+	//fermeture morphologique, qui correspond à une dilatation puis une erosion
+	public void fermeture(){
+		dilatation();
+		erosion();
+	}
+
+	//ouverture morphologique, qui correspond à une erosion puis une dilatation
+	public void ouverture(){
+		erosion();
+		dilatation();
 	}
 
 }

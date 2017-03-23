@@ -183,7 +183,7 @@ public class Probleme {
 	}
 	
 	public String toString(){
-		return "NonImage : "+age+" "+taille+" "+masse+" "+sexe+" "+nbCoupes+" "+hauteurCoupe+" Image : "+moyenne+" "+asymetrie+" "+variance+" "+kurtosis;
+		return "NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" | Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis;
 	}
 	
 }

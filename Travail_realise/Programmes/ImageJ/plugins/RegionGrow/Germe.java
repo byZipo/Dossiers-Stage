@@ -47,7 +47,7 @@ public class Germe {
 	}
 	
 	public String toString(){
-		return "|position : ("+x+";"+y+") couleur : "+couleur+" ";
+		return "          position : ("+x+";"+y+") , couleur : "+couleur+" ";
 	}
 
 }

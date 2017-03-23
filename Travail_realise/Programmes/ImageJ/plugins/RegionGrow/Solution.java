@@ -58,11 +58,11 @@ public class Solution {
 	
 	public String toString(){
 		StringBuilder st = new StringBuilder();
-		st.append("Seuil Global : "+seuilGlobal);
-		st.append("Seuil Local : "+seuilLocal);
-		st.append("Germes : ");
+		st.append(" Seuil Global : "+seuilGlobal);
+		st.append(" Seuil Local : "+seuilLocal);
+		st.append("\n   --> Germes : ");
 		for(int i = 0; i<germes.size(); i++){
-			st.append(germes.get(i).toString());
+			st.append("\n"+germes.get(i).toString());
 		}
 		return st.toString();
 	}

@@ -10,6 +10,9 @@ public class BaseDeCas {
 		this.taille = lcas.size();
 	}
 
+	public Cas getCas(int i){
+		return lcas.get(i);
+	}
 
 	public void ajouterCas(Cas c){
 		this.lcas.add(c);

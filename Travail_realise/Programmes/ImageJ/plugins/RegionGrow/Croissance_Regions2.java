@@ -15,10 +15,11 @@ public class Croissance_Regions2 implements PlugInFilter {
 
 
 	//dimensions image
-	int h,w;
-	ImageProcessor ipr;
+	protected int h,w;
+	//nouvelle image dans laquelle on va dessiner la segmentation
+	protected ImageProcessor ipr;
 	//couleur de chaque pixel de l'image
-	int[][] couleursPixels;
+	protected int[][] couleursPixels;
 
 	public int setup(String arg, ImagePlus imp) {
 
@@ -29,6 +30,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 		return DOES_8G;
 	}
 
+	//fonction principale, qui lit et construit la base de cas, puis fait la segmentation
 	public void run(ImageProcessor ip){
 		
 
@@ -37,33 +39,40 @@ public class Croissance_Regions2 implements PlugInFilter {
 		BaseDeCas base = null;
 		try {
 			base = l.LectureFichierBaseEnLigne("BaseDeCasEnLigne.txt");
-			System.out.println(base.toString());
+			//System.out.println(base.toString());
+			IJ.log("////////////////Avant segmentation : ///////////////\n");
+			IJ.log(base.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		//Seuils
-		int SeuilGlobal = 60; 
-		int SeuilLocal = 20;
+		int SeuilGlobal = base.getCas(0).getSolution().getSeuilGlobal(); 
+		int SeuilLocal = base.getCas(0).getSolution().getSeuilLocal();
 		
+		//hauteur et largeur de l'image
 		h=ip.getHeight();
 		w=ip.getWidth();	
-		//pixels=(byte[])ip.getPixelsCopy();
 
+		//création de la nouvelle image dans laquelle on va dessiner la segmentation
 		ImageProcessor ipDT= new ColorProcessor(w,h);
 		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);
 		ipr = imageDT.getProcessor();
-		//int[] pixelsDT= (int[])ipDT.getPixels();
+		
+		//tableau des intensités en niveau de gris des pixels de l'image
 		int[][] pixelsA = ip.getIntArray();
 
 
-		//germes pour le moment définis en dur
+		//germes 
+		//POUR LE MOMENT J'AI UNE LISTE DE Germes ET UNE LISTE DE Point, IL FAUDRA CHANGER CA, UNE SEULE SUFFIT !
 		ArrayList<Point> germes = new ArrayList<Point>();
-		ArrayList<Germe> tmp = base.lcas.get(0).getSolution().getGermes();
-		for(int i = 0 ; i < tmp.size() ; i++){
-			Point p = new Point(tmp.get(i).getX(), tmp.get(i).getY());
+		ArrayList<Germe> lgermes = base.getCas(0).getSolution().getGermes();
+		for(int i = 0 ; i < lgermes.size() ; i++){
+			Point p = new Point(lgermes.get(i).getX(), lgermes.get(i).getY());
 			germes.add(p);
 		}
+
+		
 		
 		//TEST image reinbeau.jpg
 		/*germes.add(new Point(154,200));
@@ -97,7 +106,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 		//germes.add(new Point(164,61)); //rein --> seuils optimaux 53/15
 		//germes.add(new Point(75,114));
 			//germes.add(new Point(229,113));
-		germes.add(new Point(223,146));
+		//germes.add(new Point(223,146));
 		//germes.add(new Point(271,438));
 		//germes.add(new Point(191,157)); //tumeur
 		//germes.add(new Point(369,233)); //rond 1
@@ -109,7 +118,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 		//stockage des couleurs des pixels de l'image, nécessaire pour la fusion et pour la fermeture (dilatation et erosion)
 		couleursPixels = new int[w][h];
 
-		//pour la couleur de la  région
+		//pour la couleur de la région (couleur initiale n'a pas d'importance)
 		int color = 255;
 
 		//pour chaque germe
@@ -119,6 +128,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 			Random r = new Random();
 			color = r.nextInt(16777215);
 			couleursRegions.put(germes.get(i),color);
+			lgermes.get(i).setCouleur(color);
 
 			//récupération des coordonées 2D du germe
 			int xGerme = (int)germes.get(i).getX();
@@ -220,13 +230,12 @@ public class Croissance_Regions2 implements PlugInFilter {
 					e.printStackTrace();
 				}*/
 			}
-		}
-
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
+			try {
+				Thread.sleep(250);
+			} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
-			e.printStackTrace();
+				e.printStackTrace();
+			}
 		}
 
 		//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
@@ -234,6 +243,8 @@ public class Croissance_Regions2 implements PlugInFilter {
 		//ouverture();
 		imageDT.show();
 		imageDT.updateAndDraw();
+		IJ.log("\n\n////////////////Apres segmentation : ///////////////\n");
+		IJ.log(base.toString());
 	}
 
 

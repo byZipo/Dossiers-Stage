@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class LectureFichier{
 
-
+	//lecture et construction de la base de cas, d'après un fichier TXT au format "Ligne", voir fichier BaseDeCasEnLigne.txt
 	public BaseDeCas LectureFichierBaseEnLigne(String fichier) throws IOException {
 		BaseDeCas base = new BaseDeCas();
 		String st = "";
@@ -53,7 +53,7 @@ public class LectureFichier{
 			int seuilLocal = Integer.parseInt(decoupageSolution[1]);
 			
 			ArrayList<Germe> germes = new ArrayList<Germe>();
-			for(int i = 2; i < decoupageSolution.length-1; i++){
+			for(int i = 2; i < decoupageSolution.length-1; i+=2){
 				germes.add(new Germe(Integer.parseInt(decoupageSolution[i]), Integer.parseInt(decoupageSolution[i+1])));
 			}
 			

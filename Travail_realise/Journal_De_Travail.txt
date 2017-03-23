@@ -180,3 +180,6 @@ TRAVAIL REALISE :
 			- le fichier en entrée (la base de cas) doit se trouver à la racine du dossier ImageJ (au dessus de "plugins")
 			- ImageJ fonctionne avec Java 7, et mon ordi en Java 8, il faut donc supprimer/renommer le dossier "jre" à la racine du dossier ImageJ pour ne pas avoir de conflit
 		- pour demain je pourrais faire une fonction de selection (sans lago RaPC pour le moment) d'un des cas de la base de cas. De cette manière tout la segementation serait automatisée (plus rien en dur)
+		- faire les Sorties aussi (i.e. écrire dans la base de cas !!)
+		- POUR LUNDI FAIRE UNE PRESENTATION DES PROBLEMES QUE J'AI AU NIVEAU DE LA SEGMENTATION PAR CROISSANCE DE REGIONS (images difficiles, prétraitement, erosion, etc.)
+		- PLUS PRESENTER CE QUE J'AI FAIT/CODé

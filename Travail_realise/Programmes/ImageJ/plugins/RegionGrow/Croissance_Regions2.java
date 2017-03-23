@@ -1,4 +1,4 @@
-	// Importation des paquets nécessaires. Le plugin n'est pas lui-même un paquet (pas de mot-clé package)
+// Importation des paquets nécessaires. Le plugin n'est pas lui-même un paquet (pas de mot-clé package)
 import ij.*; 							// pour classes ImagePlus et IJ
 import ij.plugin.filter.PlugInFilter; 	// pour interface PlugInFilter
 import ij.process.*; 					// pour classe ImageProcessor
@@ -8,6 +8,8 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.io.IOException;
+
 
 public class Croissance_Regions2 implements PlugInFilter {
 
@@ -30,6 +32,16 @@ public class Croissance_Regions2 implements PlugInFilter {
 	public void run(ImageProcessor ip){
 		
 
+		//lecture du fichier de la base de cas, et construction de la base
+		LectureFichier l = new LectureFichier();
+		BaseDeCas base = null;
+		try {
+			base = l.LectureFichierBaseEnLigne("BaseDeCasEnLigne.txt");
+			System.out.println(base.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		//Seuils
 		int SeuilGlobal = 60; 
 		int SeuilLocal = 20;
@@ -47,7 +59,12 @@ public class Croissance_Regions2 implements PlugInFilter {
 
 		//germes pour le moment définis en dur
 		ArrayList<Point> germes = new ArrayList<Point>();
-
+		ArrayList<Germe> tmp = base.lcas.get(0).getSolution().getGermes();
+		for(int i = 0 ; i < tmp.size() ; i++){
+			Point p = new Point(tmp.get(i).getX(), tmp.get(i).getY());
+			germes.add(p);
+		}
+		
 		//TEST image reinbeau.jpg
 		/*germes.add(new Point(154,200));
 		germes.add(new Point(322,297));

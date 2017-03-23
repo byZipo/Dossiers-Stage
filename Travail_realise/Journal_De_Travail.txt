@@ -168,3 +168,14 @@ TRAVAIL REALISE :
 		- par contre pour l'image rein1_base.png ça ne marche pas bien, logique.
 			du coup j'ai essayé de faire un prétraitement de l'image avant de lancer la croissance, ça donne des résultats encourrageants, il faut creuser de ce côté.
 			voir fichier parametres_pretraitements_ImageJ.txt
+
+23/03/17
+		- j'ai réalisé l'architecture (premiere version assez simple) de la base de cas, qui fonctionne avec imageJ
+		- il est possible de réaliser une lecture fichier, qui va construire la base de cas d'après un fichier d'uncertain format : voir fichier BaseDeCasEnLigne.txt
+		- attention : pour voir l'affichage des sysout, il faut passer en mode debug sous imgageJ : Edit->Options->Misc..->Debug mode
+		- cette fois il faut que j'utilise cette base de cas pour lire les germes !
+		- c'est un peu la merde pour ajouter ses propres classes pour qu'elles soient utilisables sous imageJ : 
+			- pas de noms de packages 
+			- compilation à la main de chaque fichier.java avec l'invite de commandes (cmd) Windows (javac fichier.java)
+			- le fichier en entrée (la base de cas) doit se trouver à la racine du dossier ImageJ (au dessus de "plugins")
+			- ImageJ fonctionne avec Java 7, et mon ordi en Java 8, il faut donc supprimer/renommer le dossier "jre" à la racine du dossier ImageJ pour ne pas avoir de conflit

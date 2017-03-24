@@ -33,6 +33,8 @@ public class Croissance_Regions2 implements PlugInFilter {
 	//fonction principale, qui lit et construit la base de cas, puis fait la segmentation
 	public void run(ImageProcessor ip){
 		
+		//indice du numéro de cas, pour la phase de test car pour le moment on ne fait pas de choix (RaPC) sur la base
+		int indiceBase = 2;
 
 		//lecture du fichier de la base de cas, et construction de la base
 		LectureFichier l = new LectureFichier();
@@ -47,8 +49,8 @@ public class Croissance_Regions2 implements PlugInFilter {
 		}
 
 		//Seuils
-		int SeuilGlobal = base.getCas(0).getSolution().getSeuilGlobal(); 
-		int SeuilLocal = base.getCas(0).getSolution().getSeuilLocal();
+		int SeuilGlobal = base.getCas(indiceBase).getSolution().getSeuilGlobal(); 
+		int SeuilLocal = base.getCas(indiceBase).getSolution().getSeuilLocal();
 		
 		//hauteur et largeur de l'image
 		h=ip.getHeight();
@@ -66,7 +68,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 		//germes 
 		//POUR LE MOMENT J'AI UNE LISTE DE Germes ET UNE LISTE DE Point, IL FAUDRA CHANGER CA, UNE SEULE SUFFIT !
 		ArrayList<Point> germes = new ArrayList<Point>();
-		ArrayList<Germe> lgermes = base.getCas(0).getSolution().getGermes();
+		ArrayList<Germe> lgermes = base.getCas(indiceBase).getSolution().getGermes();
 		for(int i = 0 ; i < lgermes.size() ; i++){
 			Point p = new Point(lgermes.get(i).getX(), lgermes.get(i).getY());
 			germes.add(p);

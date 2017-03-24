@@ -183,3 +183,10 @@ TRAVAIL REALISE :
 		- faire les Sorties aussi (i.e. écrire dans la base de cas !!)
 		- POUR LUNDI FAIRE UNE PRESENTATION DES PROBLEMES QUE J'AI AU NIVEAU DE LA SEGMENTATION PAR CROISSANCE DE REGIONS (images difficiles, prétraitement, erosion, etc.)
 		- PLUS PRESENTER CE QUE J'AI FAIT/CODé
+
+24/03/17
+		- diapo fini pour la présentation de lundi
+		- conférence sur "le doctorant, ce couteau suisse", au labo femto
+		- correction et optimisation de certains points de code de segmentation
+		- j'essaye toujours de trouver les bons prétraitements pour pouvoir segmenter efficacement l'image "rein1_base.png", c'est assez difficile
+		

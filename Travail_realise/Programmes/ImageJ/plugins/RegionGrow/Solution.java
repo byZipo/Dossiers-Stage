@@ -55,6 +55,10 @@ public class Solution {
 	public void setGermes(ArrayList<Germe> germes) {
 		this.germes = germes;
 	}
+
+	public Germe getGerme(int i){
+		return germes.get(i);
+	}
 	
 	public String toString(){
 		StringBuilder st = new StringBuilder();

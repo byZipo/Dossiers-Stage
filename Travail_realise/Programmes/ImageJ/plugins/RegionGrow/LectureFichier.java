@@ -1,7 +1,10 @@
 //package antispam;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -66,6 +69,50 @@ public class LectureFichier{
 		br.close();
 		return base;
 	}
+
+	//écriture du la base de cas (passée en paramètre) dans un fichier TXT au format "Ligne", voir fichier BaseDeCasEnLigne.txt
+	public void ecritureFichierBaseEnLigne(String fichier, BaseDeCas base) throws IOException {
+		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(fichier)));
+		String entete = "// BASE DE CAS EN LIGNE //";
+		pw.println(entete);
+		for(int i = 0 ; i < base.getTailleBase() ; i++){
+			StringBuilder st = new StringBuilder();
+			Cas c = base.getCas(i);
+			Probleme p = c.getProbleme();
+
+			//Probleme
+				//NonImage
+			String age = p.getAge()+"";
+			String taille = p.getTaille()+"";
+			String masse = p.getMasse()+"";
+			String sexe = p.getSexe()+"";
+			String nbCoupes = p.getNbCoupes()+"";
+			String hauteurCoupe = p.getHauteurCoupe()+"";
+			st.append(age+";"+taille+";"+masse+";"+sexe+";"+nbCoupes+";"+hauteurCoupe+"/");
+						
+				//Image
+			String moyenne = p.getMoyenne()+"";
+			String asymetrie = p.getAsymetrie()+"";
+			String variance = p.getVariance()+"";
+			String kurtosis = p.getKurtosis()+"";
+			st.append(moyenne+";"+asymetrie+";"+variance+";"+kurtosis+"/");
+		
+			//Solution
+			Solution s = c.getSolution();
+				//Seuils
+			st.append(s.getSeuilGlobal()+";"+s.getSeuilLocal()+";");
+				//Germes
+			for(int j = 0; j<s.getNbGermes();j++){
+				Germe g = s.getGerme(j);
+				if(j<s.getNbGermes()-1)st.append(g.getX()+";"+g.getY()+";");
+				else st.append(g.getX()+";"+g.getY());
+			}
+			pw.println(st.toString());
+		}
+		pw.close();
+	}
+
+
 	
 	public static void main(String[] args) {
 		LectureFichier l = new LectureFichier();

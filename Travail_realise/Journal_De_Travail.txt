@@ -190,3 +190,22 @@ TRAVAIL REALISE :
 		- correction et optimisation de certains points de code de segmentation
 		- j'essaye toujours de trouver les bons prétraitements pour pouvoir segmenter efficacement l'image "rein1_base.png", c'est assez difficile
 		
+25/03/17
+		- je peux essayer de faire l'ecriture fichier (base de bas) --> OK ça marche (on peut aussi ajouter des cas avant de les réécrire dans le fichier)
+		- continuer au niveau des filtres
+		- l'unsharp mask / masque flou est un filtre qui améliore le piqué, donc la netteté/les contours d'une image (https://en.wikipedia.org/wiki/Unsharp_masking), il utilise 3 paramètres : 
+			- amount (poids pour la différence entre image de base et image floutée par exemple)
+			- radius (rayon d'effet pour le flou gaussien)
+			- seuil (optionnel, pour exclure les différences trop faibles)
+			principe : on utilise un flou gaussien, calculé à partir de l'image de base et d'une copie de l'image sur laquelle on augmente le flou.
+			La différence entre l'image de base et l'image floutée (à l'aide du flou gaussien) nous donne le masque flou.
+			Le masque flou, ajouté à l'image de base, renforce les détails.
+			Flou gaussien : chaque pixel prend la valeur moyenne de ses pixels voisins dans un certain rayon.
+		- réunion pour le faire le point avec Julien :
+			- objectif : implémentation + article (en anglais probablement)
+			- article : etat de l'art, définition du problème, résolution du problème, résultats, commentaires.
+			- implémentation : codage du RaPC, et dire ce qui a marché, ce qui n'a pas marché.
+		- j'ai codé une méthode de calcul de distance entre le probleme courant et ceux de la base. C'est une version ultra simplifiée, mais elle marche sur mes exemples.
+		- Du coup je n'ai plus à écrire en dur dans le code le cas à selectionner dans la base, le choix se fait à l'aide de la fonction de distance.
+		- Je me suis rendu compte que pour la normalisation/les poids ça va être chiant vu le nombre de champs dans Probleme, du coup j'ai pensé à uniquement mettre des poids en dur dans la fonction getSommeCaracs() de la classe Probleme, au final on arrive au même résultat (les poids peuvent être en dur).
+		- Je pourrai donc ajouter ces nouvelles fonctionnalités dans la présentation.

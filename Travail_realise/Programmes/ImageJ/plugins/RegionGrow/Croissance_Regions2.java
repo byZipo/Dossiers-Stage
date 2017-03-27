@@ -21,11 +21,14 @@ public class Croissance_Regions2 implements PlugInFilter {
 	//couleur de chaque pixel de l'image
 	protected int[][] couleursPixels;
 
+	ImagePlus image;
+
 	public int setup(String arg, ImagePlus imp) {
 
 		//L'image de base est automatiquement convertie en image 8-bit (pour obtenir une image en niveaux de gris)
 		ImageConverter ic = new ImageConverter(imp);
 		ic.convertToGray8();
+		this.image=imp;
 		imp.updateAndDraw();
 		return DOES_8G;
 	}
@@ -34,7 +37,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 	public void run(ImageProcessor ip){
 		
 		//indice du numéro de cas, pour la phase de test car pour le moment on ne fait pas de choix (RaPC) sur la base
-		int indiceBase = 2;
+		int indiceBase = 0;
 
 		//lecture du fichier de la base de cas, et construction de la base
 		LectureFichier l = new LectureFichier();
@@ -47,6 +50,17 @@ public class Croissance_Regions2 implements PlugInFilter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		//récupération des caractéristiques images de l'entrée
+		ImageStatistics stats = ip.getStatistics();
+		IJ.log("\nSTATISTIQUES IMAGE EN ENTREE : moyenne : "+stats.mean+" asymetrie : "+stats.skewness+" ecart-type : "+stats.stdDev+" kurtosis : "+stats.kurtosis+"\n");
+
+		//les caracs nonImage sont en dur forcément
+		Probleme pEntree = new Probleme(5,175,22,0,4,3,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
+
+
+		// RaPC !!! (basique pour essayer pour le moment)
+		indiceBase = getMeilleurProbleme(pEntree,base);
 
 		//Seuils
 		int SeuilGlobal = base.getCas(indiceBase).getSolution().getSeuilGlobal(); 
@@ -247,7 +261,42 @@ public class Croissance_Regions2 implements PlugInFilter {
 		imageDT.updateAndDraw();
 		IJ.log("\n\n////////////////Apres segmentation : ///////////////\n");
 		IJ.log(base.toString());
+
+		//réécriture de la base de cas dans le fichier TXT
+		try {
+			l.ecritureFichierBaseEnLigne("BaseDeCasEnLigne.txt", base);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
+
+
+	//calcul de similarité entre le probleme courrant et ceux de la base, pour retourner l'indice du plus similaire
+	//pour le moment on fait une distance de Manhattan sans pondération, donc pas très optimisée
+	public int getMeilleurProbleme(Probleme p, BaseDeCas base){
+		double best = Integer.MAX_VALUE;
+		int indice = 0;
+
+		//somme des carctéristiques du probleme d'entrée
+		double valEntree = p.getSommeCaracs(); 
+		for(int i = 0 ; i < base.getTailleBase(); i++){
+			double distance = 0;
+			Probleme tmp = base.getCas(i).getProbleme();
+			//somme des caractéristiques du problème courant de la base
+			double valTmp = tmp.getSommeCaracs();
+			//calcul de distance entre les deux problèmes
+			distance = Math.abs(valTmp - valEntree);
+			IJ.log("DISTANCE avec cas"+(i+1)+" : "+distance);
+			if(distance<best){
+				best = distance;
+				indice = i;
+			}
+		}
+		IJ.log("MEILLEURE SIMILARITE : "+best+" --> INDICE CAS : "+(indice+1));
+		return indice;
+	}
+
 
 
 	//réalise la fusion de deux régions, i.e. leur attribue la même couleur de segmentation

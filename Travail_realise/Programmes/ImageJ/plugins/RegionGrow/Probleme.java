@@ -182,6 +182,10 @@ public class Probleme {
 		this.poidsImage = poidsImage;
 	}
 	
+	public double getSommeCaracs(){
+		//je mets les pondérations ici en fait
+		return (double)(age+(taille*0.05)+masse+sexe+nbCoupes+hauteurCoupe+moyenne+asymetrie+variance+kurtosis);
+	}
 	public String toString(){
 		return "NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" | Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis;
 	}

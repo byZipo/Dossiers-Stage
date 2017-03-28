@@ -231,3 +231,6 @@ TRAVAIL REALISE :
 					-> lecture
 						LectureFichier.java
 		- --> le fichier Croissance_Regions.java est donc deux crans au dessus des autres
+		- --> il faut cette fois faire attention aux import, dans chaque fichier (mais vu qu'on utilise eclipse il nous corrige !!)
+
+		- demain il faut vraiment que j'essaye de trouver un pretraitement qui permette de faire une belle segmentation pour l'image rein1_base.png

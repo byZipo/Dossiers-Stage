@@ -1,5 +1,4 @@
-//package main;
-//package RegionGrow;
+//Il ne faut pas mettre de nom de package pour ImageJ !
 //package RegionGrow;
 import java.awt.Point;
 import java.io.IOException;

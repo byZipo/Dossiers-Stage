@@ -1,4 +1,4 @@
-
+package RegionGrow.baseDeCas;
 public class Cas {
 	
 	protected Probleme probleme;
@@ -35,7 +35,7 @@ public class Cas {
 	}
 	
 	public String toString(){
-		return "Probleme : "+probleme.toString()+" \n --> Solution : "+solution.toString()+"\n";
+		return "Probleme : "+probleme.toString()+" \n        --> Solution : "+solution.toString()+"\n";
 	}
 	
 

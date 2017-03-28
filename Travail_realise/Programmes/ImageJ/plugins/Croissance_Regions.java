@@ -1,17 +1,30 @@
-// Importation des paquets nécessaires. Le plugin n'est pas lui-même un paquet (pas de mot-clé package)
-import ij.*; 							// pour classes ImagePlus et IJ
-import ij.plugin.filter.PlugInFilter; 	// pour interface PlugInFilter
-import ij.process.*; 					// pour classe ImageProcessor
-import ij.gui.*;						// pour classe GenericDialog et Newimage
-import ij.process.ImageConverter;
+//package main;
+//package RegionGrow;
+//package RegionGrow;
 import java.awt.Point;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.io.IOException;
+
+import RegionGrow.baseDeCas.BaseDeCas;
+import RegionGrow.baseDeCas.Germe;
+import RegionGrow.baseDeCas.Probleme;
+import RegionGrow.lecture.LectureFichier;
+// Importation des paquets necessaires. Le plugin n'est pas lui-meme un paquet (pas de mot-clef package)
+// pour classes ImagePlus et IJ
+import ij.IJ;
+import ij.ImagePlus;
+import ij.plugin.filter.PlugInFilter; 	// pour interface PlugInFilter
+// pour classe ImageProcessor
+import ij.process.ColorProcessor;
+import ij.process.ImageConverter;
+import ij.process.ImageProcessor;
+import ij.process.ImageStatistics;
 
 
-public class Croissance_Regions2 implements PlugInFilter {
+public class Croissance_Regions implements PlugInFilter {
+
 
 
 	//dimensions image
@@ -36,7 +49,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 	//fonction principale, qui lit et construit la base de cas, puis fait la segmentation
 	public void run(ImageProcessor ip){
 		
-		//indice du numéro de cas, pour la phase de test car pour le moment on ne fait pas de choix (RaPC) sur la base
+		//indice du numero de cas, pour la phase de test car pour le moment on ne fait pas de choix (RaPC) sur la base
 		int indiceBase = 0;
 
 		//lecture du fichier de la base de cas, et construction de la base
@@ -51,11 +64,11 @@ public class Croissance_Regions2 implements PlugInFilter {
 			e.printStackTrace();
 		}
 
-		//récupération des caractéristiques images de l'entrée
+		//recuperation des caracteristiques images de l'entree
 		ImageStatistics stats = ip.getStatistics();
 		IJ.log("\nSTATISTIQUES IMAGE EN ENTREE : moyenne : "+stats.mean+" asymetrie : "+stats.skewness+" ecart-type : "+stats.stdDev+" kurtosis : "+stats.kurtosis+"\n");
 
-		//les caracs nonImage sont en dur forcément
+		//les caracs nonImage sont en dur forcement
 		Probleme pEntree = new Probleme(5,175,22,0,4,3,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
 
 
@@ -70,12 +83,12 @@ public class Croissance_Regions2 implements PlugInFilter {
 		h=ip.getHeight();
 		w=ip.getWidth();	
 
-		//création de la nouvelle image dans laquelle on va dessiner la segmentation
+		//creation de la nouvelle image dans laquelle on va dessiner la segmentation
 		ImageProcessor ipDT= new ColorProcessor(w,h);
 		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);
 		ipr = imageDT.getProcessor();
 		
-		//tableau des intensités en niveau de gris des pixels de l'image
+		//tableau des intensites en niveau de gris des pixels de l'image
 		int[][] pixelsA = ip.getIntArray();
 
 
@@ -87,6 +100,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 			Point p = new Point(lgermes.get(i).getX(), lgermes.get(i).getY());
 			germes.add(p);
 		}
+
 
 		
 		
@@ -129,62 +143,62 @@ public class Croissance_Regions2 implements PlugInFilter {
 		//germes.add(new Point(425,233)); //rond 2
 
 
-		//liste de correspondance germe (donc région) --> couleur, utile pour la fusion de deux régions
+		//liste de correspondance germe (donc region) --> couleur, utile pour la fusion de deux regions
 		HashMap<Point,Integer> couleursRegions = new HashMap<Point,Integer>();
 		//stockage des couleurs des pixels de l'image, nécessaire pour la fusion et pour la fermeture (dilatation et erosion)
 		couleursPixels = new int[w][h];
 
-		//pour la couleur de la région (couleur initiale n'a pas d'importance)
+		//pour la couleur de la region (couleur initiale n'a pas d'importance)
 		int color = 255;
 
 		//pour chaque germe
 		for(int i = 0; i<germes.size(); i++){
 
-			//à chaque région on associe une couleur aléatoire
+			//a� chaque region on associe une couleur aleatoire
 			Random r = new Random();
 			color = r.nextInt(16777215);
 			couleursRegions.put(germes.get(i),color);
 			lgermes.get(i).setCouleur(color);
 
-			//récupération des coordonées 2D du germe
+			//recuperation des coordonees 2D du germe
 			int xGerme = (int)germes.get(i).getX();
 			int yGerme = (int)germes.get(i).getY();
 
-			//l'intensité moyennne de la région courante (nécessite le nombre de pixels de la région pour la m.a.j.)
+			//l'intensite moyennne de la region courante (necessite le nombre de pixels de la region pour la m.a.j.)
 			double moyenneRegion = pixelsA[xGerme][yGerme];
 			int nbPixelsRegion = 0;
 
-			//liste des points à évaluer, utilisée comme une pile (LIFO)
+			//liste des points a evaluer, utilisee comme une pile (LIFO)
 			ArrayList<Point> liste = new ArrayList<Point>();
 
-			//ajout initial du germe pour la première itération
+			//ajout initial du germe pour la premiere iteration
 			liste.add(new Point(xGerme,yGerme));
 			ipr.putPixel(xGerme,yGerme,color);
 
-			//tant qu'on a des pixels à évaluer (i.e. des pixels potentiellement de la même région)
+			//tant qu'on a des pixels a evaluer (i.e. des pixels potentiellement de la meme region)
 			while(!liste.isEmpty()){
 
-				//récuperation du point courant
+				//recuperation du point courant
 				Point courant = liste.get(0);
 				int xCourant = (int)courant.getX();
 				int yCourant = (int)courant.getY();
 				//IJ.log("Val courant : "+pixelsA[xCourant][yCourant]+" | Val Germe : "+pixelsA[xGerme][yGerme]+" | Val Precedent : "+pixelsA[xPrecedent][yPrecedent]);
 
-				//si le pixel est déjà marqué (i.e. visité) on passe au pixel suivant
+				//si le pixel est deja� marque (i.e. visite) on passe au pixel suivant
 				if(pixelsA[xCourant][yCourant]==-1){
 					liste.remove(0);
 					continue;
 				}
 
 
-				//pour chaque voisin en 4-connexité (non visité) du pixel courant, on va tester son homogénéité, et l'ajouter ou non à la région
+				//pour chaque voisin en 4-connexite (non visite) du pixel courant, on va tester son homogeneite, et l'ajouter ou non a la region
 
 				//droite
 				if(xCourant<w-1 && pixelsA[xCourant+1][yCourant] != -1){
 					if(Math.abs(pixelsA[xCourant+1][yCourant]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant+1][yCourant])<=SeuilLocal)	{
 						liste.add(new Point(xCourant+1,yCourant));
 						ipr.putPixel(xCourant+1,yCourant,color);
-						//mise à jour de la moyenne de la région
+						//mise a jour de la moyenne de la region
 						couleursPixels[xCourant+1][yCourant] = color;
 						moyenneRegion = ((moyenneRegion*nbPixelsRegion)+pixelsA[xCourant+1][yCourant])/(nbPixelsRegion+1);
 						nbPixelsRegion++;
@@ -234,7 +248,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 				//suppression du point courant de la liste
 				liste.remove(0);
 
-				//affichage du résultat en cours
+				//affichage du resultat en cours
 				imageDT.show();
 				imageDT.updateAndDraw();
 
@@ -262,7 +276,7 @@ public class Croissance_Regions2 implements PlugInFilter {
 		IJ.log("\n\n////////////////Apres segmentation : ///////////////\n");
 		IJ.log(base.toString());
 
-		//réécriture de la base de cas dans le fichier TXT
+		//reecriture de la base de cas dans le fichier TXT
 		try {
 			l.ecritureFichierBaseEnLigne("BaseDeCasEnLigne.txt", base);
 		} catch (IOException e) {
@@ -272,20 +286,20 @@ public class Croissance_Regions2 implements PlugInFilter {
 	}
 
 
-	//calcul de similarité entre le probleme courrant et ceux de la base, pour retourner l'indice du plus similaire
-	//pour le moment on fait une distance de Manhattan sans pondération, donc pas très optimisée
+	//calcul de similarite entre le probleme courrant et ceux de la base, pour retourner l'indice du plus similaire
+	//pour le moment on fait une distance de Manhattan sans ponderation, donc pas tres optimisee
 	public int getMeilleurProbleme(Probleme p, BaseDeCas base){
 		double best = Integer.MAX_VALUE;
 		int indice = 0;
 
-		//somme des carctéristiques du probleme d'entrée
+		//somme des carcteristiques du probleme d'entree
 		double valEntree = p.getSommeCaracs(); 
 		for(int i = 0 ; i < base.getTailleBase(); i++){
 			double distance = 0;
 			Probleme tmp = base.getCas(i).getProbleme();
-			//somme des caractéristiques du problème courant de la base
+			//somme des caracteristiques du probleme courant de la base
 			double valTmp = tmp.getSommeCaracs();
-			//calcul de distance entre les deux problèmes
+			//calcul de distance entre les deux problemes
 			distance = Math.abs(valTmp - valEntree);
 			IJ.log("DISTANCE avec cas"+(i+1)+" : "+distance);
 			if(distance<best){
@@ -299,11 +313,11 @@ public class Croissance_Regions2 implements PlugInFilter {
 
 
 
-	//réalise la fusion de deux régions, i.e. leur attribue la même couleur de segmentation
+	//realise la fusion de deux regions, i.e. leur attribue la meme couleur de segmentation
 	public void fusionRegions(Point germe1, Point germe2, HashMap<Point, Integer> couleursRegions){
 		int color1 = couleursRegions.get(germe1);
 		int color2 = couleursRegions.get(germe2);
-		//la couleur de fusion est la moyenne des couleurs de chaque région
+		//la couleur de fusion est la moyenne des couleurs de chaque region
 		int colorFusion = (color1+color2)/2;
 
 		for(int i = 0; i<w; i++){

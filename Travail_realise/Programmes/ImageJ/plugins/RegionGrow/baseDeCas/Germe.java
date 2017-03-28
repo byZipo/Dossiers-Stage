@@ -1,3 +1,4 @@
+package RegionGrow.baseDeCas;
 public class Germe {
 	
 	protected int x;

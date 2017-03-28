@@ -209,3 +209,25 @@ TRAVAIL REALISE :
 		- Du coup je n'ai plus à écrire en dur dans le code le cas à selectionner dans la base, le choix se fait à l'aide de la fonction de distance.
 		- Je me suis rendu compte que pour la normalisation/les poids ça va être chiant vu le nombre de champs dans Probleme, du coup j'ai pensé à uniquement mettre des poids en dur dans la fonction getSommeCaracs() de la classe Probleme, au final on arrive au même résultat (les poids peuvent être en dur).
 		- Je pourrai donc ajouter ces nouvelles fonctionnalités dans la présentation.
+
+
+26/03/17
+		- nouveau systeme de compilation : 
+			- un projet "Segmentation" sous eclipse lié au projet imageJ appelé IJ dans mes projets Eclipse.
+			- un build.xml dans ce projet qui me sert de copieur pour tous les fichiers vers le répertoire plugins de ImageJ (Stage/Travail[...]/ImageJ/plugins)
+			- à chaque CTRL+S sur eclipse, tout le contenu du code est copié vers les plugins imageJ
+			- la compilation fonctionne même pour le fichier Croissance_Regions.java !!
+			- attention cependant eclipse n'aime pas le fait que le fichier ne dispose pas de nom de package, mais osef.
+		- nouvelle arboresence : 
+			-> plugins 
+				Croissance_Regions.java
+				-> RegionGrow
+					-> baseDeCas
+						BaseDeCas.java
+						Cas.java
+						Germe.java
+						Probleme.java
+						Solution.java
+					-> lecture
+						LectureFichier.java
+		- --> le fichier Croissance_Regions.java est donc deux crans au dessus des autres

@@ -1,3 +1,4 @@
+package RegionGrow.baseDeCas;
 public class Probleme {
 	
 	
@@ -57,6 +58,7 @@ public class Probleme {
 	public void pondererAge(double poids){
 		age = (double) age*poids;
 	}
+
 	public void pondererTaille(double poids){
 		taille = (double) taille*poids;
 	}
@@ -84,7 +86,6 @@ public class Probleme {
 	public void pondererKurtosis(double poids){
 		kurtosis = (double) kurtosis*poids;
 	}
-
 	//accesseurs
 	public double getAge() {
 		return age;

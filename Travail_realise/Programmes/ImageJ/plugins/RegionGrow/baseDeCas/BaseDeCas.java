@@ -1,10 +1,11 @@
+package RegionGrow.baseDeCas;
 import java.util.ArrayList;
+//TEST
 
 public class BaseDeCas {
 	
 	protected int taille;
 	protected ArrayList<Cas> lcas;
-
 	public BaseDeCas(){
 		this.lcas = new ArrayList<Cas>();
 		this.taille = lcas.size();

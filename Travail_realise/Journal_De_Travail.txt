@@ -234,3 +234,7 @@ TRAVAIL REALISE :
 		- --> il faut cette fois faire attention aux import, dans chaque fichier (mais vu qu'on utilise eclipse il nous corrige !!)
 
 		- demain il faut vraiment que j'essaye de trouver un pretraitement qui permette de faire une belle segmentation pour l'image rein1_base.png
+
+27/03/17
+		- dans la partie solution on pourrait imaginer une deuxieme partie, pour la gestion des filtres de prétraitement. Car le probleme est le suivant : 
+			- un bon prétraitement pour une image peut être totalement mauvais pour une autre, il faut donc adapter le prétraitement à l'image -> RàPC.

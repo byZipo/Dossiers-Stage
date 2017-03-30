@@ -238,3 +238,11 @@ TRAVAIL REALISE :
 27/03/17
 		- dans la partie solution on pourrait imaginer une deuxieme partie, pour la gestion des filtres de prétraitement. Car le probleme est le suivant : 
 			- un bon prétraitement pour une image peut être totalement mauvais pour une autre, il faut donc adapter le prétraitement à l'image -> RàPC.
+
+30/03/17
+		- retours sur la présentation, voir feuille "Compte-rendu présentation 2"
+		- du coup j'ai implémenter une fonction de suppression des muscles, voir code
+		- le but est de simplifier le probleme en enlevant les muscles, qui sont souvent de la même couleur que la tumeur.
+		- je me suis rendu compte que ma fonction de calcul de distance pour le RaPC est nulle à chier : 
+			ex : 150  10       150 10  ici le cas deux est meilleur, mais c'est le 1 qui sera chosisi (160-160 = 0)
+				 10  150       10  10

@@ -15,6 +15,7 @@ import RegionGrow.lecture.LectureFichier;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter; 	// pour interface PlugInFilter
+import ij.process.ByteProcessor;
 // pour classe ImageProcessor
 import ij.process.ColorProcessor;
 import ij.process.ImageConverter;
@@ -25,7 +26,8 @@ import ij.process.ImageStatistics;
 public class Croissance_Regions implements PlugInFilter {
 
 
-
+	//image de base en entrée
+	protected ImageProcessor ip;
 	//dimensions image
 	protected int h,w;
 	//nouvelle image dans laquelle on va dessiner la segmentation
@@ -33,21 +35,23 @@ public class Croissance_Regions implements PlugInFilter {
 	//couleur de chaque pixel de l'image
 	protected int[][] couleursPixels;
 
-	ImagePlus image;
-
+	
+	//fonction appelée automatiquement pas ImageJ au lancement du plugin
 	public int setup(String arg, ImagePlus imp) {
 
 		//L'image de base est automatiquement convertie en image 8-bit (pour obtenir une image en niveaux de gris)
 		ImageConverter ic = new ImageConverter(imp);
 		ic.convertToGray8();
-		this.image=imp;
+		ImagePlus image;
+		image=imp;
 		imp.updateAndDraw();
 		return DOES_8G;
 	}
 
-	//fonction principale, qui lit et construit la base de cas, puis fait la segmentation
-	public void run(ImageProcessor ip){
+	//fonction principale, qui lit et construit la base de cas, puis fait la segmentation (fonction appelée automtiquement)
+	public void run(ImageProcessor i){
 		
+		this.ip = i;
 		//indice du numero de cas, pour la phase de test car pour le moment on ne fait pas de choix (RaPC) sur la base
 		int indiceBase = 0;
 
@@ -73,23 +77,32 @@ public class Croissance_Regions implements PlugInFilter {
 
 		// RaPC !!! (basique pour essayer pour le moment)
 		indiceBase = getMeilleurProbleme(pEntree,base);
-
-		//Seuils
+		//indiceBase = 4;
+		
+		//pour les test de suppression des muscles
+		boolean musclesAEnlever = true;
+		if(musclesAEnlever)ip = supprimerMuscles(base, 3, l);
+		segmentation(base, indiceBase, l);
+		
+	}
+	
+	
+	//realise la segmentation par croissance de regions
+	public void segmentation(BaseDeCas base, int indiceBase, LectureFichier l){
+				//Seuils
 		int SeuilGlobal = base.getCas(indiceBase).getSolution().getSeuilGlobal(); 
 		int SeuilLocal = base.getCas(indiceBase).getSolution().getSeuilLocal();
-		
+				
 		//hauteur et largeur de l'image
 		h=ip.getHeight();
 		w=ip.getWidth();	
-
-		//creation de la nouvelle image dans laquelle on va dessiner la segmentation
+				//creation de la nouvelle image dans laquelle on va dessiner la segmentation
 		ImageProcessor ipDT= new ColorProcessor(w,h);
 		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);
 		ipr = imageDT.getProcessor();
 		
 		//tableau des intensites en niveau de gris des pixels de l'image
 		int[][] pixelsA = ip.getIntArray();
-
 
 		//germes 
 		//POUR LE MOMENT J'AI UNE LISTE DE Germes ET UNE LISTE DE Point, IL FAUDRA CHANGER CA, UNE SEULE SUFFIT !
@@ -101,50 +114,9 @@ public class Croissance_Regions implements PlugInFilter {
 		}
 
 
-		
-		
-		//TEST image reinbeau.jpg
-		/*germes.add(new Point(154,200));
-		germes.add(new Point(322,297));
-		germes.add(new Point(302,337));
-		germes.add(new Point(198,330));
-		germes.add(new Point(245,316));
-		germes.add(new Point(185,204));
-		germes.add(new Point(305,215));
-		germes.add(new Point(250,235));
-		germes.add(new Point(224,234));
-		germes.add(new Point(241,209));
-		germes.add(new Point(92,332));
-		germes.add(new Point(113,213));
-		germes.add(new Point(185,261));
-		germes.add(new Point(257,207));
-		germes.add(new Point(358,233));
-		germes.add(new Point(388,262));*/
-		
-
-		
-
-		//TEST image synth.pgm
-		/*germes.add(new Point(200,150));
-		germes.add(new Point(90,172));
-		germes.add(new Point(65,31));
-		germes.add(new Point(108,42));
-		germes.add(new Point(231,85));*/
-
-		//TEST image rein1_base.png
-		//germes.add(new Point(164,61)); //rein --> seuils optimaux 53/15
-		//germes.add(new Point(75,114));
-			//germes.add(new Point(229,113));
-		//germes.add(new Point(223,146));
-		//germes.add(new Point(271,438));
-		//germes.add(new Point(191,157)); //tumeur
-		//germes.add(new Point(369,233)); //rond 1
-		//germes.add(new Point(425,233)); //rond 2
-
-
 		//liste de correspondance germe (donc region) --> couleur, utile pour la fusion de deux regions
 		HashMap<Point,Integer> couleursRegions = new HashMap<Point,Integer>();
-		//stockage des couleurs des pixels de l'image, nÃ©cessaire pour la fusion et pour la fermeture (dilatation et erosion)
+		//stockage des couleurs des pixels de l'image, necessaire pour la fusion et pour la fermeture (dilatation et erosion)
 		couleursPixels = new int[w][h];
 
 		//pour la couleur de la region (couleur initiale n'a pas d'importance)
@@ -153,7 +125,7 @@ public class Croissance_Regions implements PlugInFilter {
 		//pour chaque germe
 		for(int i = 0; i<germes.size(); i++){
 
-			//a  chaque region on associe une couleur aleatoire
+			//a chaque region on associe une couleur aleatoire
 			Random r = new Random();
 			color = r.nextInt(16777215);
 			couleursRegions.put(germes.get(i),color);
@@ -182,17 +154,14 @@ public class Croissance_Regions implements PlugInFilter {
 				int xCourant = (int)courant.getX();
 				int yCourant = (int)courant.getY();
 				//IJ.log("Val courant : "+pixelsA[xCourant][yCourant]+" | Val Germe : "+pixelsA[xGerme][yGerme]+" | Val Precedent : "+pixelsA[xPrecedent][yPrecedent]);
-
-				//si le pixel est deja  marque (i.e. visite) on passe au pixel suivant
+					//si le pixel est deja  marque (i.e. visite) on passe au pixel suivant
 				if(pixelsA[xCourant][yCourant]==-1){
 					liste.remove(0);
 					continue;
 				}
 
-
 				//pour chaque voisin en 4-connexite (non visite) du pixel courant, on va tester son homogeneite, et l'ajouter ou non a la region
-
-				//droite
+					//droite
 				if(xCourant<w-1 && pixelsA[xCourant+1][yCourant] != -1){
 					if(Math.abs(pixelsA[xCourant+1][yCourant]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant+1][yCourant])<=SeuilLocal)	{
 						liste.add(new Point(xCourant+1,yCourant));
@@ -202,7 +171,6 @@ public class Croissance_Regions implements PlugInFilter {
 						moyenneRegion = ((moyenneRegion*nbPixelsRegion)+pixelsA[xCourant+1][yCourant])/(nbPixelsRegion+1);
 						nbPixelsRegion++;
 					}
-
 				}
 
 				//bas
@@ -214,9 +182,7 @@ public class Croissance_Regions implements PlugInFilter {
 						moyenneRegion = ((moyenneRegion*nbPixelsRegion)+pixelsA[xCourant][yCourant+1])/(nbPixelsRegion+1);
 						nbPixelsRegion++;
 					}
-
 				}
-
 
 				//gauche
 				if(xCourant>0  && pixelsA[xCourant-1][yCourant] != -1){
@@ -240,7 +206,6 @@ public class Croissance_Regions implements PlugInFilter {
 					}
 				}
 
-
 				//marquage du point courant de la liste
 				pixelsA[xCourant][yCourant] = -1;
 
@@ -251,14 +216,8 @@ public class Croissance_Regions implements PlugInFilter {
 				imageDT.show();
 				imageDT.updateAndDraw();
 
-				//temporisateur pour l'affichage
-				/*try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
 			}
+			//temporisateur pour l'affichage, entre chaque affichage de region
 			try {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
@@ -267,9 +226,9 @@ public class Croissance_Regions implements PlugInFilter {
 			}
 		}
 
-		//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
+				//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
 		fermeture();
-		//ouverture();
+		
 		imageDT.show();
 		imageDT.updateAndDraw();
 		IJ.log("\n\n////////////////Apres segmentation : ///////////////\n");
@@ -281,7 +240,27 @@ public class Croissance_Regions implements PlugInFilter {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+	}
+	
+	//retourne l'image de base (le scanner) sans les muscles
+	public ImageProcessor supprimerMuscles(BaseDeCas base, int indiceBase,LectureFichier l){
+		//on fait une segmentation classique, il faut que les germes soient aux positions des muscles
+		segmentation(base, indiceBase, l);
+		
+		//on crée une nouvelle image, qui sera une copie de celle en paramètre, mais sans les muscles
+		ImageProcessor ipMuscle= new ByteProcessor(w,h);
+		ImagePlus imageMuscles= new ImagePlus("Suppression muscles", ipMuscle);
+		ImageProcessor iprM = imageMuscles.getProcessor();
+		int[][] pixelsM = ip.getIntArray();
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
+				//pour savoir si un pixel fait parti d'un muscle il suffit de regarder si dans couleursPixels on a une valeur >0
+				if(!(couleursPixels[i][j]>0))iprM.putPixel(i, j, pixelsM[i][j]); 
+			}
+		}
+		imageMuscles.show();
+		imageMuscles.updateAndDraw();
+		return ipMuscle;
 	}
 
 

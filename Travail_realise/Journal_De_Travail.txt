@@ -246,3 +246,8 @@ TRAVAIL REALISE :
 		- je me suis rendu compte que ma fonction de calcul de distance pour le RaPC est nulle à chier : 
 			ex : 150  10       150 10  ici le cas deux est meilleur, mais c'est le 1 qui sera chosisi (160-160 = 0)
 				 10  150       10  10
+		- j'ai restructuré le code, désormais j'ai une fonction segmenter(), et une autre supprimerMuscles()
+
+31/03/17 
+		- il est desormais possible d'executer le programme directement depuis Eclipse, à l'aide du main() de la classe MainClass.java
+			Attention : pour ce faire il faire ajouter le package (package RegionGrow.main) à la classe Croissance_Regions.java sinon cela ne marche pas.

@@ -1,5 +1,5 @@
 //Il ne faut pas mettre de nom de package pour ImageJ !
-//package RegionGrow;
+package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,12 +38,10 @@ public class Croissance_Regions implements PlugInFilter {
 	
 	//fonction appelée automatiquement pas ImageJ au lancement du plugin
 	public int setup(String arg, ImagePlus imp) {
-
+		
 		//L'image de base est automatiquement convertie en image 8-bit (pour obtenir une image en niveaux de gris)
 		ImageConverter ic = new ImageConverter(imp);
 		ic.convertToGray8();
-		ImagePlus image;
-		image=imp;
 		imp.updateAndDraw();
 		return DOES_8G;
 	}
@@ -80,7 +78,7 @@ public class Croissance_Regions implements PlugInFilter {
 		//indiceBase = 4;
 		
 		//pour les test de suppression des muscles
-		boolean musclesAEnlever = true;
+		boolean musclesAEnlever = false;
 		if(musclesAEnlever)ip = supprimerMuscles(base, 3, l);
 		segmentation(base, indiceBase, l);
 		

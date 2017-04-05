@@ -254,3 +254,8 @@ TRAVAIL REALISE :
 
 03/04/17 
 		- Template et base du rapport réalisés (sur overleaf en LateX).
+
+05/04/07
+		- Articles + Résumés : 
+			- Integration_fuzzy_spatial_relations_deformable_models_2006
+			- Image Categorisation Using Time Series Case Based Reasoning 

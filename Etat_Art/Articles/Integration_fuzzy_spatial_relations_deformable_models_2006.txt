@@ -1,0 +1,13 @@
+Integration_fuzzy_spatial_relations_deformable_models_2006
+
+Utilisation d'une logique floue pour définir la position d'un element du scanner.
+Ils disent que l'apport de la logique floue permet une meilleur définition des régions, dans le cas d'images de mauvais qualité (contraste et contours mauvais).
+Leur segmentation est un Deformable Model (comme le snake segmentation, contour actif https://fr.wikipedia.org/wiki/Mod%C3%A8le_de_contour_actif)
+
+" a deformable model can prevent it from being attracted by contours of irrelevant objects and from progressing beyond the limits of structures with weak boundaries. ""
+
+Ce model de segmentation est basé sur des forces d'attraction. 
+On part d'une région grossièrement dessinée (un carré par exemple), que l'on va déformer et rétrécir pour "épouser" au mieux les contours de la vraie régions. C'est enquelque sorte le procédé inverse de la croissance par régions.
+
+AU niveau de la logique floue, ils utilisent une fonction de distance par rapport à la région, pour dire "proche de" ou "éloigné de" la région.
+On pourrait très bien s'en inspirer dans notre cas d'étude, de la même manière mais cette fois-ci pour stopper la croissance si l'on séloigne trop de la région.

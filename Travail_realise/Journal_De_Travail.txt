@@ -251,3 +251,6 @@ TRAVAIL REALISE :
 31/03/17 
 		- il est desormais possible d'executer le programme directement depuis Eclipse, à l'aide du main() de la classe MainClass.java
 			Attention : pour ce faire il faire ajouter le package (package RegionGrow.main) à la classe Croissance_Regions.java sinon cela ne marche pas.
+
+03/04/17 
+		- Template et base du rapport réalisés (sur overleaf en LateX).

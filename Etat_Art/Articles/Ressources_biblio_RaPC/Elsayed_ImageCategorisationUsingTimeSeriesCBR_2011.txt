@@ -1,0 +1,58 @@
+Image Categorisation Using Time Series Case Based Reasoning 
+
+Propose une approche où les caractéristiques images sont des données temporelles (des histogrammes par exemple)
+Le but est de construire des données "simples" représentant une image qui est un type de donnée "compliqué". Ainsi la mesure de similarité est simplifiée.
+
+Ils proposent deux solutions : 
+	- une où l'on représente tout l'image en série temporelle
+	- l'autre où l'on ne s'intéresse qu'à une région d’intérêt.
+
+L'algorithme de comparaison de similarité entre séries temporelles qu'ils ont choisit d'utiliser est la DTW, donc un processus assez classique.
+(https://fr.wikipedia.org/wiki/D%C3%A9formation_temporelle_dynamique)
+
+Un point important : le temps n'est pas forcément une dimension des séries temporelles.
+
+
+1ERE PARTIE : 
+Leur but est de détecter une dégénérescence au niveau de l’œil humain, appelée AMD (Age-related Macular Degeneration).
+
+Ce qu'ils appellent série temporelle est tout simplement l'histogramme d'intensité en niveaux de gris de l'image.
+Ils font cependant un prétraitement pour renforcer le contraste : a Contrast Limited Adaptive Histogram Equalisation (CLAHE)
+Je l'ai testé, ça ne fonctionne pas super bien pour notre problème (surtout sur l'image compliquée)
+Ils parlent de RGB, mais tout est en noir est nuances de gris.
+Ils appliquent ensuite un deuxième filtre, après la CLAHE, pour supprimer les vaisseaux sanguins de l'image, car ils n'en ont pas besoin.
+Ils remplacent les couleurs des vaisseaux sanguins par "des valeurs nulles", qui correspondent en fait à du blanc.
+Enfin, ils appliquent un 3ème prétraitement pour supprimer le disque optique de l'image (il gêne). De la même manière que pour le 2ème prétraitement, 
+ils colorent en blanc cette zone.
+Pour le calcul de histogramme ils ne prennent pas en compte la zone extérieure de l'image, en dehors de l’œil. (un peu comme si pour notre problème on ne considérait pas les zones noires vides autour du corps)
+Ils sont confrontés à un problème : ils cherchent à segmenter le drusen, une sorte de dépôt sur l'oeil, or le problème est que le drusen et parfois situé dans la même zone que le disque optique, donc le 3ème prétraitement peut supprimer par erreur le drusen.
+Pour résoudre ce problème, ils décident d'utiliser un double RàPC.
+	- le premier contient les caractéristiques l’histogramme associé à l'image sans les vaisseaux sanguins mais avec le disque optique.
+	- le deuxième contient aussi les caractéristiques de l'histogramme mais cette fois sans les vaisseaux sanguins ni le disque optique.
+
+Globalement l'approche est très intéressante puisque cela utilise la comparaison d’histogrammes avec une DTW (comme ce que j'avais fais avec Gilles Simon), tout en effectuant un prétraitement de l'image.
+
+
+
+Leur processus à deux RàPC fonctionne comme suit : 
+	- premier RàPC, mesure de similarité, remémoration du ou des meilleurs cas
+	- si un cas est satisfaisant (suffisamment similaire), alors on applique la solution au problème.
+	- sinon, on effectue le 2ème RàPC 
+	(voir figure 3)
+
+
+2EME PARTIE (commence à la section 4)
+
+Segmentation d'une ROI du cerveau, en utilisant une sorte de croissance par régions, appelée : efficient graph-based segmentation algorithm.
+Comme nous, ils rencontrent des problèmes liés à la texture des organes humains, du coup ils doivent passer par un pré-traitement.
+Ils utilisent donc une sorte de lissage ? "smoothing" sans pour autant effacer les contours/frontières entre régions.
+( This smoothing operation had the overall effect of bringing points in a cluster closer together)
+
+Ils utilisent la même approche que pour la 1ere partie, à savoir des données représentées en séries temporelles, dans un RàPC.
+La différence vient du fait qu'ils n'utilisent pas les histogrammes comme série temporelle cette fois.
+Je n'ai pas très bien compris leur technique et leur modélisation de la série temporelle.
+Ils utilisent toujours la DTW pour la comparaison de séries temporelles (comme pour la 1ère partie).
+
+
+
+Les résultats obtenus sont plutôt bons.

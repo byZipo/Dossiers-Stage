@@ -11,3 +11,17 @@ On part d'une région grossièrement dessinée (un carré par exemple), que l'on
 
 AU niveau de la logique floue, ils utilisent une fonction de distance par rapport à la région, pour dire "proche de" ou "éloigné de" la région.
 On pourrait très bien s'en inspirer dans notre cas d'étude, de la même manière mais cette fois-ci pour stopper la croissance si l'on séloigne trop de la région.
+
+Le problème à considérer est de pouvoir représenter des données de logique floue de manière formalisée. Ici, ils cherchent à trouver une équivalence numérique à ces données floues. Ainsi on a deux grandeurs représentées : distance et direction (par rapport à un objet de référence).
+
+Distance : (figure 2(a) ) objet de référence en rouge, "proche de" en blanc, espace flou en gris dégradé, "loin de" en noir.
+Ils utilisent une carte de distance (distance map), courrament utilisée en traitement d'images. Cette carte mesure l'éloignement d'un pixel à une forme de référence (en 4 ou 8 connexité généralement).
+
+Direction : un vecteur de référence u, un vecteur entre un Point de l'objet, et le point courant.
+			l'angle est calculé entre ces deux vecteurs, et on choisit le plus petit angle, ayant évalué tous les points de l'objet.
+			Ce qu'ils veulent obtenir c'est forces d'attraction pour le contour actif, donc il traduisent par exemple le gradient (détection de contours) en vecteurs de forces. ensuite ils combinent ces vecteurs aux vecteurs obtenus avec les données spatiales floues, pour obtenir des vecteurs de forces dirigés vers l'objet recherché.
+			JE NE COMPREND PAS COMMENT PASSER DE "à droite du ventricle" A DES RELATIONS SPATIALES NUMERIQUES. CAR IL FAUT UN OBJET DE REFERENCE CONNU  : VOIR EXEMPLE FIGURE 4 (à droite du ventricule "en noir sur l'image"--> COMMENT AVOIR CETTE INFORMATION)
+
+
+
+		Eux leurs données floues se convertissent en forces, pour nous ça devra se convertir en bornes/limites à ne pas dépasser pour la croissance (--> un rectangle ?--> une tumeur est rarement carée, une forme ronde serait plus adaptée, mais plus dure à coder.)

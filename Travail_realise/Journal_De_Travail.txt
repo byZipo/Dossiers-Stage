@@ -262,3 +262,8 @@ TRAVAIL REALISE :
 
 06/04/17 
 		- D'après l'article Integration_fuzzy_spatial_relations_deformable_models_2006, j'ai envisagé une solution pour intégrer la logique floue à notre problème : utiliser un rectangle de bornes max floues, qui constituent des frontières à ne pase dépasser lors de la croissance de régions. Le rectangle n'est sûrement pas la forme de la plus adaptée, une forme plus ronde serait plus adéquat, à voir..
+
+07/04/17 
+		- fini l'article (Integration_fuzzy_spatial_relations_deformable_models_2006)
+		- cette fois il faut passer à l'autre article traitant de la logique floue : (Fuzzy spatial relation ontology for image interpretation)
+		- j'ai trouvé un bon cours sur le fuzzy : http://www.inf.u-szeged.hu/ssip/2008/presentations2/Nyul_fuzzy_segmentation.pdf

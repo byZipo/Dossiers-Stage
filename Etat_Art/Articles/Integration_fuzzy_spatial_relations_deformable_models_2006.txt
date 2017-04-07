@@ -25,3 +25,20 @@ Direction : un vecteur de référence u, un vecteur entre un Point de l'objet, e
 
 
 		Eux leurs données floues se convertissent en forces, pour nous ça devra se convertir en bornes/limites à ne pas dépasser pour la croissance (--> un rectangle ?--> une tumeur est rarement carée, une forme ronde serait plus adaptée, mais plus dure à coder.)
+
+
+Pour avoir des objets de référence ils commencent par segmenter les objets "faciles" (exemple : colonne vertébrale dans notre cas), et ensuite ils passent aux objets compliqués en s'aidant des régions de référence.
+
+Ils font un prétraitement pour augmenter le contraste et les contours d'une certaine zone peu visible : le caudate nucleus :	
+	- gradient
+	- carte de probabilité (c'et quoi?)
+	- gradient calculé sur la carte de probabilité
+	- pour finir ils font leur carte de vecteurs de directions, comme expliqué précédemment
+	(- ils réalisent aussi une ouverture morphologique, et testent la meilleure connexité itérativement (6,18,26,etc))
+	les processus de prétraitement pour augmenter le contraste sont partiellement manuels, tout n'est pas automatique.
+
+
+Ils réalisent par la suite un apprentissage pour mieux règler certains paramètres. --> les paramètres des "seuils" des fonctions floues.
+
+Les résultats finaux obtenus sont vraiment excellent, et montrent bien l'interêt d'ajouter de la logique floue spatiale.
+L'influence du bon réglage des paramètres est aussi démontrée.

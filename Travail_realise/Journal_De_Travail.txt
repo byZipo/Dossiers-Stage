@@ -267,3 +267,9 @@ TRAVAIL REALISE :
 		- fini l'article (Integration_fuzzy_spatial_relations_deformable_models_2006)
 		- cette fois il faut passer à l'autre article traitant de la logique floue : (Fuzzy spatial relation ontology for image interpretation)
 		- j'ai trouvé un bon cours sur le fuzzy : http://www.inf.u-szeged.hu/ssip/2008/presentations2/Nyul_fuzzy_segmentation.pdf
+
+
+10/04/17 
+		- j'utilise désormais Mendeley pour ma bibliographie, outils très pratique (je peux desormais surligner aussi les pdf)
+		- lecture article : Fuzzy Spatial relation ontology for image interpretation 2008 (en cours + notes + surlignage mendeley)
+		

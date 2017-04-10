@@ -1,0 +1,39 @@
+Fuzzy Spatial relation ontology for image interpretation 2008
+
+LES POINTS IMPORTANTS DU PAPIER SONT SURLIGNES EN JAUNE SUR LE PDF
+
+Deuxième article sur la logique floue pour la segmentation d'images.
+Ici ils utilisent une ontologie pour la représentation des K sur l'image.
+Ils expliquent que le problème pour l'interprétation d'image est le fait qu'il n'ya rien de "générique" concernant les infos d'une image, contrairement à des formulaires administratifs par exemple, où tout est exprimé dans le même langage, et de manière strcturée.
+
+This problem is often referred to as the semantic gap, defined as “the lack of coincidence between the information that one can extract from the visual data and the interpretation that the same data have for a user in a given situation’’
+
+
+le but est de réduire le gap entre les informations mathématiques de l'iamge, et les informations sémantiques (la position des organes par exemple) : "reduce the semantic gap between numerical information contained in the image and higher level concepts by enriching ontologies with a fuzzy formalism layer"
+
+la position spatiale d'un objet sur une image est toujours une donnée ambigue (non précise), c'est pourquoi utiliser la logique floue est une bonne approche.
+
+Ils vont donc créer une ontologie représentant des "relations spatiales" entre objets d'une image, intégrant une logique floue.
+
+
+2. Définitions sur les ontologies
+
+3. Définitions sur la logique floue (avec des exemples appliqués à l'imagerie)
+	
+	On distingue les relations spatiales topologiques, directionnelles et de distance
+	topologiques : ex : RCC (voir cours de CERO Lieber, https://en.wikipedia.org/wiki/Region_connection_calculus)
+	directionnelles : plusieurs représentations possibles (numbers, fuzzy numbers, intervals, angle histograms, or their extensions as histograms of forces, voir article).
+
+		La figure 6 montre un exemple de logique floue spaciale directionnelle
+		le graphe b montre juste la variation de l'indice de confiance sur la position d'un objet en fonction de la rotation de cette objet
+		le graphe c est l'illustration du graphe b pour l'exemple de l'image a, du coup on voit bien que l'objet à est droite car le pic est plutot centré (ce qui correspont à la direction "right" sur le graphe b).
+
+	de distance : fonctionne pour une région, comme la carte de distance (distance map), voir figure 7.
+
+	3.4 apprentissage des paramètres pour la logique floue (par exemple les seuils de courbes floues)
+	Ils comparent les résultats obtenus à la main avec des images segmentées, pour régler au mieux les paramètres.
+
+
+
+
+

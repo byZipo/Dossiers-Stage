@@ -274,4 +274,5 @@ TRAVAIL REALISE :
 		- lecture article : Fuzzy Spatial relation ontology for image interpretation 2008 (en cours + notes + surlignage mendeley)
 		
 11/04/17
-		- 
+		- fini l'article Fuzzy Spatial relation ontology for image interpretation 2008 + résumé complet
+		- pour demain : ajouter une partie logique floue + suppression muscles sur le powerpoint en vue d'une présentation.

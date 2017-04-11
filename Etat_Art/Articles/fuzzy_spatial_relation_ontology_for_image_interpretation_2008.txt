@@ -30,8 +30,9 @@ Ils vont donc créer une ontologie représentant des "relations spatiales" entre
 
 	de distance : fonctionne pour une région, comme la carte de distance (distance map), voir figure 7.
 
-	3.4 apprentissage des paramètres pour la logique floue (par exemple les seuils de courbes floues)
-	Ils comparent les résultats obtenus à la main avec des images segmentées, pour régler au mieux les paramètres.
+	3.4 RAPC : apprentissage des paramètres pour la logique floue (par exemple les seuils de courbes floues)
+	Ils comparent les résultats obtenus à la main avec des images segmentées, pour régler au mieux les paramètres. (validation croisée)
+	REOVIR CETTE PARTIE, UN PEU COMPLIQUEE
 
 
 
@@ -65,13 +66,27 @@ Comme on l'avait évoqué, on part toujours d'une connaissance relative des orga
 
 
 
-
+--> DEMARCHE SEQUENTIELLE : à chaque iteration on segmente et on reconnait un objet en même temps.
 RESUME ALGORITHME : 
 1. Construction ontologie avec relations spatiales
 2. Ajout de fonctions floues relatives aux relations de l'ontologie
 3. Requête sur l'ontologie avec "objet reference", "objet cible"
 4. Récupération de la(les) relation(s) associée(s) entre les deux objets (en nRQL)
-5. Logique floue appliquée à la relation en fonction du résultat de la requête
-5. Si plusieurs relations obtenues, fusion
-6. TODO segmentation à partir de cette relation floue
+5. Logique floue appliquée à la relation en fonction du résultat de la requête --> ON OBTIENT DES REGIONS FLOUES
+5. Si plusieurs relations/régions obtenues, fusion
+6. TODO segmentation à partir de cette relation floue / de ces régions floues
 
+Pour ce qui est de la segmentation, ils utilisent un contour actif (ex:snake) donc les forces sont calculées à l'aide des relations floues précédement calculées. Chaque objet est segmenté dans un ordre, définit à la main (surement de la forme la plus simple à la plus compliquée). Cette tâche peut tout à faire être automatisée selon eux.
+
+
+--> DEMARCHE GLOBALE : on segmente tout, puis on reconnait à l'aide de l'ontologie et des relations floues (toujours en ayant une reference).
+
+
+Demarche sequentielle --> aide pour la segmentation
+Demarche globale --> aide pour la reconnaissance 
+		LE PROBLEME QUE JE TROUVE EST QUE LA LOGIQUE FLOUE NE LES AIDE PAS POUR LA SEGMENTATION (dans le cas global), MAIS PLUTOT POUR LA RECONNAISSANCE D'UN ORGANE 
+
+
+
+la démarche est très bien détaillée, mais j'aurais aimé savoir comment, à partir des régions floues, ils segmentent.
+voir les ref [2,18] pour plus de détails sur la segmentation.

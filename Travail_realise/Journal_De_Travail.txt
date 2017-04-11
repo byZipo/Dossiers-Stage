@@ -273,3 +273,5 @@ TRAVAIL REALISE :
 		- j'utilise désormais Mendeley pour ma bibliographie, outils très pratique (je peux desormais surligner aussi les pdf)
 		- lecture article : Fuzzy Spatial relation ontology for image interpretation 2008 (en cours + notes + surlignage mendeley)
 		
+11/04/17
+		- 

@@ -35,5 +35,43 @@ Ils vont donc créer une ontologie représentant des "relations spatiales" entre
 
 
 
+4. Définitions en LD des différentes manières de représenter les relations spatiales : 
+	- SpatialRelation (ex : Right_Of)
+	- SpatialRelationWith (ex : Right_Of_Y)
+	- DefinedSpatialRelation (ex : X is to the Right_Of_Y)
+	--> voir figure 11 pour les différences.
 
+	Leur ontologie est codée sous Protégé, après j'ai du mal à voir comment utiliser une ontologie avec une programme de segmentation ????
+
+	4.2 Ajout du fuzzy dans leur ontologie
+	Ils utilisent XML pour créer leur fuzzy sets, mais j'ai rien compris comment ça marche.
+	Ils définissent 4 paramètres pour la fonction floue, OK normal. Par contre à aucun moment ils définissent le comportement de la fonction par rapport à ces paramètres (figure 13).
+
+	Leur truc est cool car il est générique, en effet la relation "close to" pourrait très bien être utilisé pour du calcul de distance entre planètes, et n'aurait donc pas la même "valeur", ce sont les paramètres des fonctions floues qui permettent de le spécifier.
+
+	Pour faire des fusions (additions/combinaisons ?) de fuzzy, ils utilisent des t-normes/t-conormes ---> ?
+
+5. ils vont traiter un exemple précis concernant le cerveau. Ils expliquent que ce domaine est pratique, car disposant de nombreuses études déjà réalisées, et donc disposant de bonnes bases de connaissances. De nombreuses ontologies concernant ce domaine d'études existent déjà, mais pas vraiment concernant les relations spatiales.
+
+Ils integrent leur ontologie (relations spatiales) à une ontologie médiacle existante, représentant les "organes" du cerveau. (ils créent à la main les relations enntre les organes en utilisant les relations spatiales (Right_Of par ex) de leur ontologie).
+--> voir figure 14, l'encadré en bas à droite.
+
+Comme on l'avait évoqué, on part toujours d'une connaissance relative des organes à segmenter, par exemple une approximation donnée par une echographie. Ici ils partent du principe qu'ils ont déjà extrait le "right lateral ventricle" RLV, et qu'ils veulent extraire le "right caudate" RC.
+
+- Ils effectuent une requête sur leur ontologie pour obtenir les relations sptiales entre le RLV et le RC. le RLV étant déjà extrait, il sert  	  d'objet de référence.
+- Ils utilisent nRQL pour les requêtes.
+- Ensuite d'après la réponse de la requête ils appliquent la logique floue sur la relation spatiale.
+- Si on a plusieurs opérations, i.e. plusieurs relations, alors on doit passer par une étape de fusion (figure 16).
+
+
+
+
+RESUME ALGORITHME : 
+1. Construction ontologie avec relations spatiales
+2. Ajout de fonctions floues relatives aux relations de l'ontologie
+3. Requête sur l'ontologie avec "objet reference", "objet cible"
+4. Récupération de la(les) relation(s) associée(s) entre les deux objets (en nRQL)
+5. Logique floue appliquée à la relation en fonction du résultat de la requête
+5. Si plusieurs relations obtenues, fusion
+6. TODO segmentation à partir de cette relation floue
 

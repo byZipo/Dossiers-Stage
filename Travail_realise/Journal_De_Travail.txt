@@ -276,3 +276,10 @@ TRAVAIL REALISE :
 11/04/17
 		- fini l'article Fuzzy Spatial relation ontology for image interpretation 2008 + résumé complet
 		- pour demain : ajouter une partie logique floue + suppression muscles sur le powerpoint en vue d'une présentation.
+		
+12/04/17
+		- Ajout de la partie "suppression des muscles" dans le powerpoint.
+		- Il faudra que je lise les articles : 
+			Level set deformable models constrained by fuzzy spatial relations
+			Etude de quelques logiques de descriptions floues et de formalismes apparentés
+			(ils sont dans le Mendeley)

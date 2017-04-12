@@ -1,5 +1,5 @@
 //Il ne faut pas mettre de nom de package pour ImageJ !
-package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
+//package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -78,7 +78,7 @@ public class Croissance_Regions implements PlugInFilter {
 		//indiceBase = 4;
 		
 		//pour les test de suppression des muscles
-		boolean musclesAEnlever = false;
+		boolean musclesAEnlever = true;
 		if(musclesAEnlever)ip = supprimerMuscles(base, 3, l);
 		segmentation(base, indiceBase, l);
 		

@@ -283,3 +283,6 @@ TRAVAIL REALISE :
 			Level set deformable models constrained by fuzzy spatial relations
 			Etude de quelques logiques de descriptions floues et de formalismes apparentés
 			(ils sont dans le Mendeley)
+
+14/04/17
+		- Présentation en intégrant les logique de description, owl, rcc, relations spatiales, etc. --> à poursuivre et approfondir

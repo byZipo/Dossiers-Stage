@@ -286,3 +286,10 @@ TRAVAIL REALISE :
 
 14/04/17
 		- Présentation en intégrant les logique de description, owl, rcc, relations spatiales, etc. --> à poursuivre et approfondir
+
+18/04/17 
+		- Aporofondissements sur la présentation à l'aide du cours de CERO sur la théorie des ensembles flous.
+		- tentative d'application à notre problèmen cad une modélisation de la logique floue spatiale pour créer une boite englobante pour la segmentation de la tumeur.
+
+19/04/17
+		- j'ao continué mon travail de recherche sur les ensembles flous appliqués à notre problème, j'ia notament soulevé le problème du positionnement des germes à l'aide de la logique floue, combiné à la solution d'un cas remémoré --> adaptation ?

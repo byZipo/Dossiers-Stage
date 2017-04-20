@@ -18,6 +18,7 @@ Ils vont donc créer une ontologie représentant des "relations spatiales" entre
 
 2. Définitions sur les ontologies
 
+
 3. Définitions sur la logique floue (avec des exemples appliqués à l'imagerie)
 	
 	On distingue les relations spatiales topologiques, directionnelles et de distance
@@ -50,7 +51,7 @@ Ils vont donc créer une ontologie représentant des "relations spatiales" entre
 
 	Leur truc est cool car il est générique, en effet la relation "close to" pourrait très bien être utilisé pour du calcul de distance entre planètes, et n'aurait donc pas la même "valeur", ce sont les paramètres des fonctions floues qui permettent de le spécifier.
 
-	Pour faire des fusions (additions/combinaisons ?) de fuzzy, ils utilisent des t-normes/t-conormes ---> ?
+	Pour faire des fusions (additions/combinaisons ?) de fuzzy, ils utilisent des t-normes/t-conormes (une multiplication ??) ---> ?
 
 5. ils vont traiter un exemple précis concernant le cerveau. Ils expliquent que ce domaine est pratique, car disposant de nombreuses études déjà réalisées, et donc disposant de bonnes bases de connaissances. De nombreuses ontologies concernant ce domaine d'études existent déjà, mais pas vraiment concernant les relations spatiales.
 
@@ -90,3 +91,33 @@ Demarche globale --> aide pour la reconnaissance
 
 la démarche est très bien détaillée, mais j'aurais aimé savoir comment, à partir des régions floues, ils segmentent.
 voir les ref [2,18] pour plus de détails sur la segmentation.
+
+
+
+
+###########################################################################################################################################
+Algo pour segmenter la tumeur (on ne sait jamais où se trouve la tumeur donc stocker le germe dans la solution d'un cas n'a pas d'interet)
+Il est plus logique de calculer où pourrait se trouver la tumeur d'après une description floue stockée dans la partie problème du cas.
+###########################################################################################################################################
+
+1. Construction Ontologie avec  :
+	- Organes
+	- Relations
+
+2. Ajout correspondance relation -> fonction floue pour chaque relation 
+
+3. Requête sur l'ontologie :
+	ex : SELECT ?relations WHERE "Tumeur" hasSpatialRelationWith "ColonneVertébrale"
+
+4. Récupération du résultat de la requête : les relations entre objetReférence et objet à segmenter
+	ex : estADroiteDeColonne, estProcheDeColonne, etc.
+
+5. Utilisation de la fonction floue pour chaque relation --> carte de distance pour chaque relation
+
+6. Fusion des cartes de distance de chaque relation --> carte de distance globale
+
+7. Calcul du gemre de l'objet courant = pixel au degré d'appartenance à la carte le plus grand.
+
+8. Segmentation depuis ce germe
+	- Stockage (labelisation) de l'organe en cours de segmentation, et de la position de son germe 
+	- Croissance bornée par une boîte englobante calculée grâce à la carte de distance ?

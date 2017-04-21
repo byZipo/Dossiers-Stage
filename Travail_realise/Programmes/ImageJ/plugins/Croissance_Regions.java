@@ -1,5 +1,5 @@
 //Il ne faut pas mettre de nom de package pour ImageJ !
-//package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
+package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;

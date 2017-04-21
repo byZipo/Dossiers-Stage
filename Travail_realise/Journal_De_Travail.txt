@@ -293,3 +293,29 @@ TRAVAIL REALISE :
 
 19/04/17
 		- j'ao continué mon travail de recherche sur les ensembles flous appliqués à notre problème, j'ia notament soulevé le problème du positionnement des germes à l'aide de la logique floue, combiné à la solution d'un cas remémoré --> adaptation ?
+
+20/04/17 
+		- TODO : FAUX POUR LA DIFFERENCE DE COORDONNée C’est pas bon (faut prendre en compte y)  c’pour ça que l’angle c’est cool
+		VOIR DIAPO POUR LES AJOUTS
+		- On final à quoi peut nous servir la logique floue ? 
+		placer les germes  compliqué car il faut savoir de manière assez précise où est la tumeur, Comment ?
+		- Comment appliquer à notre problème ? (croissance régions) limites par exemple
+		PROBLEME = eux plus ils sont loin plus la force est forte, et devient nulle quand ils sont dans la forme. Mais nous ? À quoi peut bien servir la logique floue (carte de distance ) ?
+
+		Si j’ai une fonction floue f(x), et que je veux calculer la force, la logique floue est utile car je peux faire le calcul Force = delta*f(x)
+		Le problème avec le croissance régions c’est que c’est binaire, soit on ajoute soit on ajoute pas, je ne vois donc pas comment ajouter la degré d’appartenance à l’ensemble.
+
+		Placer un germe de manière floue ne veut rien dire car la position initiale a peu d’importance tant qu’on est bien dans la tumeur. Ce qui peut être flou c’est donc la boite englobante de la tumeur, mais alors la je ne vois pas du tout ce que cela peut donner.
+
+		Piste : on a d’après la solution du cas remémoré une position de germe, et grâce à la position floue du problème on adapte la position du germe ? USELESS A MON AVIS.
+
+
+		Le RaPC ne serait pas plutôt la uniquement pour placer les germes ?????????????
+
+		- implémentation d'une ontologie de test des organes et des relations spatiales sous Protégé + plugin d'affichage graphique des classes
+		- définition d'une image représentant la carte de distance floue de la relation "la tumeur est en haut à gauche plus ou moins proche de la colonne" sous photoshop.
+
+21/04/17
+		- Codage d'une fonction floue "ADroiteDe" sous imageJ qui dessine l'element structurant comme dans l'article. Je ne sais pas comment faire pour faire un "estADroiteDe" avec pour référence un objet et non pas un point (comme je l'ai codé) --> A VOIR (fuzzy dilation)
+		- ajout de nouveaux slides dans la présentation.
+		

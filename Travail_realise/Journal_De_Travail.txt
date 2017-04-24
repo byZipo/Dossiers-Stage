@@ -319,3 +319,8 @@ TRAVAIL REALISE :
 		- Codage d'une fonction floue "ADroiteDe" sous imageJ qui dessine l'element structurant comme dans l'article. Je ne sais pas comment faire pour faire un "estADroiteDe" avec pour référence un objet et non pas un point (comme je l'ai codé) --> A VOIR (fuzzy dilation)
 		- ajout de nouveaux slides dans la présentation.
 		
+
+24/04/17
+		- Ajout de solides, j'ai presque terminé la présentation
+		- Codage de estADroiteDe en fonction d'un objet et non plus d'un point --> complexité grand si l'on considère tous les points de l'objet, pourtant j'ai divisé par deux le nombre de boucles en n'evaluant que les pixels à droit du point de reférence courrant.
+		A-T-ON VRAIMENT BESOIN DE COMPARER PAR RAPPORT A L'OBJET ENTIER PLUTOT QU'A UN SEUL POINT, COMME LE CONTRE DE GRAVIE DE L'OBJET PAR EXEMPLE ? SINON POUR OPTMISER IL FAUT CONSIDERER UNIQUEMENT LE CONTOUR DE L'OBJET DE REFERENCE. EUX ILS UTILISENT TOUTE LA FORME CAR l'organ qu'ils segmentent est tout proche de leur référence, presque collé, et l'objet de référence a un centre de gravité hors de la forme, donc c'est relou pour eux. En plus il font un snake donc pour appliquer les force c'est plus pratique d'avoir l'objet de référence en entier, dans notre cas pour placer un germe on devrait s'en sortir plus simplement.

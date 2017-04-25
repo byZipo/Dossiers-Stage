@@ -324,3 +324,13 @@ TRAVAIL REALISE :
 		- Ajout de solides, j'ai presque terminé la présentation
 		- Codage de estADroiteDe en fonction d'un objet et non plus d'un point --> complexité grand si l'on considère tous les points de l'objet, pourtant j'ai divisé par deux le nombre de boucles en n'evaluant que les pixels à droit du point de reférence courrant.
 		A-T-ON VRAIMENT BESOIN DE COMPARER PAR RAPPORT A L'OBJET ENTIER PLUTOT QU'A UN SEUL POINT, COMME LE CONTRE DE GRAVIE DE L'OBJET PAR EXEMPLE ? SINON POUR OPTMISER IL FAUT CONSIDERER UNIQUEMENT LE CONTOUR DE L'OBJET DE REFERENCE. EUX ILS UTILISENT TOUTE LA FORME CAR l'organ qu'ils segmentent est tout proche de leur référence, presque collé, et l'objet de référence a un centre de gravité hors de la forme, donc c'est relou pour eux. En plus il font un snake donc pour appliquer les force c'est plus pratique d'avoir l'objet de référence en entier, dans notre cas pour placer un germe on devrait s'en sortir plus simplement.
+
+
+25/04/17
+		- codage de fusion de deux relations spatiales, avec t-norme : 
+			- j'ai abandonné la relation par rapport à un objet entier,trop couteux, on se contente d'un point.
+			- fusion deux régions est facile, mais trois c'est la bordel. --> normalisations, poids différents à cause de l'échelle, etc.
+			- ça fonctionne plutot bien mais il faut faire attention à l'odre dans lequel on fait les fusions, à cause des poids selon l'échelle : echelle différente pour procheDe et DroiteDe par exemple, donc l'un va prendre plus d'importance que l'autre.
+			- l'ordre à utiliser est : (droite, haut) puis procheDe.
+			- Ajout de slides dans le powerpoint liés à cela.
+			- Il faudra que j'optimise ce code peut-être, même si je l'ai deja amélioré.

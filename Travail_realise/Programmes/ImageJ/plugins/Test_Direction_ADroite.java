@@ -1,12 +1,9 @@
 //package RegionGrow.main;
 
 import java.awt.Point;
-import java.util.ArrayList;
 
-import ij.IJ;
 import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter;
-import ij.process.ByteProcessor;
 import ij.process.ColorProcessor;
 import ij.process.ImageConverter;
 import ij.process.ImageProcessor;
@@ -33,9 +30,10 @@ public class Test_Direction_ADroite implements PlugInFilter{
 		pixels=(byte[])ip.getPixelsCopy();
 		
 		ImageProcessor ipDT= new ColorProcessor(w,h);
-		ImagePlus imageDT= new ImagePlus("aDroiteDe", ipDT);
+		ImagePlus imageDT= new ImagePlus("Fusion de relations spatiales", ipDT);
 		ipr = imageDT.getProcessor();
 		pixelsA = new int[w][h];
+		int[][] pixelsCopy = ip.getIntArray();
 		
 		
 		
@@ -44,20 +42,22 @@ public class Test_Direction_ADroite implements PlugInFilter{
 		
 		Point ref3 = new Point((w/2)+1,(h/2));
 		aDroiteDe(ref3);*/
-		Point p;
 		
 		
 		//calcul
 		//pour chaque point de la forme de référence (A OPTIMISER en "pour chaque point du contour de la forme")
 		// EN FAIT PAS BESOIN, LE CENTRE DE LA FORME SUFFIT, POUR LES TESTS ON PREND DONC UN SEUL POINT
 		
-		Point ref = new Point(w/2, h/2);
+		
+		//calcul du centre de gravité de la colonne vertébrale (point de référence)
+		Point ref = new Point(391, 374);
 		pixelsA[(int)ref.getX()][(int)ref.getY()]=-50;
 		int[][] haut = enHautDe(ref);
 		int[][] droite = aDroiteDe(ref);
 		int[][] proche = moyennementProcheDe(ref);
+		int[][] gauche = aGaucheDe(ref);
 		
-		int[][] fusion = fusion(droite,haut);
+		int[][] fusion = fusion(gauche,haut);
 		int[][] fusion2 = fusion(fusion, proche);
 		
 		
@@ -65,8 +65,12 @@ public class Test_Direction_ADroite implements PlugInFilter{
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
 				int[] tab = {fusion2[i][j],fusion2[i][j],fusion2[i][j]}; //l'image est rgb donc need 3 canaux 
-				if(pixelsA[i][j]!=-50)ipr.putPixel(i,j,tab);
+				if(pixelsA[i][j]!=-50)ipr.putPixel(i, j, tab);
 				else ipr.putPixel(i, j, 255); //dessin du point de référence
+				if(fusion2[i][j]==0){
+					int[] cpy = {pixelsCopy[i][j],pixelsCopy[i][j],pixelsCopy[i][j]};
+					ipr.putPixel(i,j,cpy);
+				}
 			}
 		}
 		imageDT.show();
@@ -119,10 +123,16 @@ public class Test_Direction_ADroite implements PlugInFilter{
 		
 		int[][] res = new int[w][h];
 		
-		//paramètres 
-		int seuilInf = 87;
-		int seuilSup = 262;
-		int degreMax = 175;
+		//paramètres calculés automatiquement par rapport à la demidiagonale (droite entre le centre de l'image et un coin)
+		Point centre = new Point(w/2, h/2);
+		Point coin = new Point(w,0);
+		int x = (int)Math.abs(centre.getX()-coin.getX());
+		int y = (int)Math.abs(centre.getY()-coin.getY());
+		int demiDiagonale = (int)Math.sqrt((x*x)+(y*y));
+		
+		int seuilInf = demiDiagonale/5;
+		int seuilSup = demiDiagonale/2 + (int)(demiDiagonale/(3));
+		int degreMax = demiDiagonale/2;
 		
 		
 		//affectation couleur
@@ -161,6 +171,11 @@ public class Test_Direction_ADroite implements PlugInFilter{
 
 	public int[][] aDroiteDe(Point ref){
 		
+		//paramètres
+		int seuilInf = 90;
+		int seuilSup = 270;
+		int degreMax = 0;
+			
 		double tetha;
 		double angle;
 		double couleur;
@@ -170,59 +185,107 @@ public class Test_Direction_ADroite implements PlugInFilter{
 		
 		for (int i = (int)ref.getX(); i<w; i++) { //on peut "couper" la partie de gauche de l'image par rapport au point de ref, on sait que ce sera tout noir
 			for(int j = 0; j<h; j++){
-				if(res[i][j]<255){//optimisation de temps (un pixel blanc ne peut pas être amélioré)
-					tetha = Math.atan2(ref.getY()-j,i-ref.getX());
-					angle = 180*tetha/Math.PI;
-					if(angle<0) angle += 360;
-					
-					//affectation couleur
-					//fonction : 
-					//255   \				    /
-					//	     \				   /
-					//127.5	  \				  /
-					//0	       \_____________/
-					//      0  90    180    270 360 (angle)
-					
-					couleur = -1;
-					
-					//cas mu = 1
-					if(angle==0){
-						res[i][j] = 255;
-						//ipr.putPixel(i, j, 255);
-					}
-					
-					//cas mu = 0
-					else if(res[i][j]<=0 && angle>=90 && angle <=270){
-						res[i][j] = 0;
-						//ipr.putPixel(i, j, 0);
-					}
-					
-					//cas mu flou quartan supérieur
-					else if(angle<90 && angle >0){
-						pourcentageAngle = 100- (angle*100/90);
-						couleur = 255*pourcentageAngle/100;
-						
-						//on modifie la valeur si elle est meilleure
-						if(couleur > res[i][j]){
-							res[i][j] = (int)couleur;
-							//ipr.putPixel(i, j, (int)couleur);
-						}
-					}
-					
-					//cas mu flou quartan inférieur
-					else if(angle>270 && angle<=360){
-						angle -= 270;
-						pourcentageAngle = angle*100/90;
-						couleur = 255*pourcentageAngle/100;
-						if(couleur > res[i][j]){
-							res[i][j] = (int)couleur;
-							//ipr.putPixel(i, j, (int)couleur);
-						}
-					}
+				tetha = Math.atan2(ref.getY()-j,i-ref.getX());
+				angle = 180*tetha/Math.PI;
+				if(angle<0) angle += 360;
+				
+				//affectation couleur
+				//fonction : 
+				//255   \				    /
+				//	     \				   /
+				//127.5	  \				  /
+				//0	       \_____________/
+				//      0  90    180    270 360 (angle)
+				
+				couleur = -1;
+				
+				//cas mu = 1
+				if(angle==degreMax){
+					res[i][j] = 255;
+				}
+				
+				//cas mu = 0
+				else if(angle>=seuilInf && angle <=seuilSup){
+					res[i][j] = 0;
+				}
+				
+				//cas mu flou quartan supérieur
+				else if(angle<seuilInf && angle >degreMax){
+					pourcentageAngle = 100- (angle*100/(seuilInf-degreMax));
+					couleur = 255*pourcentageAngle/100;
+					res[i][j] = (int)couleur;
+				}
+				
+				//cas mu flou quartan inférieur
+				else if(angle>seuilSup && angle<=360){
+					angle -= seuilSup;
+					pourcentageAngle = angle*100/(360-seuilSup);
+					couleur = 255*pourcentageAngle/100;
+					res[i][j] = (int)couleur;
 				}
 			}
 		}
+		return res;
+	}
+	
+	
+	public int[][] aGaucheDe(Point ref){
 		
+		//paramètres
+		int seuilInf = 90;
+		int seuilSup = 270;
+		int degreMax = 180;
+		
+		double tetha;
+		double angle;
+		double couleur;
+		double pourcentageAngle;
+		
+		int[][] res = new int[w][h];
+		
+		for (int i = 0; i<(int)ref.getX(); i++) { //on peut "couper" la partie de droite de l'image par rapport au point de ref, on sait que ce sera tout noir
+			for(int j = 0; j<h; j++){
+				tetha = Math.atan2(ref.getY()-j,i-ref.getX()); //calcul angle
+				angle = 180*tetha/Math.PI; //conversion radians/degrés
+				if(angle<0) angle += 360; //echelle de base -180-->180, que l'on repasse en 0-->360
+				
+				//affectation couleur
+				//fonction : 
+				//255             /\				    
+				//	             /  \				   
+				//127.5	        /    \				  
+				//0	     ______/      \_______
+				//      0     90 180  270  360 (angle)
+				
+				couleur = -1;
+				
+				//cas mu = 1
+				if(angle==degreMax){
+					res[i][j] = 255;
+				}
+				
+				//cas mu = 0
+				else if((angle >=0 && angle <=seuilInf) || (angle >=seuilSup && angle <= 360)){
+					res[i][j] = 0;
+				}
+					
+				//cas mu flou quartan supérieur
+				else if(angle>seuilInf && angle <degreMax){
+					angle -= 90;
+					pourcentageAngle = (angle*100/(degreMax-seuilInf));
+					couleur = 255*pourcentageAngle/100;
+					res[i][j] = (int)couleur;
+				}
+				
+				//cas mu flou quartan inférieur
+				else if(angle>degreMax && angle<seuilSup){
+					angle -= degreMax;
+					pourcentageAngle = 100-(angle*100/(seuilSup-degreMax));
+					couleur = 255*pourcentageAngle/100;
+					res[i][j] = (int)couleur;
+				}
+			}
+		}
 		return res;
 	}
 	
@@ -230,6 +293,11 @@ public class Test_Direction_ADroite implements PlugInFilter{
 	
 	
 	public int[][] enHautDe(Point ref){
+		
+		//paramètres
+		int seuilInf = 0;
+		int seuilSup = 180;
+		int degreMax = 90;
 		
 		double tetha;
 		double angle;
@@ -240,61 +308,46 @@ public class Test_Direction_ADroite implements PlugInFilter{
 		
 		for (int i = 0; i<w; i++) { //on peut "couper" la partie de gauche de l'image par rapport au point de ref, on sait que ce sera tout noir
 			for(int j = 0; j<(int)ref.getY(); j++){
-				if(res[i][j]<255){//optimisation de temps (un pixel blanc ne peut pas être amélioré)
-					
-					tetha = Math.atan2(ref.getY()-j,i-ref.getX());
-					angle = 180*tetha/Math.PI;
-					if(angle<0) angle += 360;
-					
-					//affectation couleur
-					//fonction : 
-					//255       /\				    
-					//	       /  \				   
-					//127.5	  /    \				  
-					//0	     /      \_____________
-					//      0   90  180  270  360 (angle)
-					
-					couleur = -1;
-					
-					//cas mu = 1
-					if(angle==90){
-						res[i][j] = 255;
-						//ipr.putPixel(i, j, 255);
-					}
-					
-					//cas mu = 0
-					else if(res[i][j]<=0 && angle>=180 && angle <=360){
-						res[i][j] = 0;
-						//ipr.putPixel(i, j, 0);
-					}
-					
-					//cas mu flou quartan supérieur
-					else if(angle>90 && angle <180){
-						angle -= 90;
-						pourcentageAngle = 100- (angle*100/90);
-						couleur = 255*pourcentageAngle/100;
-						
-						//on modifie la valeur si elle est meilleure
-						if(couleur > res[i][j]){
-							res[i][j] = (int)couleur;
-							//ipr.putPixel(i, j, (int)couleur);
-						}
-					}
-					
-					//cas mu flou quartan inférieur
-					else if(angle>0 && angle<90){
-						//angle -= 270;
-						pourcentageAngle = angle*100/90;
-						couleur = 255*pourcentageAngle/100;
-						if(couleur > res[i][j]){
-							res[i][j] = (int)couleur;
-							//ipr.putPixel(i, j, (int)couleur);
-						}
-					}
+				tetha = Math.atan2(ref.getY()-j,i-ref.getX());
+				angle = 180*tetha/Math.PI;
+				if(angle<0) angle += 360;
+				
+				//affectation couleur
+				//fonction : 
+				//255       /\				    
+				//	       /  \				   
+				//127.5	  /    \				  
+				//0	     /      \_____________
+				//      0   90  180  270  360 (angle)
+				
+				couleur = -1;
+				
+				//cas mu = 1
+				if(angle==degreMax){
+					res[i][j] = 255;
+				}
+				
+				//cas mu = 0
+				else if(angle>=seuilSup && angle <=360){
+					res[i][j] = 0;
+				}
+				
+				//cas mu flou quartan supérieur
+				else if(angle>degreMax && angle <seuilSup){
+					angle -= degreMax;
+					pourcentageAngle = 100-(angle*100/(seuilSup-degreMax));
+					couleur = 255*pourcentageAngle/100;
+					res[i][j] = (int)couleur;
+				}
+				
+				//cas mu flou quartan inférieur
+				else if(angle>seuilInf && angle<degreMax){
+					pourcentageAngle = angle*100/(degreMax-seuilInf);
+					couleur = 255*pourcentageAngle/100;
+					res[i][j] = (int)couleur;
 				}
 			}
 		}
-		
 		return res;
 	}
 	

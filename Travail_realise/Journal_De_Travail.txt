@@ -334,3 +334,11 @@ TRAVAIL REALISE :
 			- l'ordre à utiliser est : (droite, haut) puis procheDe.
 			- Ajout de slides dans le powerpoint liés à cela.
 			- Il faudra que j'optimise ce code peut-être, même si je l'ai deja amélioré.
+			
+26/04/17
+		- fusion terminée, optimisée et fonctionnelle, (enfin je pense ^^)
+		- j'affiche le scanner original en dessous de la relation floue
+		- je me base sur la position de la colonne, pour le moment en dure d'après l'image rein1_base.png
+		- il faudra passer par une segmentation de la colonne, donc un RaPC, pour obtenir de manière auto la position du centre de la colonne
+		- la fonction floue de distance (moyennementProcheDe) prend un parmetrage en fonction de la taille de l'image (mais cela reste paramètrable via des coefficients)
+		

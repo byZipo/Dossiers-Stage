@@ -79,13 +79,14 @@ public class Test_Direction_ADroite implements PlugInFilter{
 	
 	
 	//fusion par t-norme (min) entre deux cartes
-	private int[][] fusion(int[][] carte1, int[][] carte2) {
+	public int[][] fusion(int[][] carte1, int[][] carte2) {
 
 		int[][] res = new int[w][h];
 		
 		for(int i = 0; i<w; i++){
 			for(int j=0; j<h; j++){
-				res[i][j] = Math.min(carte1[i][j], carte2[i][j]);
+				res[i][j] = carte1[i][j]*carte2[i][j];
+//				res[i][j] = Math.min(carte1[i][j], carte2[i][j]);
 			}
 		}
 		

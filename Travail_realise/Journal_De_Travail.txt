@@ -342,3 +342,21 @@ TRAVAIL REALISE :
 		- il faudra passer par une segmentation de la colonne, donc un RaPC, pour obtenir de manière auto la position du centre de la colonne
 		- la fonction floue de distance (moyennementProcheDe) prend un parmetrage en fonction de la taille de l'image (mais cela reste paramètrable via des coefficients)
 		
+
+27/04/17
+		- powerpoint terminé
+		- RESUME DE LA DEMARCHE LOGIQUE FLOUE A CE JOUR : 
+			- créer une ontologie des relations spatiales / organes
+			- créer les fonctions floues associées à ces relations
+			- placer de manière floue le germe de la tumeur à l'aide d'un point de référence (centre de la colonne) et des relations spatiales stockées dans la partie problème du cas ("estProcheDe, etc.")
+			- possibilité de définir une boite englobante d'après les relations et les fonctions floues, pour limiter la fuite de la croissance vers les muscles par exemple.
+			- pour obtenir le point de référence (centre de la colonne), il faut segmenter l'os (à l'aide du RàPC apr exemple) puis calculer son centre de gravité (par exemple)
+
+			- la question du reglagles des paramètres des fonctions floues reste à définir
+				Dans l'article ils font un apprentissage mais je vois pas à quoi il sert réellement par rapport à un réglage à la main
+			- la question de la précision des relations reste aussi à définir ("trèstrèstrèsprocheDe" par exemple ^^)
+
+			- la complexité pour la forme de réference complete plutot que pour le centre de gravité est enorme, O(w*h*wForme*hForme) contre O(w*h) pour construire la carte de distance d'une seule relation. Tout ceci pour un gain de précision faible.
+			Prendre le contour de la forme nécessiterais des calculs, pour un faible gain. c'est pourquoi j'ai choisis de prendre le centre uniquement.
+
+			- 

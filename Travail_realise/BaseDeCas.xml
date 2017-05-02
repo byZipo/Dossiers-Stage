@@ -1,0 +1,51 @@
+<!-- EXEMPLE DE POTENTIELLE BASE DE CAS EN XML -->
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<BaseDeCas>
+	<Cas id="1">
+		<Probleme>
+			<Image>
+				<kurtosis>50</kurtosis> 
+				<moyenne>120</value>
+				<asymetrie>70</asymetrie>
+				<variance>180</variance>
+			</Image>
+			<NonImage>
+				<age>5</age>
+				<taille>120</taille>
+				<poids>25</poids>
+				<sexe>1</sexe>
+			</NonImage>
+			<PositionTumeur>
+				<relation value="Colonne">ADroiteDe</relation>
+				<relation value="Colonne">EnHautDe</relation>
+				<relation value="Colonne">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="Colonne" seuilGlobal="20" seuilLocal="10">56 78</GermeObjet>
+				<GermeObjet type="Rein" seuilGlobal="25" seuilLocal="15">516 278</GermeObjet>
+				<GermeObjet type="Tumeur" seuilGlobal="25" seuilLocal="50">250 510</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="10">45 456</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="10">500 256</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="10">123 46</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="UnshapredMask" radius="0.8" seuil="120">Unsharp</operation>
+				<operation name="FiltreMedian" seuil="50">Median</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="50" seuilSup="100" degreMax="80" reference="Colonne">ADroiteDe
+					<reference>Colonne</reference> <!-- AUTRE MANIERE DE VOIR LES CHOSES POUR LES PARAMETRES -->
+					<seuilInf>50</seuilInf>
+					<seuilSup>100</seuilSup>
+					<degreMax>80</degreMax>
+				</relation>
+				<relation seuilInf="50" seuilSup="100" degreMax="70" reference="Colonne">EnHautDe</relation>
+				<relation seuilInf="50" seuilSup="120" degreMax="80" reference="Colonne">ProcheDe</relation>
+			</PositionFloueTumeur>
+		</Solution>
+	</Cas>
+</BaseDeCas>

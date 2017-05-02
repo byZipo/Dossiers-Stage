@@ -85,8 +85,8 @@ public class Test_Direction_ADroite implements PlugInFilter{
 		
 		for(int i = 0; i<w; i++){
 			for(int j=0; j<h; j++){
-				res[i][j] = carte1[i][j]*carte2[i][j];
-//				res[i][j] = Math.min(carte1[i][j], carte2[i][j]);
+				res[i][j] = carte1[i][j]*carte2[i][j];  //multiplication
+//				res[i][j] = Math.min(carte1[i][j], carte2[i][j]); //t-norme
 			}
 		}
 		

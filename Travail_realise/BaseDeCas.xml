@@ -5,7 +5,7 @@
 		<Probleme>
 			<Image>
 				<kurtosis>50</kurtosis> 
-				<moyenne>120</value>
+				<moyenne>120</moyenne>
 				<asymetrie>70</asymetrie>
 				<variance>180</variance>
 			</Image>

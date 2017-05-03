@@ -1,4 +1,4 @@
-//package RegionGrow.main;
+package RegionGrow.main;
 
 import java.awt.Point;
 

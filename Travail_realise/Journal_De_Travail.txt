@@ -359,4 +359,26 @@ TRAVAIL REALISE :
 			- la complexité pour la forme de réference complete plutot que pour le centre de gravité est enorme, O(w*h*wForme*hForme) contre O(w*h) pour construire la carte de distance d'une seule relation. Tout ceci pour un gain de précision faible.
 			Prendre le contour de la forme nécessiterais des calculs, pour un faible gain. c'est pourquoi j'ai choisis de prendre le centre uniquement.
 
-			- 
+			-
+
+02/05/17
+		- Test de base de cas en .xml, pas mal
+
+03/05/17
+		- Listing par Julien des point complexes de notre projet, intéressant pour rédiger une problématique, et montrer que les outils de segmentation existants ne permettent pas d'obtenir de bons résultats.
+		!!!!!!!!!!!!!!!!!!!!! CONTRAINTES DU PROJET : TRES IMPORTANT A CONNAITRE !!!!!!!!!!!!!!
+		-Enfant => pas de graisses, difficile de réaliser la segmentation de la tumeur
+		-Enfant d'age très différents (2ans-11ans) et donc taille de reins différente
+		-Tumeur de n'importe quelle forme à n'importe quel endroit sur le rein
+		-Pour le Deep Learning => besoin d'une grande base d'apprentissage (pour le RàPC il en faudrait une bonne aussi^^)
+
+		- Autre problème récurrent en RàPC dont on a parlé, le reglage des poids associés aux caractérisitiques, en vue de la mesure de similarité. C'est toujours une contrainte compliquée à résoudre.
+
+		- J'ai utilisé Eclipse pour "valider" mon fichier XML, cela permet de vérifier qu'il soit correctement écrit.
+		- Ajout d'une dipo pour montrer l'arborescence de la base de cas en XML.
+		TODO : 
+			modifier code pour intégrer un seuil par organe, et donc un seuil par germe.
+			ajouter une arborescence de classes pour gérer les organes, et les associer aux germes.
+			ajouter une arborescence de classes pour gérer les relations spatiales, et les associer aux organes et aux fonction floues via les seuils.
+			modifier la lecture fichier pour prendre en entrée un .xml
+			essayer de faire marcher la croissance région ne utilisant le fichier de logique floue

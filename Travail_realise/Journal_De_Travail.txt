@@ -390,6 +390,9 @@ TRAVAIL REALISE :
 
 05/05/17 
 		- Un seuil par organe et donc par germe --> FAIT
+		- Lecture de la nouvelle base de cas en XML --> en cours (parserXML())
+		- Ontologie des organes --> FAIT (peut-être à completer)
+		- Corespondance organes/germes --> EN COURS
 
 		TOTO 
 			faire pour qu' à un organe donné on associe toujours la même couleurs lors de la segmentation

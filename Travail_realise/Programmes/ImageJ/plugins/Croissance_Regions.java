@@ -58,6 +58,7 @@ public class Croissance_Regions implements PlugInFilter {
 		BaseDeCas base = null;
 		try {
 			base = l.LectureFichierBaseEnLigne("BaseDeCasEnLigne.txt");
+			BaseDeCas test = l.parserXML("BaseDeCas.xml");
 			//System.out.println(base.toString());
 			IJ.log("////////////////Avant segmentation : ///////////////\n");
 			IJ.log(base.toString());
@@ -78,7 +79,7 @@ public class Croissance_Regions implements PlugInFilter {
 		//indiceBase = 4;
 		
 		//pour les test de suppression des muscles
-		boolean musclesAEnlever = true;
+		boolean musclesAEnlever = false;
 		if(musclesAEnlever)ip = supprimerMuscles(base, 3, l);
 		segmentation(base, indiceBase, l);
 		
@@ -87,14 +88,11 @@ public class Croissance_Regions implements PlugInFilter {
 	
 	//realise la segmentation par croissance de regions
 	public void segmentation(BaseDeCas base, int indiceBase, LectureFichier l){
-				//Seuils
-		int SeuilGlobal = base.getCas(indiceBase).getSolution().getSeuilGlobal(); 
-		int SeuilLocal = base.getCas(indiceBase).getSolution().getSeuilLocal();
 				
 		//hauteur et largeur de l'image
 		h=ip.getHeight();
 		w=ip.getWidth();	
-				//creation de la nouvelle image dans laquelle on va dessiner la segmentation
+		//creation de la nouvelle image dans laquelle on va dessiner la segmentation
 		ImageProcessor ipDT= new ColorProcessor(w,h);
 		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);
 		ipr = imageDT.getProcessor();
@@ -103,14 +101,7 @@ public class Croissance_Regions implements PlugInFilter {
 		int[][] pixelsA = ip.getIntArray();
 
 		//germes 
-		//POUR LE MOMENT J'AI UNE LISTE DE Germes ET UNE LISTE DE Point, IL FAUDRA CHANGER CA, UNE SEULE SUFFIT !
-		ArrayList<Point> germes = new ArrayList<Point>();
 		ArrayList<Germe> lgermes = base.getCas(indiceBase).getSolution().getGermes();
-		for(int i = 0 ; i < lgermes.size() ; i++){
-			Point p = new Point(lgermes.get(i).getX(), lgermes.get(i).getY());
-			germes.add(p);
-		}
-
 
 		//liste de correspondance germe (donc region) --> couleur, utile pour la fusion de deux regions
 		HashMap<Point,Integer> couleursRegions = new HashMap<Point,Integer>();
@@ -121,17 +112,22 @@ public class Croissance_Regions implements PlugInFilter {
 		int color = 255;
 
 		//pour chaque germe
-		for(int i = 0; i<germes.size(); i++){
-
+		for(int i = 0; i<lgermes.size(); i++){
+			
+			Germe g = lgermes.get(i);
+			//recuperation des coordonees 2D du germe
+			int xGerme = (int)g.getX();
+			int yGerme = (int)g.getY();
+			
+			//seuils pour chaque germe
+			int SeuilGlobal = g.getSeuilGlobal(); 
+			int SeuilLocal = g.getSeuilLocal();
+			
 			//a chaque region on associe une couleur aleatoire
 			Random r = new Random();
 			color = r.nextInt(16777215);
-			couleursRegions.put(germes.get(i),color);
-			lgermes.get(i).setCouleur(color);
-
-			//recuperation des coordonees 2D du germe
-			int xGerme = (int)germes.get(i).getX();
-			int yGerme = (int)germes.get(i).getY();
+			couleursRegions.put(new Point(xGerme, yGerme),color);
+			g.setCouleur(color);
 
 			//l'intensite moyennne de la region courante (necessite le nombre de pixels de la region pour la m.a.j.)
 			double moyenneRegion = pixelsA[xGerme][yGerme];
@@ -224,7 +220,7 @@ public class Croissance_Regions implements PlugInFilter {
 			}
 		}
 
-				//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
+		//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
 		fermeture();
 		
 		imageDT.show();

@@ -1,26 +1,57 @@
 package RegionGrow.baseDeCas;
+
+import RegionGrow.ontologieAnatomie.ObjetAnatomie;
+
 public class Germe {
-	
+
+	//coordonnées dans l'image 2D
 	protected int x;
 	protected int y;
+	
+	//couleur pour la croissance de région
 	protected int couleur;
 	
-	//par la suite il faudra surement 1seuil local/global par germe
+	//les seuils pour la croissance de région
+	protected int seuilGlobal;
+	protected int seuilLocal;
+	
+	//l'objet (organe ou os par exemple) correspondant à la région
+	protected ObjetAnatomie labelObjet;
 	
 	public Germe(){
 		
 	}
 	
-	public Germe(int x, int y){
+	public Germe(int x, int y, int s1, int s2){
 		this.x=x;
 		this.y=y;
+		this.seuilGlobal=s1;
+		this.seuilLocal=s2;
 		this.couleur = 0;
 	}
 	
-	public Germe(int x, int y, int couleur){
+	public Germe(int x, int y, int s1, int s2, int couleur){
 		this.x=x;
 		this.y=y;
+		this.seuilGlobal=s1;
+		this.seuilLocal=s2;
 		this.couleur=couleur;
+	}
+
+	public int getSeuilGlobal() {
+		return seuilGlobal;
+	}
+
+	public void setSeuilGlobal(int seuilGlobal) {
+		this.seuilGlobal = seuilGlobal;
+	}
+
+	public int getSeuilLocal() {
+		return seuilLocal;
+	}
+
+	public void setSeuilLocal(int seuilLocal) {
+		this.seuilLocal = seuilLocal;
 	}
 
 	public int getX() {
@@ -48,7 +79,7 @@ public class Germe {
 	}
 	
 	public String toString(){
-		return "          position : ("+x+";"+y+") , couleur : "+couleur+" ";
+		return "          position : ("+x+";"+y+") , seuilGlobal : "+seuilGlobal+" , seuilLocal : "+seuilLocal+" , couleur : "+couleur+" ";
 	}
 
 }

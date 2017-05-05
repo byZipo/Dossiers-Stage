@@ -377,8 +377,19 @@ TRAVAIL REALISE :
 		- J'ai utilisé Eclipse pour "valider" mon fichier XML, cela permet de vérifier qu'il soit correctement écrit.
 		- Ajout d'une dipo pour montrer l'arborescence de la base de cas en XML.
 		TODO : 
-			modifier code pour intégrer un seuil par organe, et donc un seuil par germe.
+			modifier code pour intégrer un seuil par organe, et donc un seuil par germe. 
 			ajouter une arborescence de classes pour gérer les organes, et les associer aux germes.
 			ajouter une arborescence de classes pour gérer les relations spatiales, et les associer aux organes et aux fonction floues via les seuils.
 			modifier la lecture fichier pour prendre en entrée un .xml
 			essayer de faire marcher la croissance région ne utilisant le fichier de logique floue
+
+04/05/17
+		- Formation au CHU sur 3D Slicer, qui a entre autre permis de montrer à quel point c'est actuellement long de réaliser une segmentation à la main : 
+			- 200 coupes par patient en moyenne
+			- une segmentation prend du temps
+
+05/05/17 
+		- Un seuil par organe et donc par germe --> FAIT
+
+		TOTO 
+			faire pour qu' à un organe donné on associe toujours la même couleurs lors de la segmentation

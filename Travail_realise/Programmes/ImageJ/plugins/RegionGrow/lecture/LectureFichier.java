@@ -4,11 +4,22 @@ package RegionGrow.lecture;
 import RegionGrow.baseDeCas.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 
@@ -54,17 +65,21 @@ public class LectureFichier{
 			double variance = Double.parseDouble(decoupageImage[2]);
 			double kurtosis = Double.parseDouble(decoupageImage[3]);
 			
-			int seuilGlobal = Integer.parseInt(decoupageSolution[0]);
-			int seuilLocal = Integer.parseInt(decoupageSolution[1]);
+			//int seuilGlobal = Integer.parseInt(decoupageSolution[0]);
+			//int seuilLocal = Integer.parseInt(decoupageSolution[1]);
 			
 			ArrayList<Germe> germes = new ArrayList<Germe>();
-			for(int i = 2; i < decoupageSolution.length-1; i+=2){
-				germes.add(new Germe(Integer.parseInt(decoupageSolution[i]), Integer.parseInt(decoupageSolution[i+1])));
+			for(int i = 0; i < decoupageSolution.length-3; i+=4){
+				int seuilGlobal = Integer.parseInt(decoupageSolution[i]);
+				int seuilLocal = Integer.parseInt(decoupageSolution[i+1]);
+				int posX = Integer.parseInt(decoupageSolution[i+2]);
+				int posY = Integer.parseInt(decoupageSolution[i+3]);
+				germes.add(new Germe(posX, posY, seuilGlobal, seuilLocal));
 			}
 			
 			
 			Probleme p = new Probleme(age, taille, masse, sexe, nbCoupes, hauteurCoupe, moyenne, asymetrie, variance, kurtosis);
-			Solution s = new Solution(seuilGlobal, seuilLocal, germes);
+			Solution s = new Solution(germes);
 			Cas c = new Cas(p,s);
 			base.ajouterCas(c);
 		}
@@ -102,16 +117,58 @@ public class LectureFichier{
 			//Solution
 			Solution s = c.getSolution();
 				//Seuils
-			st.append(s.getSeuilGlobal()+";"+s.getSeuilLocal()+";");
+			//st.append(s.getSeuilGlobal()+";"+s.getSeuilLocal()+";");
 				//Germes
 			for(int j = 0; j<s.getNbGermes();j++){
 				Germe g = s.getGerme(j);
-				if(j<s.getNbGermes()-1)st.append(g.getX()+";"+g.getY()+";");
-				else st.append(g.getX()+";"+g.getY());
+				if(j<s.getNbGermes()-1)st.append(g.getSeuilGlobal()+";"+g.getSeuilLocal()+";"+g.getX()+";"+g.getY()+";");
+				else st.append(g.getSeuilGlobal()+";"+g.getSeuilLocal()+";"+g.getX()+";"+g.getY());
 			}
 			pw.println(st.toString());
 		}
 		pw.close();
+	}
+	
+	
+	public BaseDeCas parserXML(String fichier){
+		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		try {
+			final DocumentBuilder builder = factory.newDocumentBuilder();
+			final Document document = builder.parse(new File(fichier));
+			
+			//racine du fichier xml
+			final Element racine = document.getDocumentElement();
+			System.out.println(racine.getNodeName());
+			
+			//noeuds enfants de la racine --> les Cas
+			final NodeList listeCas = racine.getElementsByTagName("Cas");
+			for (int i = 0; i < listeCas.getLength(); i++) {
+					final Element cas = (Element)listeCas.item(i);
+					System.out.println(cas.getNodeName()+" : "+cas.getAttribute("id"));
+					
+					//contenu d'un cas --> probleme + solution
+					final Element probleme = (Element)cas.getElementsByTagName("Probleme").item(0);
+					final Element solution = (Element)cas.getElementsByTagName("Solution").item(0);
+					
+					final Element image = (Element)probleme.getElementsByTagName("Image").item(0);
+					final Element nonImage = (Element)probleme.getElementsByTagName("NonImage").item(0);
+					final Element positionTumeur = (Element)probleme.getElementsByTagName("PositionTumeur").item(0);
+					
+					
+					final NodeList caracsImage = image.getElementsByTagName("*");
+					for (int j = 0; j < caracsImage.getLength(); j++) {
+						final Element carac = (Element)caracsImage.item(j);
+						System.out.println(carac.getNodeName()+" : "+carac.getTextContent());
+					}
+			}
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+		return null;
 	}
 
 

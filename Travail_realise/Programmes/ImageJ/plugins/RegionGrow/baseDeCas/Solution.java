@@ -4,8 +4,8 @@ import java.util.ArrayList;
 public class Solution {
 	
 	//seuils
-	protected int seuilGlobal;
-	protected int seuilLocal;
+	//protected int seuilGlobal;
+	//protected int seuilLocal;
 	
 	//germes
 	protected ArrayList<Germe> germes;
@@ -14,9 +14,7 @@ public class Solution {
 		
 	}
 	
-	public Solution(int seuilGlobal, int seuilLocal, ArrayList<Germe> germes){
-		this.seuilGlobal = seuilGlobal;
-		this.seuilLocal = seuilLocal;
+	public Solution(ArrayList<Germe> germes){
 		this.germes = germes;
 	}
 
@@ -32,21 +30,6 @@ public class Solution {
 		return germes.size();
 	}
 	
-	public int getSeuilGlobal() {
-		return seuilGlobal;
-	}
-
-	public void setSeuilGlobal(int seuilGlobal) {
-		this.seuilGlobal = seuilGlobal;
-	}
-
-	public int getSeuilLocal() {
-		return seuilLocal;
-	}
-
-	public void setSeuilLocal(int seuilLocal) {
-		this.seuilLocal = seuilLocal;
-	}
 
 	public ArrayList<Germe> getGermes() {
 		return germes;
@@ -62,8 +45,6 @@ public class Solution {
 	
 	public String toString(){
 		StringBuilder st = new StringBuilder();
-		st.append(" Seuil Global : "+seuilGlobal);
-		st.append(" Seuil Local : "+seuilLocal);
 		st.append("\n   --> Germes : ");
 		for(int i = 0; i<germes.size(); i++){
 			st.append("\n"+germes.get(i).toString());

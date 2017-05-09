@@ -396,3 +396,22 @@ TRAVAIL REALISE :
 
 		TOTO 
 			faire pour qu' à un organe donné on associe toujours la même couleurs lors de la segmentation
+
+09/05/17
+		TODO : 
+
+		ontologie des relations spatiales pour pouvoir continuer à lire la base de cas en xml*
+		modifier la fonction supprimerMuscles() et même tout le proccessus de suppression pour utiliser la liste de germesInutiles de la Solution
+		modifier fusionRegions() pour comparer l'objetAnatomique et non plus la couleur
+
+
+		DONE : 
+
+		- Class traitement pour les pretaitements
+		- Ajout d'une arraylist de germes inutiles (muscles) dans la solution
+		- Ajout d'une arrayList de traitements (pretraitements) dans la solution
+		- Dans la classe Probleme, on peut desormais set un attribut de la classe à partir d'un string : 
+			ex: setCarac("kurtosis", 50) donnera this.kurtosis = 50; :)
+			très pratique pour la lecture fichier, vu que l'on parse des string
+
+		- JAVADOC ^^

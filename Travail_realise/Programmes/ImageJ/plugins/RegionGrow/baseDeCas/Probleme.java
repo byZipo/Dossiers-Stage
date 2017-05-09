@@ -1,4 +1,12 @@
 package RegionGrow.baseDeCas;
+
+import java.lang.reflect.Field;
+
+/**
+ * Un problème est réprésenté par des caractéristiques image et non-image, et des poids pour chacun d'eux
+ * @author Thibault DELAVELLE
+ *
+ */
 public class Probleme {
 	
 	
@@ -24,7 +32,19 @@ public class Probleme {
 		
 	}
 	
-	//constructeur sans poids
+	/**
+	 * Constructeur sans poids
+	 * @param age : l'âge en années du patient
+	 * @param taille : la taille en cm du patient
+	 * @param masse : la masse en kg du patient
+	 * @param sexe : le sexe (0=F, 1=M) du patient
+	 * @param nbCoupes : le nombre de coupes du scanner complet
+	 * @param hauteurCoupe : la hauteur de la coupe par rapport à l'ensemble des coupes du scanner complet
+	 * @param moyenne : la moyenne de niveaux de gris de l'image
+	 * @param asymetrie : l'asymétrie de l'image
+	 * @param variance : la variance de l'image
+	 * @param kurtosis : le kurtosis de l'image
+	 */
 	public Probleme(double age, double taille, double masse, double sexe, double nbCoupes, double hauteurCoupe, double moyenne, double asymetrie, double variance, double kurtosis){
 		this.age=age;
 		this.taille = taille;
@@ -38,7 +58,21 @@ public class Probleme {
 		this.kurtosis = kurtosis;
 	}
 	
-	//constructeur avec poids
+	/**
+	 * Constructeur complet avec poids
+	 * @param age : l'âge en années du patient
+	 * @param taille : la taille en cm du patient
+	 * @param masse : la masse en kg du patient
+	 * @param sexe : le sexe (0=F, 1=M) du patient
+	 * @param nbCoupes : le nombre de coupes du scanner complet
+	 * @param hauteurCoupe : la hauteur de la coupe par rapport à l'ensemble des coupes du scanner complet
+	 * @param moyenne : la moyenne de niveaux de gris de l'image
+	 * @param asymetrie : l'asymétrie de l'image
+	 * @param variance : la variance de l'image
+	 * @param kurtosis : le kurtosis de l'image
+	 * @param poidsNonImage : le poids global associé à l'ensemble des caractéristiques image
+	 * @param poidsImage : le poids global associé à l'ensemble des caractéristiques non-image
+	 */
 	public Probleme(double age, double taille, double masse, double sexe, double nbCoupes, double hauteurCoupe, double moyenne, double asymetrie, double variance, double kurtosis, double poidsNonImage, double poidsImage){
 		this.age=age;
 		this.taille = taille;
@@ -86,6 +120,7 @@ public class Probleme {
 	public void pondererKurtosis(double poids){
 		kurtosis = (double) kurtosis*poids;
 	}
+	
 	//accesseurs
 	public double getAge() {
 		return age;
@@ -183,10 +218,44 @@ public class Probleme {
 		this.poidsImage = poidsImage;
 	}
 	
+	
+	//méthode très pratique pour la lecture fichier, où l'on reçoit un String que l'on veut convertir en attribut pour le setter.
+	/**
+	 * Affecte une valeur à une caractéristique du problème en fonction de son nom sous forme de String
+	 * @param carac : le String associé à l'attribut Java des caractéristiques de la classe Probleme (ex:"kurtosis")
+	 * @param val : la valeur associée à la caractéristique
+	 */
+	public void setCarac(String carac, double val){
+		
+		Class<?> c = this.getClass();
+		try {
+			//récupération de l'attribut correspondant au String (ex:Probleme.kurtosis)
+			Field f = c.getDeclaredField(carac);
+			f.setAccessible(true);
+			try {
+				//la vérification du type est optionnelle/inutile dans ce cas (on ne reçoit que des doubles)
+				/*Type t = f.getGenericType();
+				if(t.getTypeName().equals("double"))*/
+				f.setDouble(this, val);
+			} catch (IllegalArgumentException | IllegalAccessException e) {
+				//e.printStackTrace();
+				System.err.println("VALEUR "+val+" non correcte pour l'attribut "+carac);
+			}
+		} catch (NoSuchFieldException | SecurityException e) {
+			//e.printStackTrace();
+			System.err.println("ATTRIBUT "+carac+" inexistant dans la base de cas");
+		}
+	}
+	
+	/**
+	 * Réalise la somme des caractéristiques avec leur pondération
+	 * @return la somme
+	 */
 	public double getSommeCaracs(){
 		//je mets les pondérations ici en fait
 		return (double)(age+(taille*0.05)+masse+sexe+nbCoupes+hauteurCoupe+moyenne+asymetrie+variance+kurtosis);
 	}
+	
 	public String toString(){
 		return "NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" | Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis;
 	}

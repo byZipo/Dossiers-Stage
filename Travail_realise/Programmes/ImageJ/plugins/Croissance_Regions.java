@@ -22,7 +22,12 @@ import ij.process.ImageConverter;
 import ij.process.ImageProcessor;
 import ij.process.ImageStatistics;
 
-
+/**
+ * Classe de segmentation d'image 2D par croissance de région, utilisant la bibliothèque ImageJ
+ * Source ImageJ : (https://imagej.net)
+ * @author Thibault DELAVELLE
+ *
+ */
 public class Croissance_Regions implements PlugInFilter {
 
 
@@ -86,7 +91,12 @@ public class Croissance_Regions implements PlugInFilter {
 	}
 	
 	
-	//realise la segmentation par croissance de regions
+	/**
+	 * Réalise la segmentation par croissance de régions
+	 * @param base : la base de cas du RàPC
+	 * @param indiceBase : l'indice du cas à utiliser dans la base de cas (calculé grâce au RàPC)
+	 * @param l : la classe de lecture du fichier de base de cas
+	 */
 	public void segmentation(BaseDeCas base, int indiceBase, LectureFichier l){
 				
 		//hauteur et largeur de l'image
@@ -101,7 +111,7 @@ public class Croissance_Regions implements PlugInFilter {
 		int[][] pixelsA = ip.getIntArray();
 
 		//germes 
-		ArrayList<Germe> lgermes = base.getCas(indiceBase).getSolution().getGermes();
+		ArrayList<Germe> lgermes = base.getCas(indiceBase).getSolution().getGermesUtiles();
 
 		//liste de correspondance germe (donc region) --> couleur, utile pour la fusion de deux regions
 		HashMap<Point,Integer> couleursRegions = new HashMap<Point,Integer>();
@@ -236,7 +246,14 @@ public class Croissance_Regions implements PlugInFilter {
 		}
 	}
 	
-	//retourne l'image de base (le scanner) sans les muscles
+	/**
+	 * Réalise une segmentation de l'image en placant des germes sur les muscles, puis les supprime
+	 * TODO : A MODIFIER POUR SUPPRIMER UNE LISTE DE GERME DE LA CLASSE SOLUTION
+	 * @param base
+	 * @param indiceBase
+	 * @param l
+	 * @return l'image de base sans les muscles
+	 */
 	public ImageProcessor supprimerMuscles(BaseDeCas base, int indiceBase,LectureFichier l){
 		//on fait une segmentation classique, il faut que les germes soient aux positions des muscles
 		segmentation(base, indiceBase, l);
@@ -258,8 +275,14 @@ public class Croissance_Regions implements PlugInFilter {
 	}
 
 
-	//calcul de similarite entre le probleme courrant et ceux de la base, pour retourner l'indice du plus similaire
-	//pour le moment on fait une distance de Manhattan sans ponderation, donc pas tres optimisee
+	
+	/**
+	 * Calcul de similarite entre le probleme courrant et ceux de la base, pour retourner l'indice du plus similaire
+	 * Pour le moment on fait une distance de Manhattan sans ponderation, donc pas tres optimisée 
+	 * @param p : le Problème à comparer
+	 * @param base : la base de cas
+	 * @return le meilleur problème = le plus similaire
+	 */
 	public int getMeilleurProbleme(Probleme p, BaseDeCas base){
 		double best = Integer.MAX_VALUE;
 		int indice = 0;
@@ -285,7 +308,13 @@ public class Croissance_Regions implements PlugInFilter {
 
 
 
-	//realise la fusion de deux regions, i.e. leur attribue la meme couleur de segmentation
+	/**
+	 * Réalise la fusion de deux régions, i.e. leur attribue la même couleur de segmentation
+	 * TODO : on pourrait la modifier pour comparer l'objetAnatomique et non plus la couleur
+	 * @param germe1 : le germe de l'objet 1
+	 * @param germe2 : le germe de l'objet 2
+	 * @param couleursRegions : la couleur à donner à la nouvelle région (fusion des deux)
+	 */
 	public void fusionRegions(Point germe1, Point germe2, HashMap<Point, Integer> couleursRegions){
 		int color1 = couleursRegions.get(germe1);
 		int color2 = couleursRegions.get(germe2);
@@ -304,7 +333,9 @@ public class Croissance_Regions implements PlugInFilter {
 
 
 
-	//fonction de dilatation morphologique de l'image
+	/**
+	 * Réalise une dilatation morphologique de l'image
+	 */
 	public void dilatation(){
 		//int[][] masque = {{0,1,0},{1,1,1},{0,1,0}};
 		int[][] masque = {{0,0,1,0,0},{0,1,1,1,0},{1,1,1,1,1},{0,1,1,1,0},{0,0,1,0,0}};
@@ -343,7 +374,9 @@ public class Croissance_Regions implements PlugInFilter {
 		}
 	}
 
-	//fonction d'erosion morphologique de l'image
+	/**
+	 * Réalise une érosion morphologique de l'image
+	 */
 	public void erosion(){
 		//int[][] masque = {{0,1,0},{1,1,1},{0,1,0}};
 		int[][] masque = {{0,0,1,0,0},{0,1,1,1,0},{1,1,1,1,1},{0,1,1,1,0},{0,0,1,0,0}};
@@ -372,13 +405,19 @@ public class Croissance_Regions implements PlugInFilter {
 
 	}
 
-	//fermeture morphologique, qui correspond Ã  une dilatation puis une erosion
+	/**
+	 * Réalise une fermeture morphologique qui correspond à : 
+	 * Dilatation puis érosion
+	 */
 	public void fermeture(){
 		dilatation();
 		erosion();
 	}
 
-	//ouverture morphologique, qui correspond Ã  une erosion puis une dilatation
+	/**
+	 * Réalise une ouverture morphologique qui correspond à :
+	 * Erosion puis dilatation
+	 */
 	public void ouverture(){
 		erosion();
 		dilatation();

@@ -8,6 +8,12 @@ import ij.process.ColorProcessor;
 import ij.process.ImageConverter;
 import ij.process.ImageProcessor;
 
+
+/**
+ * 
+ * @author Thibault DELAVELLE
+ *
+ */
 public class Test_Direction_ADroite implements PlugInFilter{
 	
 	byte[] pixels;

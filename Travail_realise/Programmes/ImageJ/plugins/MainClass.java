@@ -8,7 +8,11 @@ import ij.ImagePlus;
 import ij.process.ImageProcessor;
 
 
-//classe pour executer ImageJ et le plugin de segmentation sans passer par l'interface ImageJ
+/**
+ * Classe à exécuter pour lancer le programme sans passer par l'interface ImageJ
+ * @author Thibault DELAVELLE
+ *
+ */
 public class MainClass {
 
 	public MainClass(){

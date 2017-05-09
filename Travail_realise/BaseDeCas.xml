@@ -1,5 +1,5 @@
-<!-- EXEMPLE DE POTENTIELLE BASE DE CAS EN XML -->
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!-- EXEMPLE DE POTENTIELLE BASE DE CAS EN XML -->
 <BaseDeCas>
 	<Cas id="1">
 		<Probleme>
@@ -7,7 +7,7 @@
 				<kurtosis>50</kurtosis> 
 				<moyenne>120</moyenne>
 				<asymetrie>70</asymetrie>
-				<variance>180</variance>
+				<variance>180</variance>cd 	
 			</Image>
 			<NonImage>
 				<age>5</age>
@@ -33,16 +33,11 @@
 				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="10">123 46</GermeObjet>
 			</ObjetsInutiles>
 			<PreTraitements>
-				<operation name="UnshapredMask" radius="0.8" seuil="120">Unsharp</operation>
+				<operation name="UnsharpedMask" radius="0.8" seuil="120">Unsharp</operation>
 				<operation name="FiltreMedian" seuil="50">Median</operation>
 			</PreTraitements>
 			<PositionFloueTumeur>
-				<relation seuilInf="50" seuilSup="100" degreMax="80" reference="Colonne">ADroiteDe
-					<reference>Colonne</reference> <!-- AUTRE MANIERE DE VOIR LES CHOSES POUR LES PARAMETRES -->
-					<seuilInf>50</seuilInf>
-					<seuilSup>100</seuilSup>
-					<degreMax>80</degreMax>
-				</relation>
+				<relation seuilInf="50" seuilSup="100" degreMax="80" reference="Colonne">ADroiteDe</relation>
 				<relation seuilInf="50" seuilSup="100" degreMax="70" reference="Colonne">EnHautDe</relation>
 				<relation seuilInf="50" seuilSup="120" degreMax="80" reference="Colonne">ProcheDe</relation>
 			</PositionFloueTumeur>

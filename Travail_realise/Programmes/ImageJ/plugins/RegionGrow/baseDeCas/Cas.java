@@ -1,4 +1,10 @@
 package RegionGrow.baseDeCas;
+
+/**
+ * Un cas est représenté par un probleme et une solution
+ * @author Thibault DELAVELLE
+ *
+ */
 public class Cas {
 	
 	protected Probleme probleme;

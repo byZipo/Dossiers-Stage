@@ -1,11 +1,19 @@
 package RegionGrow.baseDeCas;
 import java.util.ArrayList;
-//TEST
 
+/**
+ * Super classe de la base de cas
+ * @author Thibault DELAVELLE
+ *
+ */
 public class BaseDeCas {
 	
+	//taille de la base
 	protected int taille;
+	//liste des cas
 	protected ArrayList<Cas> lcas;
+	
+	
 	public BaseDeCas(){
 		this.lcas = new ArrayList<Cas>();
 		this.taille = lcas.size();

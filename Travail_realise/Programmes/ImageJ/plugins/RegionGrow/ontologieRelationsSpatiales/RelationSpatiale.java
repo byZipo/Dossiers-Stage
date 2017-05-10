@@ -22,6 +22,11 @@ public abstract class RelationSpatiale {
 	protected double degreMax;
 	
 	
+	public int[][] getCarteDistance(int w, int h) {
+		return null;
+	}
+	
+	
 	public ObjetAnatomie getReference() {
 		return reference;
 	}

@@ -14,7 +14,7 @@ import ij.process.ImageProcessor;
  *
  */
 public class MainClass {
-
+	
 	public MainClass(){
 		//selection de l'image a segmenter
 		//le repertoire par defaut du JFileChooser est constitue a l'aide de \\ et non pas des \
@@ -25,10 +25,13 @@ public class MainClass {
 		}
 		ImagePlus im = new ImagePlus(path.toString());
 		Croissance_Regions c = new Croissance_Regions();
+		GestionRelationsSpatiales g = new GestionRelationsSpatiales();
 		//il suffit de faire appel aux methodes de base d'un plugin ImageJ : setup() et run()
 		c.setup("", im);
+		g.setup("", im);
 		ImageProcessor i = im.getProcessor();
 		c.run(i);
+		g.run(i);
 	}
 	
 	public static void main(String[] args) {

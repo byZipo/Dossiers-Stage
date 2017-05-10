@@ -6,7 +6,7 @@ import RegionGrow.main.Constantes.TypeRelation;
  * @author Thibault DELAVELLE
  *
  */
-public class ProcheDe extends RelationDirectionnelleBinaire{
+public class ProcheDe extends RelationDeDistance{
 	
 	public ProcheDe(){
 		this.type=TypeRelation.ProcheDe;

@@ -1,5 +1,5 @@
 package RegionGrow.ontologieRelationsSpatiales;
 
-public class RelationDeDistance {
+public class RelationDeDistance extends RelationMetrique{
 
 }

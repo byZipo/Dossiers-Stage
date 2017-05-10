@@ -1,15 +1,24 @@
-//package RegionGrow.main;
+package RegionGrow.main; //A commenter pour utiliser sous ImageJ
+
+import static RegionGrow.main.Constantes.BLEU;
+import static RegionGrow.main.Constantes.VERT;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
+import RegionGrow.ontologieAnatomie.ColonneVertebrale;
+import RegionGrow.ontologieAnatomie.ReinDroit;
+import RegionGrow.ontologieRelationsSpatiales.ADroiteDe;
+import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
+import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
+import RegionGrow.ontologieRelationsSpatiales.MoyennementProcheDe;
+import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 import ij.IJ;
 import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.ColorProcessor;
 import ij.process.ImageConverter;
 import ij.process.ImageProcessor;
-
-import static RegionGrow.main.Constantes.*;
 
 
 /**
@@ -22,9 +31,10 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 	
 	//pixels de l'image
 	int[][] pixelsA;
+	int[][] pixelsCopy;
 	
 	//hauteur et largeur de l'image
-	int h,w;
+	public int h,w;
 	
 	//composants ImageJ (pour le dessin de l'image)
 	ImageProcessor ipr;
@@ -47,7 +57,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		imageDT= new ImagePlus("Fusion de relations spatiales", ipDT);
 		ipr = imageDT.getProcessor();
 		pixelsA = new int[w][h];
-		int[][] pixelsCopy = ip.getIntArray();
+		pixelsCopy = ip.getIntArray();
 		
 		
 		
@@ -67,19 +77,82 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		Point ref = new Point(391, 374);
 		Point ref2 = new Point(154,72);
 		pixelsA[(int)ref.getX()][(int)ref.getY()]=-50;
-		int[][] haut = enHautDe(ref);
+		
+		
+		/*int[][] haut = enHautDe(ref);
 		int[][] droite = aDroiteDe(ref);
 		int[][] proche = moyennementProcheDe(ref);
 		int[][] gauche = aGaucheDe(ref);
 		
-		int[][] fusion = fusion(droite,haut);
-		int[][] fusion2 = fusion(fusion, proche);
+		int[][] fusion = fusion(droite,proche);
+		int[][] fusion2 = fusion(fusion, haut);
+		
+		fusion2 = normaliser(fusion2);
 		
 		//dessin de l'image + des relations spatiales floues calculées
-		dessin(fusion2,pixelsCopy);
+		dessin(fusion2);
+		*/
 		
-		//récupération du germe issu des relations spatiales floues
-		Point germe = getGerme(fusion2);
+		/****************************************************/
+		/*********** MAIN DE TEST **************************/
+		
+		
+		
+		ArrayList<RelationSpatiale> rel = new ArrayList<RelationSpatiale>();
+		
+		//objets
+		ColonneVertebrale c1 = new ColonneVertebrale();
+		c1.setPosition(new Point(391,374));
+		
+		ReinDroit rein = new ReinDroit();
+		rein.setPosition(new Point(154,72));
+
+		
+		//relations
+		AGaucheDe rs1 = new AGaucheDe();
+		rs1.setReference(c1);
+		rs1.setSeuilInf(90);
+		rs1.setSeuilSup(270);
+		rs1.setDegreMax(180);
+		
+		EnHautDe rs2 = new EnHautDe();
+		rs2.setReference(c1);
+		rs2.setSeuilInf(0);
+		rs2.setSeuilSup(180);
+		rs2.setDegreMax(90);
+		
+		MoyennementProcheDe rs3 = new MoyennementProcheDe();
+		rs3.setReference(c1);
+		
+		ADroiteDe rs4 = new ADroiteDe();
+		rs4.setReference(rein);
+		rs4.setSeuilInf(90);
+		rs4.setSeuilSup(270);
+		rs4.setDegreMax(0);
+		
+		MoyennementProcheDe rs5 = new MoyennementProcheDe();
+		rs5.setReference(rein);
+		
+		AGaucheDe rs6 = new AGaucheDe();
+		rs6.setReference(rein);
+		rs6.setSeuilInf(90);
+		rs6.setSeuilSup(270);
+		rs6.setDegreMax(180);
+		
+		//ajouts dans la liste
+		rel.add(rs1);
+		rel.add(rs2);
+		rel.add(rs3);
+		rel.add(rs4);
+		//rel.add(rs5);
+		
+		
+		//calcul + affichage
+		Point germe = calculeGerme(rel);
+		IJ.log("POISITION GERME TUMEUR : "+germe.getX()+" "+germe.getY());
+		
+		/******************************************************/
+		
 
 	}
 	
@@ -89,18 +162,40 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 	 * @param relations : la liste des relations spatiales (qui contient aussi les paramètres des fonctions)
 	 * @return le Point 2D représentant le germe
 	 */
-	/*public Point calculeGerme(ArrayList<RelationSpatiale> relations){
+	public Point calculeGerme(ArrayList<RelationSpatiale> relations){
 		
-	}*/
+		//tableau remplit de 1 pour la première itération, qui n'a donc pas d'effet en t-norm multiplication
+		int[][] tab = new int[w][h];
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
+				tab[i][j]=1;
+			}
+		}
+		
+		//pour chaque relation, on calcule sa carte de distance et on la fusionne avec la précédente
+		for(int i = 0 ; i < relations.size() ; i++){
+			RelationSpatiale r = relations.get(i);
+			int[][] tmp = r.getCarteDistance(w,h);;
+			tab = fusion(tab, tmp);
+		}
+		
+		//normalisation pour obtenir un résultat entre 0 et 255
+		tab = normaliser(tab);
+		
+		//dessin du résultat obtenu
+		dessin(tab);
+		
+		//on retourne le meilleur pixel de la carte qui devient le germe
+		return getGerme(tab);
+	}
 	
 	
 	
 	/**
 	 * Dessin de l'image de base avec le résultat de la fusion des fonctions floues par dessus
 	 * @param fusion2 : la carte de distance floue
-	 * @param pixelsCopy : l'image de base
 	 */
-	public void dessin(int[][] fusion2, int[][] pixelsCopy){
+	public void dessin(int[][] fusion2){
 		//dessin
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
@@ -111,6 +206,8 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 					int[] cpy = {pixelsCopy[i][j],pixelsCopy[i][j],pixelsCopy[i][j]}; 
 					ipr.putPixel(i,j,cpy); //dessin de l'image de base la où il n'y a pas de relations spatiales floues
 				}
+				//if(fusion2[i][j]==255)ipr.putPixel(i,j,BLANC);
+				//else ipr.putPixel(i,j,0);
 			}
 		}
 		Point germe = this.getGerme(fusion2); //calcul du germe
@@ -141,7 +238,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 	
 	
 	/**
-	 * Fusion par t-norme (min) entre deux images (cartes de distance)
+	 * Fusion par t-norme (minimum ou multiplication) entre deux images (cartes de distance)
 	 * @param carte1 : la première carte
 	 * @param carte2 : la deuxième carte
 	 * @return la carte ainsi fusionnée
@@ -152,11 +249,10 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		
 		for(int i = 0; i<w; i++){
 			for(int j=0; j<h; j++){
-				//res[i][j] = carte1[i][j]*carte2[i][j];  //multiplication
-				res[i][j] = Math.min(carte1[i][j], carte2[i][j]); //t-norme
+				res[i][j] = carte1[i][j]*carte2[i][j];  // t-norme multiplication --> MIEUX
+				//res[i][j] = Math.min(carte1[i][j], carte2[i][j]); //t-norme minimum
 			}
 		}
-		
 		int[][] tmp = res.clone();
 		int[][] fin = normaliser(tmp);
 		return fin;
@@ -195,7 +291,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 	 * @param ref : le Point 2D de référence
 	 * @return la carte floue résultat de la fonction floue
 	 */
-	public int[][] moyennementProcheDe(Point ref){
+	/*public int[][] moyennementProcheDe(Point ref){
 		
 		int[][] res = new int[w][h];
 		
@@ -241,7 +337,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 			}
 		}
 		return res;
-	}
+	}*/
 	
 	
 	/**
@@ -249,7 +345,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 	 * @param ref : le Point 2D de référence
 	 * @return la carte floue résultat de la fonction floue
 	 */
-	public int[][] aDroiteDe(Point ref){
+	/*public int[][] aDroiteDe(Point ref){
 		
 		//paramètres
 		int seuilInf = 90;
@@ -306,14 +402,14 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 			}
 		}
 		return res;
-	}
+	}*/
 	
 	/**
 	 * Fonction floue de direction par rapport à un point de référence
 	 * @param ref : le Point 2D de référence
 	 * @return la carte floue résultat de la fonction floue
 	 */
-	public int[][] aGaucheDe(Point ref){
+	/*public int[][] aGaucheDe(Point ref){
 		
 		//paramètres
 		int seuilInf = 90;
@@ -371,7 +467,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 			}
 		}
 		return res;
-	}
+	}*/
 	
 	
 	
@@ -380,7 +476,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 	 * @param ref : le Point 2D de référence
 	 * @return la carte floue résultat de la fonction floue
 	 */
-	public int[][] enHautDe(Point ref){
+	/*public int[][] enHautDe(Point ref){
 		
 		//paramètres
 		int seuilInf = 0;
@@ -437,7 +533,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 			}
 		}
 		return res;
-	}
+	}*/
 	
 	
 	

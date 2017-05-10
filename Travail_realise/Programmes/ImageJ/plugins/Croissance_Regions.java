@@ -1,7 +1,8 @@
 //Il ne faut pas mettre de nom de package pour ImageJ !
-//package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
+package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
 import static RegionGrow.main.Constantes.BLANC;
 import static RegionGrow.main.Constantes.MARQUE;
+
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class Croissance_Regions implements PlugInFilter {
 				
 		//hauteur et largeur de l'image
 		h=ip.getHeight();
-		w=ip.getWidth();	
+		w=ip.getWidth();
 		//creation de la nouvelle image dans laquelle on va dessiner la segmentation
 		ImageProcessor ipDT= new ColorProcessor(w,h);
 		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);

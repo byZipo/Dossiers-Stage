@@ -405,7 +405,7 @@ TRAVAIL REALISE :
 		modifier fusionRegions() pour comparer l'objetAnatomique et non plus la couleur
 
 
-		DONE : 
+		DONE : x²
 
 		- Class traitement pour les pretaitements
 		- Ajout d'une arraylist de germes inutiles (muscles) dans la solution
@@ -415,3 +415,44 @@ TRAVAIL REALISE :
 			très pratique pour la lecture fichier, vu que l'on parse des string
 
 		- JAVADOC ^^
+
+
+10/05/17
+
+		TODO : 
+
+
+		standadrdiser le code de Test_Direction_Droite.java pour pouvoir appeler les fonction floues 
+		depuis d'autres classes, et récupérer la position du germe sans dessiner d'image, etc. --> EN COURS ^^
+
+		DONE : 
+
+		modification du build.xml pour la gestion compliquée du répertoire main 
+			- plugin imageJ à déplacer à la main 
+			- fichiers java annexes (main et constantes à deplacer à la main aussi du coup)
+		on peut desormais lancer le test flou depuis le main (comme pour la croissance région)
+
+		Je me suis aperçu que les résultats avec multiplications sont meilleurs qut'avec min pour la t-norme ^^
+
+		CE QUI ME GENE : 
+
+		si on veut rajouter un type de relation il faut : 
+			- ajouter le type dans l'enum
+			- ajouter une classe
+			- ajouter une fonctionfloue
+			- rajouter un case au switch de la fonction (calculGerme)
+			--> Solution : mettre la fonctionFloue dans la relation directement, redéfinie à chaque relation différente
+				--> plus de switch
+
+			--> CA MARCHE !!
+				--> les points de références des objets de réfrences sont en dur
+				--> les paramètres (seuils) des ftcs floues sont en dur
+				--> Du coup je n'ai plus besoin des fonction floues dans la classe GestionRelationsFloues, vu qu'elles sont direct dans les RelationsSpatiales
+
+			
+			CONCRETEMENT A CE POINT J'EXECUTE DE LA MANIERE SUIVANTE : 
+				- création des référencesAnatomiques, relations, set des paramètres des fonctions floues (dans les relations), etc.
+				- lancement du calcul de la carte de ditance correspondant à la fusion de chaque relation (on peut en mettre à l'infini tant que c'est logique)
+				- récupération du germe associé à la plus grande valeur dans la carte
+				- (ça dessine aussi)
+				

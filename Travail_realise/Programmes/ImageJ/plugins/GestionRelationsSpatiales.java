@@ -17,7 +17,7 @@ import static RegionGrow.main.Constantes.*;
  * @author Thibault DELAVELLE
  *
  */
-public class Test_Direction_ADroite implements PlugInFilter{
+public class GestionRelationsSpatiales implements PlugInFilter{
 	
 	
 	//pixels de l'image

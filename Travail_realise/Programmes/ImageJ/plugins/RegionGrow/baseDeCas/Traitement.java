@@ -1,5 +1,7 @@
 package RegionGrow.baseDeCas;
 
+import RegionGrow.main.Constantes.TypeTraitement;
+
 /**
  * Un traitement est représenté par un type (énumération) et des paramètres
  * @author Thibault DELAVELLE
@@ -8,8 +10,7 @@ package RegionGrow.baseDeCas;
 public class Traitement {
 	
 	//type de traitement
-	public enum TypeTraitement {Unsharped,Moyenneur,Median};
-	protected TypeTraitement  type;
+	protected TypeTraitement type;
 	
 	//paramètres des traitements (parfois null selon le traitement, ex: un Median ne nécessite pas de radius)
 	protected double radius;

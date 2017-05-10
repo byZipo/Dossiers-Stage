@@ -1,5 +1,7 @@
 //Il ne faut pas mettre de nom de package pour ImageJ !
-package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
+//package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
+import static RegionGrow.main.Constantes.BLANC;
+import static RegionGrow.main.Constantes.MARQUE;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -135,7 +137,7 @@ public class Croissance_Regions implements PlugInFilter {
 			
 			//a chaque region on associe une couleur aleatoire
 			Random r = new Random();
-			color = r.nextInt(16777215);
+			color = r.nextInt(BLANC);
 			couleursRegions.put(new Point(xGerme, yGerme),color);
 			g.setCouleur(color);
 
@@ -159,14 +161,14 @@ public class Croissance_Regions implements PlugInFilter {
 				int yCourant = (int)courant.getY();
 				//IJ.log("Val courant : "+pixelsA[xCourant][yCourant]+" | Val Germe : "+pixelsA[xGerme][yGerme]+" | Val Precedent : "+pixelsA[xPrecedent][yPrecedent]);
 					//si le pixel est deja  marque (i.e. visite) on passe au pixel suivant
-				if(pixelsA[xCourant][yCourant]==-1){
+				if(pixelsA[xCourant][yCourant] == MARQUE){
 					liste.remove(0);
 					continue;
 				}
 
 				//pour chaque voisin en 4-connexite (non visite) du pixel courant, on va tester son homogeneite, et l'ajouter ou non a la region
 					//droite
-				if(xCourant<w-1 && pixelsA[xCourant+1][yCourant] != -1){
+				if(xCourant<w-1 && pixelsA[xCourant+1][yCourant] != MARQUE){
 					if(Math.abs(pixelsA[xCourant+1][yCourant]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant+1][yCourant])<=SeuilLocal)	{
 						liste.add(new Point(xCourant+1,yCourant));
 						ipr.putPixel(xCourant+1,yCourant,color);
@@ -178,7 +180,7 @@ public class Croissance_Regions implements PlugInFilter {
 				}
 
 				//bas
-				if(yCourant<h-1 && pixelsA[xCourant][yCourant+1] != -1){
+				if(yCourant<h-1 && pixelsA[xCourant][yCourant+1] != MARQUE){
 					if(Math.abs(pixelsA[xCourant][yCourant+1]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant][yCourant+1])<=SeuilLocal)	{
 						liste.add(new Point(xCourant,yCourant+1));
 						ipr.putPixel(xCourant,yCourant+1,color);
@@ -189,7 +191,7 @@ public class Croissance_Regions implements PlugInFilter {
 				}
 
 				//gauche
-				if(xCourant>0  && pixelsA[xCourant-1][yCourant] != -1){
+				if(xCourant>0  && pixelsA[xCourant-1][yCourant] != MARQUE){
 					if(Math.abs(pixelsA[xCourant-1][yCourant]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant-1][yCourant])<=SeuilLocal)	{
 						liste.add(new Point(xCourant-1,yCourant));
 						ipr.putPixel(xCourant-1,yCourant,color);
@@ -200,7 +202,7 @@ public class Croissance_Regions implements PlugInFilter {
 				}
 
 				//haut
-				if(yCourant>0  && pixelsA[xCourant][yCourant-1] != -1){
+				if(yCourant>0  && pixelsA[xCourant][yCourant-1] != MARQUE){
 					if(Math.abs(pixelsA[xCourant][yCourant-1]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant][yCourant-1])<=SeuilLocal)	{
 						liste.add(new Point(xCourant,yCourant-1));
 						ipr.putPixel(xCourant,yCourant-1,color);
@@ -211,7 +213,7 @@ public class Croissance_Regions implements PlugInFilter {
 				}
 
 				//marquage du point courant de la liste
-				pixelsA[xCourant][yCourant] = -1;
+				pixelsA[xCourant][yCourant] = MARQUE;
 
 				//suppression du point courant de la liste
 				liste.remove(0);

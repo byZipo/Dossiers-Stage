@@ -455,4 +455,26 @@ TRAVAIL REALISE :
 				- lancement du calcul de la carte de ditance correspondant à la fusion de chaque relation (on peut en mettre à l'infini tant que c'est logique)
 				- récupération du germe associé à la plus grande valeur dans la carte
 				- (ça dessine aussi)
+
+
+11/05/17
+		compte rendu présentation : 
+
+	- ajouter dans la modélisation des cas : 
+		- informations sur l'echographie : diametre epaisseur hauteur de la tumeur et des muscles (ces infos sont disponibles normalement)
+	
+	
+	- expliquer le processus de modélisation du RaPC selon les différentes etapes de l'algorithme de lsegmentation : 
+		- cas
+		- similarité
+		- etc.
+		CAR C'EST LE COEUR DE MON STAGE
+
+	- la modélisation du cas telle qu'elle est est bien 
+	- voir papier de lieber (ibiscus) où il décrit une méthodologie de disposition des fleurs dans une plantation avec logique floue et relations spatiales
+	- est-ce qu'on utilise le centre de gravité ou tout l'objet ? pour les relations floues
+	- séparer les casen fonction de organes ? c'est à dire : 
+		- avoir une base de cas par organe, et donc un comportement différent par organe, et donc un RàPC par organe
+		ou sinon tout garder comme c'est actuellement (une seule base de cas)
+		
 				

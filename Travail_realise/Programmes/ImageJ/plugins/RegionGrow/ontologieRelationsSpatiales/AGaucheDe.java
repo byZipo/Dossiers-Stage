@@ -4,7 +4,12 @@ import java.awt.Point;
 
 import RegionGrow.main.Constantes.TypeRelation;
 
-public class AGaucheDe extends RelationDirectionnelle{
+/**
+ * Relation spatiale représentant le fait qu'un objet soit à gauche d'un point de référence
+ * @author Thibault DELAVELLE
+ *
+ */
+public class AGaucheDe extends RelationDirectionnelleBinaire{
 
 	public AGaucheDe(){
 		this.type=TypeRelation.AGaucheDe;

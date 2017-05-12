@@ -4,6 +4,11 @@ import java.awt.Point;
 
 import RegionGrow.main.Constantes.TypeRelation;
 
+/**
+ * Relation spatiale représentant le fait qu'un objet soit à droite d'un point de référence
+ * @author Thibault DELAVELLE
+ *
+ */
 public class ADroiteDe extends RelationDirectionnelleBinaire{
 
 	public ADroiteDe(){

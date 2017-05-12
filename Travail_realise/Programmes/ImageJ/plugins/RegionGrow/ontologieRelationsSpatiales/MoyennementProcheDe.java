@@ -4,6 +4,12 @@ import java.awt.Point;
 
 import RegionGrow.main.Constantes.TypeRelation;
 
+
+/**
+ * Relation spatiale représentant la proximité moyenne entre deux objets
+ * @author Thibault DELAVELLE
+ *
+ */
 public class MoyennementProcheDe extends RelationDeDistance{
 
 	public MoyennementProcheDe(){

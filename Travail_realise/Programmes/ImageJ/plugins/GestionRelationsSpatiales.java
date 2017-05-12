@@ -10,6 +10,7 @@ import RegionGrow.ontologieAnatomie.ColonneVertebrale;
 import RegionGrow.ontologieAnatomie.ReinDroit;
 import RegionGrow.ontologieRelationsSpatiales.ADroiteDe;
 import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
+import RegionGrow.ontologieRelationsSpatiales.EnBasDe;
 import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
 import RegionGrow.ontologieRelationsSpatiales.MoyennementProcheDe;
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
@@ -77,7 +78,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		Point ref = new Point(391, 374);
 		Point ref2 = new Point(154,72);
 		pixelsA[(int)ref.getX()][(int)ref.getY()]=-50;
-		
+		pixelsA[(int)ref2.getX()][(int)ref2.getY()]=-50;
 		
 		/*int[][] haut = enHautDe(ref);
 		int[][] droite = aDroiteDe(ref);
@@ -139,12 +140,19 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		rs6.setSeuilSup(270);
 		rs6.setDegreMax(180);
 		
+		EnBasDe rs7 = new EnBasDe();
+		rs7.setReference(rein);
+		rs7.setSeuilInf(180);
+		rs7.setSeuilSup(360);
+		rs7.setDegreMax(270);
+		
 		//ajouts dans la liste
 		rel.add(rs1);
 		rel.add(rs2);
 		rel.add(rs3);
-		rel.add(rs4);
+		//rel.add(rs4);
 		//rel.add(rs5);
+		rel.add(rs7);
 		
 		
 		//calcul + affichage

@@ -4,6 +4,11 @@ import java.awt.Point;
 
 import RegionGrow.main.Constantes.TypeRelation;
 
+/**
+ * Relation spatiale représentant le fait qu'un objet soit en haut d'un point de référence
+ * @author Thibault DELAVELLE
+ *
+ */
 public class EnHautDe extends RelationDirectionnelleBinaire{
 
 	public EnHautDe(){
@@ -23,7 +28,7 @@ public class EnHautDe extends RelationDirectionnelleBinaire{
 		
 		int[][] res = new int[w][h];
 		
-		for (int i = 0; i<w; i++) { //on peut "couper" la partie de gauche de l'image par rapport au point de ref, on sait que ce sera tout noir
+		for (int i = 0; i<w; i++) { //on peut "couper" la partie basse de l'image par rapport au point de ref, on sait que ce sera tout noir
 			for(int j = 0; j<(int)ref.getY(); j++){
 				tetha = Math.atan2(ref.getY()-j,i-ref.getX());
 				angle = 180*tetha/Math.PI;

@@ -1,5 +1,4 @@
-//Il ne faut pas mettre de nom de package pour ImageJ !
-package RegionGrow.main; //à enlever si l'on veux utiliser l'interface ImageJ
+package RegionGrow.main; // ATTENTION : à enlever si l'on veux utiliser le plugin depuis l'interface ImageJ
 import static RegionGrow.main.Constantes.BLANC;
 import static RegionGrow.main.Constantes.MARQUE;
 
@@ -13,13 +12,11 @@ import RegionGrow.baseDeCas.BaseDeCas;
 import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
 import RegionGrow.lecture.LectureFichier;
-// Importation des paquets necessaires. Le plugin n'est pas lui-meme un paquet (pas de mot-clef package)
-// pour classes ImagePlus et IJ
+// Importation des paquets ImageJ necessaires. 
 import ij.IJ;
 import ij.ImagePlus;
-import ij.plugin.filter.PlugInFilter; 	// pour interface PlugInFilter
+import ij.plugin.filter.PlugInFilter; 	
 import ij.process.ByteProcessor;
-// pour classe ImageProcessor
 import ij.process.ColorProcessor;
 import ij.process.ImageConverter;
 import ij.process.ImageProcessor;
@@ -28,6 +25,8 @@ import ij.process.ImageStatistics;
 /**
  * Classe de segmentation d'image 2D par croissance de région, utilisant la bibliothèque ImageJ
  * Source ImageJ : (https://imagej.net)
+ * La classe etant un "plugin" ImageJ, elle hértie de deux méthodes : 
+ * setup() et run() appelées au lancement du programme
  * @author Thibault DELAVELLE
  *
  */

@@ -1,6 +1,9 @@
 package RegionGrow.baseDeCas;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 
 /**
  * Un problème est réprésenté par des caractéristiques image et non-image, et des poids pour chacun d'eux
@@ -27,11 +30,16 @@ public class Probleme {
 	//poids globaux (les poids locaux sont directement appliqués aux champs par un seter())
 	protected double poidsNonImage;
 	protected double poidsImage;
+	
+	//liste de relations spatiales floues concernant la position de la tumeur
+	protected ArrayList<RelationSpatiale> positonFloueTumeur;
 
 	public Probleme(){
-		
+		this.positonFloueTumeur = new ArrayList<RelationSpatiale>();
 	}
 	
+	
+
 	/**
 	 * Constructeur sans poids
 	 * @param age : l'âge en années du patient
@@ -46,6 +54,7 @@ public class Probleme {
 	 * @param kurtosis : le kurtosis de l'image
 	 */
 	public Probleme(double age, double taille, double masse, double sexe, double nbCoupes, double hauteurCoupe, double moyenne, double asymetrie, double variance, double kurtosis){
+		this.positonFloueTumeur = new ArrayList<RelationSpatiale>();
 		this.age=age;
 		this.taille = taille;
 		this.masse = masse;
@@ -74,6 +83,7 @@ public class Probleme {
 	 * @param poidsImage : le poids global associé à l'ensemble des caractéristiques non-image
 	 */
 	public Probleme(double age, double taille, double masse, double sexe, double nbCoupes, double hauteurCoupe, double moyenne, double asymetrie, double variance, double kurtosis, double poidsNonImage, double poidsImage){
+		this.positonFloueTumeur = new ArrayList<RelationSpatiale>();
 		this.age=age;
 		this.taille = taille;
 		this.masse = masse;
@@ -225,7 +235,7 @@ public class Probleme {
 	 * @param carac : le String associé à l'attribut Java des caractéristiques de la classe Probleme (ex:"kurtosis")
 	 * @param val : la valeur associée à la caractéristique
 	 */
-	public void setCarac(String carac, double val){
+	public void setCaracByString(String carac, double val){
 		
 		Class<?> c = this.getClass();
 		try {
@@ -247,6 +257,24 @@ public class Probleme {
 		}
 	}
 	
+	public ArrayList<RelationSpatiale> getPositonFloueTumeur() {
+		return positonFloueTumeur;
+	}
+
+	public void setPositonFloueTumeur(ArrayList<RelationSpatiale> positonFloueTumeur) {
+		this.positonFloueTumeur = positonFloueTumeur;
+	}
+	
+	public RelationSpatiale getRelationSpatiale(int i){
+		return positonFloueTumeur.get(i);
+	}
+	
+	public void ajouterRelationFloue(RelationSpatiale r){
+		this.positonFloueTumeur.add(r);
+	}
+	
+	
+	
 	/**
 	 * Réalise la somme des caractéristiques avec leur pondération
 	 * @return la somme
@@ -256,8 +284,15 @@ public class Probleme {
 		return (double)(age+(taille*0.05)+masse+sexe+nbCoupes+hauteurCoupe+moyenne+asymetrie+variance+kurtosis);
 	}
 	
+	
 	public String toString(){
-		return "NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" | Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis;
+		StringBuilder st = new StringBuilder();
+		st.append("PROBLEME : \n");
+		st.append("| NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" \n| Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis+" ");
+		for(int i = 0; i<positonFloueTumeur.size(); i++){
+			st.append("\n| Relation"+(i+1)+" : "+positonFloueTumeur.get(i).toStringSansSeuils()+" ");
+		}
+		return st.toString();
 	}
 	
 }

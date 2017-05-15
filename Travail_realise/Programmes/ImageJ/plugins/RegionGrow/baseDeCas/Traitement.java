@@ -27,12 +27,19 @@ public class Traitement {
 		this.radius=radius;
 		this.seuil=seuil;
 	}
+	
+	/**
+	 * Constructeur vide
+	 */
+	public Traitement(){
+		
+	}
 
 	public TypeTraitement getTypeTraitement() {
 		return type;
 	}
 
-	public void getTypeTraitement(TypeTraitement type) {
+	public void setTypeTraitement(TypeTraitement type) {
 		this.type = type;
 	}
 
@@ -50,6 +57,31 @@ public class Traitement {
 
 	public void setSeuil(double seuil) {
 		this.seuil = seuil;
+	}
+	
+	/**
+	 * seteur à partir d'un String pour le parser XML, avec test de chaine vide (champ non renseigné)
+	 * si le champ est vide ou non rensigné on affecte la valeur -1
+	 * @param seuil : le seuil
+	 */
+	public void setSeuil(String seuil){
+		double val;
+		if(seuil.isEmpty() || seuil.equals(" ") || seuil == null)val = -1;
+		else val = Double.parseDouble(seuil);
+		this.seuil=val;
+	}
+	
+	
+	/**
+	 * seteur à partir d'un String pour le parser XML, avec test de chaine vide (champ non renseigné)
+	 * si le champ est vide ou non rensigné on affecte la valeur -1
+	 * @param radius : le radius
+	 */
+	public void setRadius(String radius){
+		double val;
+		if(radius.isEmpty() || radius.equals(" ") || radius == null)val = -1;
+		else val = Double.parseDouble(radius);
+		this.radius=val;
 	}
 	
 	public String toString(){

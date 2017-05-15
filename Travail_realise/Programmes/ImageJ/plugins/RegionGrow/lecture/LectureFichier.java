@@ -24,6 +24,10 @@ import RegionGrow.baseDeCas.Cas;
 import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
 import RegionGrow.baseDeCas.Solution;
+import RegionGrow.baseDeCas.Traitement;
+import RegionGrow.main.Constantes.TypeRelation;
+import RegionGrow.main.Constantes.TypeTraitement;
+import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 
 /**
  * Réalise la lecture d'une base de cas sous forme de fichier .txt ou .xml
@@ -148,6 +152,9 @@ public class LectureFichier{
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.parse(new File(fichier));
 			
+			
+			BaseDeCas base = new BaseDeCas();
+			
 			//racine du fichier xml
 			final Element racine = document.getDocumentElement();
 			System.out.println("RACINE : "+racine.getNodeName());
@@ -179,7 +186,7 @@ public class LectureFichier{
 						//System.out.println(carac.getNodeName()+" : "+carac.getTextContent());
 						try{
 							double value = Integer.parseInt(carac.getTextContent());
-							p.setCarac(carac.getNodeName(), value);
+							p.setCaracByString(carac.getNodeName(), value);
 						}catch(NumberFormatException e){
 							System.err.println("ERREUR DE FORMAT AVEC LA VALEUR DE L'ATTRIBUT "+carac.getNodeName()+" : "+carac.getTextContent()+" (double attendu)\n");
 						}
@@ -193,22 +200,36 @@ public class LectureFichier{
 						//System.out.println(carac.getNodeName()+" : "+carac.getTextContent());
 						try{
 							double value = Integer.parseInt(carac.getTextContent());
-							p.setCarac(carac.getNodeName(), value);
+							p.setCaracByString(carac.getNodeName(), value);
 						}catch(NumberFormatException e){
 							System.err.println("ERREUR DE FORMAT AVEC LA VALEUR DE L'ATTRIBUT "+carac.getNodeName()+" : "+carac.getTextContent()+" (double attendu)\n");
 						}
 					}
 					
-					System.out.println(p.toString());
+					
 					
 					//les caractéristiques de la partie positionTumeur
 					final NodeList positionsTumeur = positionTumeur.getElementsByTagName("relation");
 					for (int j = 0; j < positionsTumeur.getLength(); j++) {
 						final Element carac = (Element)positionsTumeur.item(j);
-						System.out.println(carac.getNodeName()+" : "+carac.getTextContent()+"->"+carac.getAttribute("value"));
+						//récupération de la bonne instance de relation spatiale
+						RelationSpatiale r = getTypeRelation(carac.getTextContent()+"");
+						//set de l'objet anatomique de référence (attribut reference dans le XML)
+						r.setReferenceByString(carac.getAttribute("reference"));
+						//set du Type de relation (l'enum)
+						r.setType(TypeRelation.valueOf(carac.getTextContent()));
+						//ajout de la realtion dans le problème (dans la liste des relations de Probleme)
+						p.ajouterRelationFloue(r);
+						
+						//System.out.println("RELATION SPATIALE TEST  "+p.getRelationSpatiale(j).getClass().getName()+"   "+p.getRelationSpatiale(j).getReference().getClass().getName());
+						//System.out.println(carac.getNodeName()+" : "+carac.getTextContent()+"->"+carac.getAttribute("value"));
 					}
 					
+					//System.out.println(p.toString());
+					
 					/****************** PARTIE SOLUTION ********************/
+					
+					Solution s = new Solution();
 					
 					//les quatre balises de la partie solution
 					final Element objetsUtiles = (Element)solution.getElementsByTagName("ObjetsUtiles").item(0);
@@ -221,31 +242,117 @@ public class LectureFichier{
 					final NodeList caracsUtiles = objetsUtiles.getElementsByTagName("*");
 					for (int j = 0; j < caracsUtiles.getLength(); j++) {
 						final Element carac = (Element)caracsUtiles.item(j);
-						System.out.println(carac.getNodeName()+" type:"+carac.getAttribute("type")+" seuilGlobal:"+carac.getAttribute("seuilGlobal")+" seuilLocal:"+carac.getAttribute("seuilLocal")+" --> "+carac.getTextContent());
+						
+						//création du germe
+						Germe g = new Germe();
+						//affectation du labelObjet à partir de l'attribut XML "type"
+						g.setTypeByString(carac.getAttribute("type"));
+						//affectation du seuilGlobal à partir de l'attribut XML "seuilGlobal"
+						g.setSeuilGlobal(Integer.parseInt(carac.getAttribute("seuilGlobal")));
+						//affectation du seuilLocal à partir de l'attribut XML "seuilLocal"
+						g.setSeuilLocal(Integer.parseInt(carac.getAttribute("seuilLocal")));
+						//affectation de la position du germe en découppant le textContent XML de la balise "GermeObjet"
+						String[] positionXY = carac.getTextContent().split(" ");
+						g.setX(Integer.parseInt(positionXY[0]));
+						g.setY(Integer.parseInt(positionXY[1]));
+						s.ajouterGermeUtile(g);
+						
+						//System.out.println("GERMES UTILES TEST : "+s.getGermeUtile(j).getX()+" "+s.getGermeUtile(j).getY()+" "+s.getGermeUtile(j).getSeuilGlobal()+" "+s.getGermeUtile(j).getSeuilLocal()+" "+s.getGermeUtile(j).getLabelObjet().getClass());
+						//System.out.println(carac.getNodeName()+" type:"+carac.getAttribute("type")+" seuilGlobal:"+carac.getAttribute("seuilGlobal")+" seuilLocal:"+carac.getAttribute("seuilLocal")+" --> "+carac.getTextContent());
 					}
 					
 					//les caractéristiques de la partie objetsInutiles
 					final NodeList caracsInutiles = objetsInutiles.getElementsByTagName("*");
 					for (int j = 0; j < caracsInutiles.getLength(); j++) {
 						final Element carac = (Element)caracsInutiles.item(j);
-						System.out.println(carac.getNodeName()+" type:"+carac.getAttribute("type")+" seuilGlobal:"+carac.getAttribute("seuilGlobal")+" seuilLocal:"+carac.getAttribute("seuilLocal")+" --> "+carac.getTextContent());
+						
+						//création du germe
+						Germe g = new Germe();
+						//affectation du labelObjet à partir de l'attribut XML "type"
+						g.setTypeByString(carac.getAttribute("type"));
+						//affectation du seuilGlobal à partir de l'attribut XML "seuilGlobal"
+						g.setSeuilGlobal(Integer.parseInt(carac.getAttribute("seuilGlobal")));
+						//affectation du seuilLocal à partir de l'attribut XML "seuilLocal"
+						g.setSeuilLocal(Integer.parseInt(carac.getAttribute("seuilLocal")));
+						//affectation de la position du germe en découppant le textContent XML de la balise "GermeObjet"
+						String[] positionXY = carac.getTextContent().split(" ");
+						g.setX(Integer.parseInt(positionXY[0]));
+						g.setY(Integer.parseInt(positionXY[1]));
+						s.ajouterGermeInutile(g);
+						
+						//System.out.println("GERMES INUTILES TEST : "+s.getGermeInutile(j).getX()+" "+s.getGermeInutile(j).getY()+" "+s.getGermeInutile(j).getSeuilGlobal()+" "+s.getGermeInutile(j).getSeuilLocal()+" "+s.getGermeInutile(j).getLabelObjet().getClass());
+						//System.out.println(carac.getNodeName()+" type:"+carac.getAttribute("type")+" seuilGlobal:"+carac.getAttribute("seuilGlobal")+" seuilLocal:"+carac.getAttribute("seuilLocal")+" --> "+carac.getTextContent());
 					}
 					
 					//les caractéristiques de la partie pretraitements
 					final NodeList caracsTraitements = pretraitements.getElementsByTagName("*");
 					for (int j = 0; j < caracsTraitements.getLength(); j++) {
 						final Element carac = (Element)caracsTraitements.item(j);
-						System.out.println(carac.getNodeName()+" type:"+carac.getAttribute("name")+" radius:"+carac.getAttribute("radius")+" seuil:"+carac.getAttribute("seuil")+" --> "+carac.getTextContent());
+						
+						//création du traitement
+						Traitement t = new Traitement();
+						//affectation du seuil (test dans la méthode pour vérifier qu'il existe)
+						t.setSeuil(carac.getAttribute("seuil"));
+						//affectation du radius (test dans la méthode pour vérifier qu'il existe)
+						t.setRadius(carac.getAttribute("radius"));
+						//affectation du type de traitement (enum TypeTraitement)
+						t.setTypeTraitement(TypeTraitement.valueOf(carac.getTextContent()));
+						//ajout dans la liste des pretraitements
+						s.addPretraitement(t);
+						
+						//System.out.println("PRETRAITEMENTS TEST : "+s.getPretraitement(j).getTypeTraitement()+" "+s.getPretraitement(j).getRadius()+" "+s.getPretraitement(j).getSeuil());
+						//System.out.println(carac.getNodeName()+" type:"+carac.getAttribute("name")+" radius:"+carac.getAttribute("radius")+" seuil:"+carac.getAttribute("seuil")+" --> "+carac.getTextContent());
 					}
 					
 					//les caractéristiques de la partie positionFloueTumeur
 					final NodeList caracsPositionFloueTumeur = positionFloueTumeur.getElementsByTagName("*");
 					for (int j = 0; j < caracsPositionFloueTumeur.getLength(); j++) {
 						final Element carac = (Element)caracsPositionFloueTumeur.item(j);
-						System.out.println(carac.getNodeName()+" seuilInf:"+carac.getAttribute("seuilInf")+" seuilSup:"+carac.getAttribute("seuilSup")+" degreMax:"+carac.getAttribute("degreMax")+" reference:"+carac.getAttribute("reference")+" --> "+carac.getTextContent());
+						
+						//récupération de la bonne instance de relation spatiale
+						RelationSpatiale r = getTypeRelation(carac.getTextContent()+"");
+						//affectation de l'objet anatomique de référence (attribut reference dans le XML)
+						r.setReferenceByString(carac.getAttribute("reference"));
+						//affectation du Type de relation (l'enum)
+						r.setType(TypeRelation.valueOf(carac.getTextContent()));
+						//affectation du seuilInf (fonction floue)
+						r.setSeuilInf(Integer.parseInt(carac.getAttribute("seuilInf")));
+						//affectation du seuilSup (fonction floue)
+						r.setSeuilSup(Integer.parseInt(carac.getAttribute("seuilSup")));
+						//affectation du degreMax (fonction floue)
+						r.setDegreMax(Integer.parseInt(carac.getAttribute("degreMax")));
+						//ajout de la realtion dans la solution (dans la liste des relations de Probleme)
+						s.ajouterRelationFloue(r);
+						
+						//System.out.println("POSITION FLOUE SOLUTION TEST : "+s.getRelationSpatiale(j).getReference().getClass()+" "+s.getRelationSpatiale(j).getSeuilInf()+" "+s.getRelationSpatiale(j).getSeuilSup()+" "+s.getRelationSpatiale(j).getDegreMax());
+						//System.out.println(carac.getNodeName()+" seuilInf:"+carac.getAttribute("seuilInf")+" seuilSup:"+carac.getAttribute("seuilSup")+" degreMax:"+carac.getAttribute("degreMax")+" reference:"+carac.getAttribute("reference")+" --> "+carac.getTextContent());
 					}
+					
+					//System.out.println(s.toString());
+					//Création du cas contenant le problème et la solution
+					Cas c = new Cas(p,s);
+					System.out.println(c.toString());
+					base.ajouterCas(c);
 			}//fin cas
+			System.out.println("Fin cas\n");
 		} catch (ParserConfigurationException | SAXException | IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * Retourne la classe associée au String passé en paramètre, correspondant à une relation spatiale
+	 * @param type : le type de relation spatiale
+	 * @return la classe associée
+	 */
+	public RelationSpatiale getTypeRelation(String type){
+		String nomComplet = "RegionGrow.ontologieRelationsSpatiales."+type; //il faut ajouter le chemin vers la classe
+		try {
+			Class<?> c = Class.forName(nomComplet);
+			return (RelationSpatiale) c.newInstance();
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+			System.err.println(type+" n'existe pas dans l'ontologie des relations spatiales");
 			e.printStackTrace();
 		}
 		return null;

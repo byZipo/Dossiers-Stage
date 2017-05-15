@@ -477,4 +477,24 @@ TRAVAIL REALISE :
 		- avoir une base de cas par organe, et donc un comportement différent par organe, et donc un RàPC par organe
 		ou sinon tout garder comme c'est actuellement (une seule base de cas)
 		
+
+12/05/17 : 
+	TODO : 
+
+terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourra ensuite
+être utilisé par le programme principal.
+
+
+15/05/17 : 
+	DONE : 
+	-ajout dans la base de cas Java de la liste des relations spatiales floues de la partie Probleme : 
+	 	- méthode de construction et de return des bons objets des ontologies en fonction des String en paramètres lus depuis la base de cas en XML
+	-parserXML terminé (ou quasi terminé) avec toString fonctionnelles dans chaque classe et remplissage d'un objet BaseDeCas fonctionnel
+	-tout est fait de la manière la plus générique possible
+
+	TODO : 
+	-est-ce que l'enum TypeRelation est utile ?? je ne pense pas au final
+	j'ai vérifié ça ne sert pas pour le moment, je la supprimerai^^
+
+
 				

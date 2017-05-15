@@ -1,6 +1,8 @@
 package RegionGrow.baseDeCas;
 import java.util.ArrayList;
 
+import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
+
 
 /**
  * Une solution est représentée par une liste de gemres utiles, une liste de germes inutiles et une liste de prétraitements
@@ -21,6 +23,19 @@ public class Solution {
 	//pretraitements
 	protected ArrayList<Traitement> pretraitements;
 	
+	//liste de relations spatiales floues concernant la position de la tumeur (avec les valeurs des seuils flous)
+	protected ArrayList<RelationSpatiale> positonFloueTumeur;
+	
+	
+	/**
+	 * Constructeur vide qui initialise simplement les listes de gemres utiles et inutiles, les pretraitements et les positions floues
+	 */
+	public Solution(){
+		this.germesInutiles = new ArrayList<Germe>();
+		this.germesUtiles = new ArrayList<Germe>();
+		this.pretraitements = new ArrayList<Traitement>();
+		this.positonFloueTumeur = new ArrayList<RelationSpatiale>();
+	}
 
 	/**
 	 * Constructeur simple sans germes inutiles, ni prétraitements
@@ -30,6 +45,7 @@ public class Solution {
 		this.germesUtiles = germes;
 		this.germesInutiles = new ArrayList<Germe>();
 		this.pretraitements = new ArrayList<Traitement>();
+		this.positonFloueTumeur = new ArrayList<RelationSpatiale>();
 	}
 	
 	/**
@@ -42,6 +58,7 @@ public class Solution {
 		this.germesUtiles = germesUtiles;
 		this.germesInutiles=germesInutiles;
 		this.pretraitements=pretraitements;
+		this.positonFloueTumeur = new ArrayList<RelationSpatiale>();
 	}
 
 	public void ajouterGermeUtile(Germe g){
@@ -73,7 +90,7 @@ public class Solution {
 		return germesInutiles.get(i);
 	}
 	
-	public void setGermeInutile(Germe g){
+	public void ajouterGermeInutile(Germe g){
 		this.germesInutiles.add(g);
 	}
 	
@@ -85,19 +102,32 @@ public class Solution {
 		return pretraitements.get(i);
 	}
 	
+	public RelationSpatiale getRelationSpatiale(int i){
+		return this.positonFloueTumeur.get(i);
+	}
+	
+	public void ajouterRelationFloue(RelationSpatiale r){
+		this.positonFloueTumeur.add(r);
+	}
+	
 	public String toString(){
 		StringBuilder st = new StringBuilder();
+		st.append("\nSOLUTION:");
 		st.append("\n   --> Germes Utiles: ");
 		for(int i = 0; i<germesUtiles.size(); i++){
-			st.append("\n"+germesUtiles.get(i).toString());
+			st.append("\n	"+germesUtiles.get(i).toString());
 		}
 		st.append("\n   --> Germes Inutiles: ");
 		for (int i = 0; i < germesInutiles.size(); i++) {
-			st.append("\n"+germesInutiles.get(i).toString());
+			st.append("\n	"+germesInutiles.get(i).toString());
 		}
 		st.append("\n   --> Pretraitements: ");
 		for (int i = 0; i < pretraitements.size(); i++) {
-			st.append("\n"+pretraitements.get(i).toString());
+			st.append("\n	"+pretraitements.get(i).toString());
+		}
+		st.append("\n   --> PositionFloueTumeur: ");
+		for (int i = 0; i < positonFloueTumeur.size(); i++) {
+			st.append("\n	"+positonFloueTumeur.get(i).toString());
 		}
 		return st.toString();
 	}

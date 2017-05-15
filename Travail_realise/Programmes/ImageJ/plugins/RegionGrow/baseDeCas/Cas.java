@@ -41,7 +41,8 @@ public class Cas {
 	}
 	
 	public String toString(){
-		return "Probleme : "+probleme.toString()+" \n        --> Solution : "+solution.toString()+"\n";
+		return probleme.toString()+"\n"+solution.toString();
+		//return "Probleme : "+probleme.toString()+" \n        --> Solution : "+solution.toString()+"\n";
 	}
 	
 

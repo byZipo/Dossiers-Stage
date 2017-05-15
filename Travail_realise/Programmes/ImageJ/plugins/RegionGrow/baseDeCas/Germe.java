@@ -112,8 +112,25 @@ public class Germe {
 		this.couleur = couleur;
 	}
 	
-	public String toString(){
-		return "          position : ("+x+";"+y+") , seuilGlobal : "+seuilGlobal+" , seuilLocal : "+seuilLocal+" , couleur : "+couleur+" , type:"+labelObjet;
+	public void setTypeByString(String ref) {
+		String nomComplet = "RegionGrow.ontologieAnatomie."+ref; //il faut ajouter le chemin vers la classe
+		try {
+			this.labelObjet = (ObjetAnatomie) Class.forName(nomComplet).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			System.err.println(ref+" n'est pas un objet anatomique de l'ontologie");
+			e.printStackTrace();
+		}
 	}
+	
+	public ObjetAnatomie getLabelObjet() {
+		return labelObjet;
+	}
+	public void setLabelObjet(ObjetAnatomie labelObjet) {
+		this.labelObjet = labelObjet;
+	}
+	public String toString(){
+		return "position : ("+x+";"+y+") , seuilGlobal : "+seuilGlobal+" , seuilLocal : "+seuilLocal+" , couleur : "+couleur+" , type:"+labelObjet;
+	}
+
 
 }

@@ -13,6 +13,7 @@ public abstract class ObjetAnatomie {
 	protected int couleur;
 	//la position du point de référence de l'objet
 	protected Point position;
+	
 	public int getCouleur() {
 		return couleur;
 	}
@@ -24,6 +25,14 @@ public abstract class ObjetAnatomie {
 	}
 	public void setPosition(Point position) {
 		this.position = position;
+	}
+	
+	/**
+	 * Retourne le nom de l'objet anatomique concerné
+	 */
+	public String toString(){
+		//getSimpleName() retourne le nom de la classe sans le nom du package
+		return this.getClass().getSimpleName();
 	}
 
 }

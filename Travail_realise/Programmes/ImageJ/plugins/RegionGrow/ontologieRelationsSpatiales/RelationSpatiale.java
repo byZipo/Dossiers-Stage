@@ -1,6 +1,5 @@
 package RegionGrow.ontologieRelationsSpatiales;
 
-import RegionGrow.main.Constantes.TypeRelation;
 import RegionGrow.ontologieAnatomie.ObjetAnatomie;
 
 /**
@@ -10,8 +9,6 @@ import RegionGrow.ontologieAnatomie.ObjetAnatomie;
  */
 public abstract class RelationSpatiale {
 	
-	//Le type de la relation (son nom)
-	protected TypeRelation type;
 
 	//Objet de référence
 	protected ObjetAnatomie reference;
@@ -51,17 +48,12 @@ public abstract class RelationSpatiale {
 	public void setDegreMax(double degreMax) {
 		this.degreMax = degreMax;
 	}
-	public TypeRelation getType() {
-		return type;
-	}
-	public void setType(TypeRelation type) {
-		this.type = type;
-	}
+
 
 	/**
 	 * Définit la référence de la relation spatiale à partir d'un String 
 	 * (Convertit le String en instance de la classe de l'ontologie associée)
-	 * Méthode utilisée pour le parse de la base XML
+	 * Méthode utilisée par le parser XML
 	 * @param ref: le Sring corresponant à l'ObjetAnatomique
 	 */
 	public void setReferenceByString(String ref) {
@@ -69,16 +61,59 @@ public abstract class RelationSpatiale {
 		try {
 			this.reference = (ObjetAnatomie) Class.forName(nomComplet).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			System.err.println(ref+" n'est pas un objet anatomique de l'ontologie");
-			e.printStackTrace();
+			System.err.println("ERREUR REFERENCE DE RELATION FLOUE : "+ref+" n'est pas un objet anatomique de l'ontologie");
 		}
 	}
+	
+	/**
+	 * Affectation du seuilInf à partir d'un String que l'on convertit en double
+	 * Fonction utilisée par le parser XML
+	 * Une gestion des erreurs est présente pour vérifier le format
+	 * @param seuilInf : la chaîne correspondant au seuilInf
+	 */
+	public void setSeuilInfByString(String seuilInf){
+		try{
+			this.seuilInf = Double.parseDouble(seuilInf);
+		}catch(Exception e){
+			System.err.println("ERREUR seuilInf RELATION FLOUE : "+seuilInf+" n'est pas un double");
+		}
+	}
+	
+	/**
+	 * Affectation du seuilSup à partir d'un String que l'on convertit en double
+	 * Fonction utilisée par le parser XML
+	 * Une gestion des erreurs est présente pour vérifier le format
+	 * @param seuilSup : la chaîne correspondant au seuilSup
+	 */
+	public void setSeuilSupByString(String seuilSup){
+		try{
+			this.seuilSup = Double.parseDouble(seuilSup);
+		}catch(Exception e){
+			System.err.println("ERREUR seuilSup RELATION FLOUE : "+seuilSup+" n'est pas un double");
+		}
+	}
+	
+	
+	/**
+	 * Affectation du degreMax à partir d'un String que l'on convertit en double
+	 * Fonction utilisée par le parser XML
+	 * Une gestion des erreurs est présente pour vérifier le format
+	 * @param degreMax : la chaîne correspondant au degreMax
+	 */
+	public void setDegreMaxByString(String degreMax){
+		try{
+			this.degreMax = Double.parseDouble(degreMax);
+		}catch(Exception e){
+			System.err.println("ERREUR degreMax RELATION FLOUE : "+degreMax+" n'est pas un double");
+		}
+	}
+	
 	
 	/**
 	 * toString complète, pour la partie Solution où tous les attributs sont renseignés
 	 */
 	public String toString(){
-		return "Type:"+type+" reference:"+reference.toString()+" seuilInf:"+seuilInf+" seuilSup:"+seuilSup+" degreMax:"+degreMax+" ";
+		return "Type:"+getClass().getSimpleName()+" reference:"+((reference!=null)?reference.toString():"null")+" seuilInf:"+seuilInf+" seuilSup:"+seuilSup+" degreMax:"+degreMax+" ";
 	}
 	
 	/**
@@ -86,6 +121,6 @@ public abstract class RelationSpatiale {
 	 * @return
 	 */
 	public String toStringSansSeuils(){
-		return "Type:"+type+" reference:"+reference.toString()+" ";
+		return "Type:"+getClass().getSimpleName()+" reference:"+((reference!=null)?reference.toString():"null")+" ";
 	}
 }

@@ -496,5 +496,13 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	-est-ce que l'enum TypeRelation est utile ?? je ne pense pas au final
 	j'ai vérifié ça ne sert pas pour le moment, je la supprimerai^^
 
+16/05/17 : 
+	DONE : 
+	- suppression de l'enum TypeRelation qui etait useless
+	- gestion de toutes les exceptions potentielles dans la base de cas (avec messages en conséquence)
+		- sauf pour les erreurs sur les balises, mais ça doit être relou à faire et super chiant pour pas grand choses
+
+	- J'ai fais un trello pour récapituler les TODO et les DONE, cela structure mieux le travail à faire
+	(https://trello.com/b/MhYeyyGj/rapc-pour-la-segmentation-de-la-tumeur-du-rein)
 
 				

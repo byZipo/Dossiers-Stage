@@ -1,0 +1,136 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="BaseDeCas">
+    <xs:annotation>
+      <xs:documentation>BASE DE CAS XML</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Cas" maxOccurs="unbounded" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Probleme">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Image">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:double" name="kurtosis"/>
+                          <xs:element type="xs:double" name="moyenne"/>
+                          <xs:element type="xs:double" name="asymetrie"/>
+                          <xs:element type="xs:double" name="variance"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="NonImage">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element type="xs:double" name="age"/>
+                          <xs:element type="xs:double" name="taille"/>
+                          <xs:element type="xs:double" name="masse"/>
+                          <xs:element type="xs:double" name="sexe"/>
+                          <xs:element type="xs:double" name="nbCoupes"/>
+                          <xs:element type="xs:double" name="hauteurCoupe"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="PositionTumeur">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="relation" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="reference" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="Solution">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ObjetsUtiles">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="GermeObjet" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="type" use="optional"/>
+                                  <xs:attribute type="xs:double" name="seuilGlobal" use="optional"/>
+                                  <xs:attribute type="xs:double" name="seuilLocal" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="ObjetsInutiles">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="GermeObjet" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="type" use="optional"/>
+                                  <xs:attribute type="xs:double" name="seuilGlobal" use="optional"/>
+                                  <xs:attribute type="xs:double" name="seuilLocal" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="PreTraitements">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="operation" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:string" name="name" use="optional"/>
+                                  <xs:attribute type="xs:double" name="radius" use="optional"/>
+                                  <xs:attribute type="xs:double" name="seuil" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="PositionFloueTumeur">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="relation" maxOccurs="unbounded" minOccurs="0">
+                            <xs:complexType>
+                              <xs:simpleContent>
+                                <xs:extension base="xs:string">
+                                  <xs:attribute type="xs:double" name="seuilInf" use="optional"/>
+                                  <xs:attribute type="xs:double" name="seuilSup" use="optional"/>
+                                  <xs:attribute type="xs:double" name="degreMax" use="optional"/>
+                                  <xs:attribute type="xs:string" name="reference" use="optional"/>
+                                </xs:extension>
+                              </xs:simpleContent>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute type="xs:integer" name="id" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -7,10 +7,6 @@ package RegionGrow.main;
  */
 public final class Constantes {
 	
-	
-	//Les types de relations spatiales
-	public static enum TypeRelation {ProcheDe, MoyennementProcheDe, LoinDe, ADroiteDe, AGaucheDe, EnHautDe, EnBasDe}
-	
 	//les types de triatements
 	public static enum TypeTraitement {Unsharped,Moyenneur,Median};
 	

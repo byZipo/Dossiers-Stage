@@ -93,6 +93,7 @@ public class Germe {
 	}
 
 	public void setX(int x) {
+		if(x != (int)x)System.err.println("PAS INT");
 		this.x = x;
 	}
 
@@ -117,8 +118,7 @@ public class Germe {
 		try {
 			this.labelObjet = (ObjetAnatomie) Class.forName(nomComplet).newInstance();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-			System.err.println(ref+" n'est pas un objet anatomique de l'ontologie");
-			e.printStackTrace();
+			System.err.println("ERREUR TYPE OBJET ANATOMIQUE DU GERME : "+ref+" n'est pas un objet anatomique de l'ontologie");
 		}
 	}
 	
@@ -128,6 +128,54 @@ public class Germe {
 	public void setLabelObjet(ObjetAnatomie labelObjet) {
 		this.labelObjet = labelObjet;
 	}
+	
+	/**
+	 * Affecte la position du germe à partir d'un String du type "150 153" avec x=150 et y=153
+	 * Fonction utilisée dans le parser XML
+	 * La fonction dispose d'une gestion des exceptions (affichage d'un message d'erreur en cas de mauvais format)
+	 * @param position : la chaîne représentant la position du germe
+	 */
+	public void setPosition(String position){
+		String[] positionXY = position.split(" ");
+		try{
+			this.x = Integer.parseInt(positionXY[0]);
+			this.y = Integer.parseInt(positionXY[1]);
+		}catch(Exception e){
+			System.err.println("ERREUR POSITION GERME : "+e.getMessage().split("\"")[1]+" n'est pas un entier");
+		}
+	}
+	
+	/**
+	 * Affecte le seuilLocal du germe à partir d'un String 
+	 * Fonction utilisée dans le parserXML
+	 * La fonction dispose d'une gestion des exceptions en cas de mauvais format
+	 * @param seuil : le seuilLocal sous forme de chaîne
+	 */
+	public void setSeuilLocalByString(String seuil){
+		try{
+			this.seuilLocal = Integer.parseInt(seuil);
+		}catch(Exception e){
+			System.err.println("ERREUR seuilLocal GERME : "+seuil+" n'est pas un entier");
+		}
+	}
+	
+	
+	/**
+	 * Affecte le seuilGlobal du germe à partir d'un String 
+	 * Fonction utilisée dans le parserXML
+	 * La fonction dispose d'une gestion des exceptions en cas de mauvais format
+	 * @param seuil : le seuilGlobal sous forme de chaîne
+	 */
+	public void setSeuilGlobalByString(String seuil){
+		try{
+			this.seuilGlobal= Integer.parseInt(seuil);
+		}catch(Exception e){
+			System.err.println("ERREUR seuilGlobal GERME : "+seuil+" n'est pas un entier");
+		}
+	}
+	
+	
+	
 	public String toString(){
 		return "position : ("+x+";"+y+") , seuilGlobal : "+seuilGlobal+" , seuilLocal : "+seuilLocal+" , couleur : "+couleur+" , type:"+labelObjet;
 	}

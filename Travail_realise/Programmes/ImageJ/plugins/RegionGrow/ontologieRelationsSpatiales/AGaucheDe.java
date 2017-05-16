@@ -2,8 +2,6 @@ package RegionGrow.ontologieRelationsSpatiales;
 
 import java.awt.Point;
 
-import RegionGrow.main.Constantes.TypeRelation;
-
 /**
  * Relation spatiale représentant le fait qu'un objet soit à gauche d'un point de référence
  * @author Thibault DELAVELLE
@@ -12,7 +10,6 @@ import RegionGrow.main.Constantes.TypeRelation;
 public class AGaucheDe extends RelationDirectionnelleBinaire{
 
 	public AGaucheDe(){
-		this.type=TypeRelation.AGaucheDe;
 	}
 	
 	public int[][] getCarteDistance(int w, int h){

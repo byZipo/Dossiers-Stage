@@ -2,8 +2,6 @@ package RegionGrow.ontologieRelationsSpatiales;
 
 import java.awt.Point;
 
-import RegionGrow.main.Constantes.TypeRelation;
-
 
 /**
  * Relation spatiale représentant le fait qu'un objet soit en bas d'un point de référence
@@ -13,7 +11,6 @@ import RegionGrow.main.Constantes.TypeRelation;
 public class EnBasDe extends RelationDirectionnelleBinaire{
 	
 	public EnBasDe(){
-		this.type = TypeRelation.EnBasDe;
 	}
 	
 	

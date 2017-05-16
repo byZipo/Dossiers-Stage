@@ -235,7 +235,15 @@ public class Probleme {
 	 * @param carac : le String associé à l'attribut Java des caractéristiques de la classe Probleme (ex:"kurtosis")
 	 * @param val : la valeur associée à la caractéristique
 	 */
-	public void setCaracByString(String carac, double val){
+	public void setCaracByString(String carac, String content){
+		
+		double val = 0;
+		try{
+			val = Double.parseDouble(content);
+		}catch(Exception e){
+			System.err.println("ERREUR CARACTERISTIQUE PROBLEME ("+carac+") : "+content+" n'est pas un double");
+		}
+		
 		
 		Class<?> c = this.getClass();
 		try {
@@ -290,7 +298,6 @@ public class Probleme {
 		st.append("PROBLEME : \n");
 		st.append("| NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" \n| Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis+" ");
 		for(int i = 0; i<positonFloueTumeur.size(); i++){
-			st.append("\n| Relation"+(i+1)+" : "+positonFloueTumeur.get(i).toStringSansSeuils()+" ");
 		}
 		return st.toString();
 	}

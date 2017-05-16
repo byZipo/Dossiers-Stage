@@ -10,9 +10,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,12 +30,12 @@ import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
 import RegionGrow.baseDeCas.Solution;
 import RegionGrow.baseDeCas.Traitement;
-import RegionGrow.main.Constantes.TypeRelation;
-import RegionGrow.main.Constantes.TypeTraitement;
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 
 /**
- * Réalise la lecture d'une base de cas sous forme de fichier .txt ou .xml
+ * Classe de gestion des entrées / sorties 
+ * Réalise la lecture d'une base de cas sous forme de fichier .txt ou .xml, et construit la base de cas Java
+ * Permet également d'écrire une base de cas au format .txt ou .xml
  * @author Thibault DELAVELLE
  *
  */
@@ -184,13 +189,8 @@ public class LectureFichier{
 					for (int j = 0; j < caracsImage.getLength(); j++) {
 						final Element carac = (Element)caracsImage.item(j);
 						//System.out.println(carac.getNodeName()+" : "+carac.getTextContent());
-						try{
-							double value = Integer.parseInt(carac.getTextContent());
-							p.setCaracByString(carac.getNodeName(), value);
-						}catch(NumberFormatException e){
-							System.err.println("ERREUR DE FORMAT AVEC LA VALEUR DE L'ATTRIBUT "+carac.getNodeName()+" : "+carac.getTextContent()+" (double attendu)\n");
-						}
-						
+							p.setCaracByString(carac.getNodeName(), carac.getTextContent());
+							
 					}
 					
 					//les caractéristiques de la partie non-image 
@@ -198,12 +198,7 @@ public class LectureFichier{
 					for (int j = 0; j < caracsNonImage.getLength(); j++) {
 						final Element carac = (Element)caracsNonImage.item(j);
 						//System.out.println(carac.getNodeName()+" : "+carac.getTextContent());
-						try{
-							double value = Integer.parseInt(carac.getTextContent());
-							p.setCaracByString(carac.getNodeName(), value);
-						}catch(NumberFormatException e){
-							System.err.println("ERREUR DE FORMAT AVEC LA VALEUR DE L'ATTRIBUT "+carac.getNodeName()+" : "+carac.getTextContent()+" (double attendu)\n");
-						}
+							p.setCaracByString(carac.getNodeName(), carac.getTextContent());
 					}
 					
 					
@@ -216,8 +211,6 @@ public class LectureFichier{
 						RelationSpatiale r = getTypeRelation(carac.getTextContent()+"");
 						//set de l'objet anatomique de référence (attribut reference dans le XML)
 						r.setReferenceByString(carac.getAttribute("reference"));
-						//set du Type de relation (l'enum)
-						r.setType(TypeRelation.valueOf(carac.getTextContent()));
 						//ajout de la realtion dans le problème (dans la liste des relations de Probleme)
 						p.ajouterRelationFloue(r);
 						
@@ -248,13 +241,12 @@ public class LectureFichier{
 						//affectation du labelObjet à partir de l'attribut XML "type"
 						g.setTypeByString(carac.getAttribute("type"));
 						//affectation du seuilGlobal à partir de l'attribut XML "seuilGlobal"
-						g.setSeuilGlobal(Integer.parseInt(carac.getAttribute("seuilGlobal")));
+						g.setSeuilGlobalByString(carac.getAttribute("seuilGlobal"));
 						//affectation du seuilLocal à partir de l'attribut XML "seuilLocal"
-						g.setSeuilLocal(Integer.parseInt(carac.getAttribute("seuilLocal")));
-						//affectation de la position du germe en découppant le textContent XML de la balise "GermeObjet"
-						String[] positionXY = carac.getTextContent().split(" ");
-						g.setX(Integer.parseInt(positionXY[0]));
-						g.setY(Integer.parseInt(positionXY[1]));
+						g.setSeuilLocalByString(carac.getAttribute("seuilLocal"));
+						//affectation de la position du germe à partir du textContent XML de la balise "GermeObjet"
+						g.setPosition(carac.getTextContent());
+						//ajout du germe utile dans la solution
 						s.ajouterGermeUtile(g);
 						
 						//System.out.println("GERMES UTILES TEST : "+s.getGermeUtile(j).getX()+" "+s.getGermeUtile(j).getY()+" "+s.getGermeUtile(j).getSeuilGlobal()+" "+s.getGermeUtile(j).getSeuilLocal()+" "+s.getGermeUtile(j).getLabelObjet().getClass());
@@ -271,13 +263,12 @@ public class LectureFichier{
 						//affectation du labelObjet à partir de l'attribut XML "type"
 						g.setTypeByString(carac.getAttribute("type"));
 						//affectation du seuilGlobal à partir de l'attribut XML "seuilGlobal"
-						g.setSeuilGlobal(Integer.parseInt(carac.getAttribute("seuilGlobal")));
+						g.setSeuilGlobalByString(carac.getAttribute("seuilGlobal"));
 						//affectation du seuilLocal à partir de l'attribut XML "seuilLocal"
-						g.setSeuilLocal(Integer.parseInt(carac.getAttribute("seuilLocal")));
-						//affectation de la position du germe en découppant le textContent XML de la balise "GermeObjet"
-						String[] positionXY = carac.getTextContent().split(" ");
-						g.setX(Integer.parseInt(positionXY[0]));
-						g.setY(Integer.parseInt(positionXY[1]));
+						g.setSeuilLocalByString(carac.getAttribute("seuilLocal"));
+						//affectation de la position du germe à partir du textContent XML de la balise "GermeObjet"
+						g.setPosition(carac.getTextContent());
+						//ajout du germe inutile dans la solution
 						s.ajouterGermeInutile(g);
 						
 						//System.out.println("GERMES INUTILES TEST : "+s.getGermeInutile(j).getX()+" "+s.getGermeInutile(j).getY()+" "+s.getGermeInutile(j).getSeuilGlobal()+" "+s.getGermeInutile(j).getSeuilLocal()+" "+s.getGermeInutile(j).getLabelObjet().getClass());
@@ -296,7 +287,7 @@ public class LectureFichier{
 						//affectation du radius (test dans la méthode pour vérifier qu'il existe)
 						t.setRadius(carac.getAttribute("radius"));
 						//affectation du type de traitement (enum TypeTraitement)
-						t.setTypeTraitement(TypeTraitement.valueOf(carac.getTextContent()));
+						t.setTypeTraitementByString(carac.getTextContent());
 						//ajout dans la liste des pretraitements
 						s.addPretraitement(t);
 						
@@ -313,14 +304,12 @@ public class LectureFichier{
 						RelationSpatiale r = getTypeRelation(carac.getTextContent()+"");
 						//affectation de l'objet anatomique de référence (attribut reference dans le XML)
 						r.setReferenceByString(carac.getAttribute("reference"));
-						//affectation du Type de relation (l'enum)
-						r.setType(TypeRelation.valueOf(carac.getTextContent()));
 						//affectation du seuilInf (fonction floue)
-						r.setSeuilInf(Integer.parseInt(carac.getAttribute("seuilInf")));
+						r.setSeuilInfByString(carac.getAttribute("seuilInf"));
 						//affectation du seuilSup (fonction floue)
-						r.setSeuilSup(Integer.parseInt(carac.getAttribute("seuilSup")));
+						r.setSeuilSupByString(carac.getAttribute("seuilSup"));
 						//affectation du degreMax (fonction floue)
-						r.setDegreMax(Integer.parseInt(carac.getAttribute("degreMax")));
+						r.setDegreMaxByString(carac.getAttribute("degreMax"));
 						//ajout de la realtion dans la solution (dans la liste des relations de Probleme)
 						s.ajouterRelationFloue(r);
 						
@@ -328,10 +317,10 @@ public class LectureFichier{
 						//System.out.println(carac.getNodeName()+" seuilInf:"+carac.getAttribute("seuilInf")+" seuilSup:"+carac.getAttribute("seuilSup")+" degreMax:"+carac.getAttribute("degreMax")+" reference:"+carac.getAttribute("reference")+" --> "+carac.getTextContent());
 					}
 					
-					//System.out.println(s.toString());
 					//Création du cas contenant le problème et la solution
 					Cas c = new Cas(p,s);
 					System.out.println(c.toString());
+					//ajout du cas dans la base de cas
 					base.ajouterCas(c);
 			}//fin cas
 			System.out.println("Fin cas\n");
@@ -352,17 +341,37 @@ public class LectureFichier{
 			Class<?> c = Class.forName(nomComplet);
 			return (RelationSpatiale) c.newInstance();
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-			System.err.println(type+" n'existe pas dans l'ontologie des relations spatiales");
-			e.printStackTrace();
+			System.err.println("ERREUR POSITION FLOUE TUMEUR: "+type+" n'existe pas dans l'ontologie des relations spatiales");
+			System.exit(0);
 		}
 		return null;
 	}
 
-
+	/**
+	 * Teste si le fichier XML est valide par rapport au XML Schema (.xsd)
+	 * Le fichier .xsd est le "pattron" de conception de la base de cas XML
+	 * @param xmlPath : le chemin vers la base de cas en XML
+	 * @param xsdPath : le chemin vers le .xsd de la base de cas
+	 * @return true si le XML est valide, false sinon
+	 */
+	public boolean validateXML(String xmlPath, String xsdPath){
+		try{
+			SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			Schema schema = factory.newSchema(new File(xsdPath));
+			Validator validator = schema.newValidator();
+			validator.validate(new StreamSource(new File(xmlPath)));
+		}catch (IOException | SAXException e) {
+			System.err.println("ERREUR DE VALIDATION DE LA BASE XML: "+e.getMessage());
+			return false;
+		}
+		return true;
+	}
+	
 	
 	public static void main(String[] args) {
 		LectureFichier l = new LectureFichier();
 		//BaseDeCas base = l.LectureFichierBaseEnLigne("BaseDeCasEnLigne.txt");
+		System.out.println(l.validateXML("BaseDeCas.xml", "BaseDeCas.xsd"));
 		@SuppressWarnings("unused")
 		BaseDeCas testXML = l.parserXML("BaseDeCas.xml");
 	}

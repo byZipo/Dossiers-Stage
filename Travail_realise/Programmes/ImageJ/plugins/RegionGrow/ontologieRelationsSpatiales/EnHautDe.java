@@ -2,8 +2,6 @@ package RegionGrow.ontologieRelationsSpatiales;
 
 import java.awt.Point;
 
-import RegionGrow.main.Constantes.TypeRelation;
-
 /**
  * Relation spatiale représentant le fait qu'un objet soit en haut d'un point de référence
  * @author Thibault DELAVELLE
@@ -12,7 +10,6 @@ import RegionGrow.main.Constantes.TypeRelation;
 public class EnHautDe extends RelationDirectionnelleBinaire{
 
 	public EnHautDe(){
-		this.type = TypeRelation.EnHautDe;
 	}
 	
 	public int[][] getCarteDistance(int w, int h){

@@ -2,10 +2,9 @@ package RegionGrow.ontologieAnatomie;
 
 import RegionGrow.main.Constantes;
 
-public class TumeurRenale extends Tumeur{
-	
-	public void setCouleur(){
-		this.couleur = Constantes.COULEUR_TUMEUR_RENALE;
-	}
+public class VeineRenale extends VaisseauSanguin{
 
+	public void setCouleur(){
+		this.couleur = Constantes.COULEUR_VEINE_RENALE;
+	}
 }

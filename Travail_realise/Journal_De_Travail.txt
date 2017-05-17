@@ -504,5 +504,18 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 
 	- J'ai fais un trello pour récapituler les TODO et les DONE, cela structure mieux le travail à faire
 	(https://trello.com/b/MhYeyyGj/rapc-pour-la-segmentation-de-la-tumeur-du-rein)
+	- XML Schema (.xsd) pour la validation du XML de la base de cas : c'est un pattron de conception pour la base de cas XML
+		- fonctionnel
+		- fonction de test de validité codée dans la lectureFichier : fonctionnelle aussi ! 
 
+		
+17/05/17 : 
+	- La gestion des couleurs par organe est en cours 
+		- procédure pour déterminer la couleur en int : 
+			1. récupérer le RGB de la couleur souhaitée
+			2. convertir le RGB en Hexa (http://www.rgbtohex.net/)
+			3. convertir l'hexa en décimal (http://www.binaryhexconverter.com/hex-to-decimal-converter)
+	- Il est possible d'appeler le parserXML depuis la classe croissanceRegions et ainsi de se baser sur la base de cas XML pour faire la croissance région (DECOMMENTER LA LIGNE 69 DE CROISSANCE REGION )
+
+	- Génération de la documentation javadoc sous forme de page HTML (par Eclipse) ajoutée au projet Eclipse (non gitée) --> MARCHE BIEN !
 				

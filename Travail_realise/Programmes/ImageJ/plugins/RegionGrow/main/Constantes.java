@@ -7,7 +7,7 @@ package RegionGrow.main;
  */
 public final class Constantes {
 	
-	//les types de triatements
+	//les types de traitements
 	public static enum TypeTraitement {Unsharped,Moyenneur,Median};
 	
 	//la couleur blanche sur 3 canaux RGB en conversion entière (= 24 bits à 1 en binaire)
@@ -24,5 +24,30 @@ public final class Constantes {
 	
 	//valeur associée à un pixel marqué dans la croissance région
 	public static final int MARQUE = -1;
+	
+	
+	/* COULEURS DES ORGANES ***********
+		 procédure pour déterminer la couleur en int : 
+		 1. récupérer le RGB de la couleur souhaitée
+		 2. convertir le RGB en Hexa (http://www.rgbtohex.net/)
+		 3. convertir l'hexa en décimal (http://www.binaryhexconverter.com/hex-to-decimal-converter)
+	****************************************/
+	
+	//la couleur de la tumeur
+	public static final int COULEUR_TUMEUR_RENALE = 4749128;
+	
+	//la couleur de l'artere rénale
+	public static final int COULEUR_ARTERE_RENALE = 7090727;
+	
+	//la couleur de la veine rénale
+	public static final int COULEUR_VEINE_RENALE = 19303;
+	
+	//la couleur de la cavité rénale
+	public static final int COULEUR_CAVITE_RENALE = 7237954;
+	
+	//la couleur du rein
+	public static final int COULEUR_REIN = 5911593;
+	
+	/*-***************************************-*/
 	
 }

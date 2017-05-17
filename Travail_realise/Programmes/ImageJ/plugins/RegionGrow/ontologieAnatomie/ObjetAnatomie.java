@@ -26,6 +26,9 @@ public abstract class ObjetAnatomie {
 	public void setPosition(Point position) {
 		this.position = position;
 	}
+	public void setCouleur(){
+		
+	}
 	
 	/**
 	 * Retourne le nom de l'objet anatomique concerné

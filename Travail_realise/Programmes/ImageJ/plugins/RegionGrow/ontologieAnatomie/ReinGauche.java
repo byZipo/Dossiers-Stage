@@ -1,5 +1,6 @@
 package RegionGrow.ontologieAnatomie;
 
+import RegionGrow.main.Constantes;
 
 /**
  * Rein gauche du corps humains
@@ -7,5 +8,9 @@ package RegionGrow.ontologieAnatomie;
  *
  */
 public class ReinGauche extends Rein{
+	
+	public void setCouleur(){
+		this.couleur = Constantes.COULEUR_REIN;
+	}
 
 }

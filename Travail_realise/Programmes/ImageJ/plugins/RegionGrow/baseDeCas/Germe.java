@@ -1,5 +1,9 @@
 package RegionGrow.baseDeCas;
 
+import static RegionGrow.main.Constantes.BLANC;
+
+import java.util.Random;
+
 import RegionGrow.ontologieAnatomie.ObjetAnatomie;
 /**
  * Un germe est représenté par des coordonées 2D, une couleur, des seuils et un organe associé
@@ -106,7 +110,11 @@ public class Germe {
 	}
 
 	public int getCouleur() {
-		return couleur;
+		if(couleur==0){
+			Random r = new Random();
+			return r.nextInt(BLANC);
+		}
+		else return couleur;
 	}
 
 	public void setCouleur(int couleur) {
@@ -117,6 +125,8 @@ public class Germe {
 		String nomComplet = "RegionGrow.ontologieAnatomie."+ref; //il faut ajouter le chemin vers la classe
 		try {
 			this.labelObjet = (ObjetAnatomie) Class.forName(nomComplet).newInstance();
+			//affectation automatique de la couleur du germe en fonction de l'objet anatomique
+			this.setColor();
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 			System.err.println("ERREUR TYPE OBJET ANATOMIQUE DU GERME : "+ref+" n'est pas un objet anatomique de l'ontologie");
 		}
@@ -172,6 +182,15 @@ public class Germe {
 		}catch(Exception e){
 			System.err.println("ERREUR seuilGlobal GERME : "+seuil+" n'est pas un entier");
 		}
+	}
+	
+	/**
+	 * affecte la couleur du germe par rapport à la couleur de l'objet anatomique
+	 * la couleur de l'objet anatomique est une constante pour chaque organe, que l'on doit initialiser à la lecture 
+	 */
+	public void setColor(){
+		labelObjet.setCouleur();
+		this.couleur = labelObjet.getCouleur();
 	}
 	
 	

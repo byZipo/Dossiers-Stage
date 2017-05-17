@@ -233,7 +233,7 @@ public class Probleme {
 	/**
 	 * Affecte une valeur à une caractéristique du problème en fonction de son nom sous forme de String
 	 * @param carac : le String associé à l'attribut Java des caractéristiques de la classe Probleme (ex:"kurtosis")
-	 * @param val : la valeur associée à la caractéristique
+	 * @param content : la valeur associée à la caractéristique
 	 */
 	public void setCaracByString(String carac, String content){
 		
@@ -298,6 +298,7 @@ public class Probleme {
 		st.append("PROBLEME : \n");
 		st.append("| NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" \n| Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis+" ");
 		for(int i = 0; i<positonFloueTumeur.size(); i++){
+			st.append("\n| Relation"+(i+1)+" : "+positonFloueTumeur.get(i).toStringSansSeuils()+" ");
 		}
 		return st.toString();
 	}

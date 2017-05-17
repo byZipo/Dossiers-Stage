@@ -66,6 +66,7 @@ public class Croissance_Regions implements PlugInFilter {
 		try {
 			base = l.LectureFichierBaseEnLigne("BaseDeCasEnLigne.txt");
 			BaseDeCas test = l.parserXML("BaseDeCas.xml");
+			//base = test;
 			//System.out.println(base.toString());
 			IJ.log("////////////////Avant segmentation : ///////////////\n");
 			IJ.log(base.toString());
@@ -138,6 +139,8 @@ public class Croissance_Regions implements PlugInFilter {
 			//a chaque region on associe une couleur aleatoire
 			Random r = new Random();
 			color = r.nextInt(BLANC);
+			color = g.getCouleur();
+			
 			couleursRegions.put(new Point(xGerme, yGerme),color);
 			g.setCouleur(color);
 

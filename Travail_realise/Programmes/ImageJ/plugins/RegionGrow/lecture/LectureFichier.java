@@ -153,30 +153,37 @@ public class LectureFichier{
 	 */
 	public BaseDeCas parserXML(String fichier){
 		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		BaseDeCas base = new BaseDeCas();
 		try {
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.parse(new File(fichier));
 			
 			
-			BaseDeCas base = new BaseDeCas();
+			
 			
 			//racine du fichier xml
 			final Element racine = document.getDocumentElement();
-			System.out.println("RACINE : "+racine.getNodeName());
+			System.out.println("Début de la "+racine.getNodeName());
+			
+			
+			/*-*******************************************-*/
+			/*-************ POUR CHAQUE CAS **************-*/
+			/*-*******************************************-*/
 			
 			//noeuds enfants de la racine --> les Cas
-			/************** POUR CHAQUE CAS **********************/
-			
 			final NodeList listeCas = racine.getElementsByTagName("Cas");
 			for (int i = 0; i < listeCas.getLength(); i++) {
 					final Element cas = (Element)listeCas.item(i);
+					System.out.println("----------------------------------------------------------");
 					System.out.println(cas.getNodeName()+" : "+cas.getAttribute("id"));
 					
 					//contenu d'un cas --> probleme + solution
 					final Element probleme = (Element)cas.getElementsByTagName("Probleme").item(0);
 					final Element solution = (Element)cas.getElementsByTagName("Solution").item(0);
 					
-					/************ PARTIE PROBLEME ****************/
+					/*-*******************************************-*/
+					/*-*********** PARTIE PROBLEME ***************-*/
+					/*-*******************************************-*/
 					
 					Probleme p = new Probleme();
 					//les trois balises de la partie problème
@@ -220,7 +227,9 @@ public class LectureFichier{
 					
 					//System.out.println(p.toString());
 					
-					/****************** PARTIE SOLUTION ********************/
+					/*-*******************************************-*/
+					/*-************ PARTIE SOLUTION **************-*/
+					/*-*******************************************-*/
 					
 					Solution s = new Solution();
 					
@@ -322,12 +331,14 @@ public class LectureFichier{
 					System.out.println(c.toString());
 					//ajout du cas dans la base de cas
 					base.ajouterCas(c);
+					System.out.println("Fin "+cas.getNodeName()+" : "+cas.getAttribute("id"));
 			}//fin cas
-			System.out.println("Fin cas\n");
+			System.out.println("----------------------------------------------------------");
+			System.out.println("Fin de la "+racine.getNodeName()+"\n");
 		} catch (ParserConfigurationException | SAXException | IOException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return base;
 	}
 	
 	/**
@@ -354,7 +365,7 @@ public class LectureFichier{
 	 * @param xsdPath : le chemin vers le .xsd de la base de cas
 	 * @return true si le XML est valide, false sinon
 	 */
-	public boolean validateXML(String xmlPath, String xsdPath){
+	public boolean isValideXML(String xmlPath, String xsdPath){
 		try{
 			SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 			Schema schema = factory.newSchema(new File(xsdPath));
@@ -371,9 +382,11 @@ public class LectureFichier{
 	public static void main(String[] args) {
 		LectureFichier l = new LectureFichier();
 		//BaseDeCas base = l.LectureFichierBaseEnLigne("BaseDeCasEnLigne.txt");
-		System.out.println(l.validateXML("BaseDeCas.xml", "BaseDeCas.xsd"));
-		@SuppressWarnings("unused")
-		BaseDeCas testXML = l.parserXML("BaseDeCas.xml");
+		//System.out.println(l.validateXML("BaseDeCas.xml", "BaseDeCas.xsd"));
+		if(l.isValideXML("BaseDeCas.xml", "BaseDeCas.xsd")){
+			@SuppressWarnings("unused")
+			BaseDeCas testXML = l.parserXML("BaseDeCas.xml");
+		}
 	}
 }
 

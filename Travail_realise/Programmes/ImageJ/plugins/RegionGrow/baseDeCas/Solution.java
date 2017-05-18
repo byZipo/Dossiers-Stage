@@ -110,6 +110,10 @@ public class Solution {
 		this.positonFloueTumeur.add(r);
 	}
 	
+	public int getNbPreTraitements(){
+		return this.pretraitements.size();
+	}
+	
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		st.append("\nSOLUTION:");

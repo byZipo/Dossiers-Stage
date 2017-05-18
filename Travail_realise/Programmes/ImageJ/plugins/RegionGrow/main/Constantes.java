@@ -48,6 +48,9 @@ public final class Constantes {
 	//la couleur du rein
 	public static final int COULEUR_REIN = 5911593;
 	
+	//la couleur de la colonne vertébrale
+	public static final int COULEUR_COLONNE_VERTEBRALE = 16777215;
+	
 	/*-***************************************-*/
 	
 }

@@ -10,7 +10,7 @@ import RegionGrow.main.Constantes;
 public class ColonneVertebrale extends Os{
 	
 	public void setCouleur(){
-		this.couleur = Constantes.BLANC;
+		this.couleur = Constantes.COULEUR_COLONNE_VERTEBRALE;
 	}
 
 }

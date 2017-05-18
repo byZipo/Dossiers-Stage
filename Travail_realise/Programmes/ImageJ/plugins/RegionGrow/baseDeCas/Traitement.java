@@ -107,6 +107,8 @@ public class Traitement {
 		}
 	}
 	
+	
+	
 	public String toString(){
 		return "Type : "+type+" , radius:"+radius+" , seuil:"+seuil;
 	}

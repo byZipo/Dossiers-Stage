@@ -9,15 +9,20 @@ import java.util.HashMap;
 import java.util.Random;
 
 import RegionGrow.baseDeCas.BaseDeCas;
+import RegionGrow.baseDeCas.Cas;
 import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
+import RegionGrow.baseDeCas.Traitement;
 import RegionGrow.lecture.LectureFichier;
 // Importation des paquets ImageJ necessaires. 
 import ij.IJ;
 import ij.ImagePlus;
-import ij.plugin.filter.PlugInFilter; 	
+import ij.plugin.filter.PlugInFilter;
+import ij.plugin.filter.RankFilters;
+import ij.plugin.filter.UnsharpMask;
 import ij.process.ByteProcessor;
 import ij.process.ColorProcessor;
+import ij.process.FloatProcessor;
 import ij.process.ImageConverter;
 import ij.process.ImageProcessor;
 import ij.process.ImageStatistics;
@@ -66,10 +71,10 @@ public class Croissance_Regions implements PlugInFilter {
 		try {
 			base = l.LectureFichierBaseEnLigne("BaseDeCasEnLigne.txt");
 			BaseDeCas test = l.parserXML("BaseDeCas.xml");
-			//base = test;
+			base = test;
 			//System.out.println(base.toString());
-			IJ.log("////////////////Avant segmentation : ///////////////\n");
-			IJ.log(base.toString());
+			//IJ.log("////////////////Avant segmentation : ///////////////\n");
+			//IJ.log(base.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -81,10 +86,14 @@ public class Croissance_Regions implements PlugInFilter {
 		//les caracs nonImage sont en dur forcement
 		Probleme pEntree = new Probleme(5,175,22,0,4,3,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
 
-
+		
 		// RaPC !!! (basique pour essayer pour le moment)
 		indiceBase = getMeilleurProbleme(pEntree,base);
 		//indiceBase = 4;
+
+		
+		
+		
 		
 		//pour les test de suppression des muscles
 		boolean musclesAEnlever = false;
@@ -102,9 +111,23 @@ public class Croissance_Regions implements PlugInFilter {
 	 */
 	public void segmentation(BaseDeCas base, int indiceBase, LectureFichier l){
 				
+		
+		
 		//hauteur et largeur de l'image
 		h=ip.getHeight();
 		w=ip.getWidth();
+		
+		Cas reference = base.getCas(indiceBase);
+		
+		//pretaitements
+		doPretraitements(reference);
+		
+		//affichage de l'image pretraitée
+		ImagePlus pretraitee = new ImagePlus("Pretaitee",ip);
+		pretraitee.show();
+		pretraitee.updateAndDraw();
+		
+		
 		//creation de la nouvelle image dans laquelle on va dessiner la segmentation
 		ImageProcessor ipDT= new ColorProcessor(w,h);
 		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);
@@ -112,9 +135,11 @@ public class Croissance_Regions implements PlugInFilter {
 		
 		//tableau des intensites en niveau de gris des pixels de l'image
 		int[][] pixelsA = ip.getIntArray();
+		
+		
 
 		//germes 
-		ArrayList<Germe> lgermes = base.getCas(indiceBase).getSolution().getGermesUtiles();
+		ArrayList<Germe> lgermes = reference.getSolution().getGermesUtiles();
 
 		//liste de correspondance germe (donc region) --> couleur, utile pour la fusion de deux regions
 		HashMap<Point,Integer> couleursRegions = new HashMap<Point,Integer>();
@@ -427,5 +452,53 @@ public class Croissance_Regions implements PlugInFilter {
 		erosion();
 		dilatation();
 	}
+	
+	/**
+	 * Applique tous les prétraitements sur l'image de base par rapport aux traitements stockés dans un cas
+	 * @param cas : le cas contenant les traitements à appliquer
+	 */
+	public void doPretraitements(Cas cas){
+		
+		System.out.println("\n-----------------------------------");
+		System.out.println("PRETRAITEMENTS avant segmentation : ");
+		
+		//pour chaque pretraitement
+		for (int i = 0; i < cas.getSolution().getNbPreTraitements(); i++) {
+			//récupération du traitement
+			Traitement t = cas.getSolution().getPretraitement(i);
+			//action dépendante du type de traitement
+			switch(t.getTypeTraitement()){
+			case Unsharped:
+				UnsharpMask mask = new UnsharpMask();
+				FloatProcessor fp = null;
+				//une image RGB dispose de trois canaux (R, G et B), il faut appliquer la mask sur chacun
+				for(int canal = 0; canal < ip.getNChannels(); canal++){
+					fp = ip.toFloat(canal, fp);
+					fp.snapshot();
+					//application du mask avec les paramètres stockés dans le cas
+					mask.sharpenFloat(fp, t.getRadius(), (float)t.getSeuil());
+					ip.setPixels(canal,fp);
+				}
+				System.out.println("Unsharped Mask appliqué");
+				break;
+			case Median:
+				RankFilters rk = new RankFilters();
+				//filtre médian avec le raidus du cas
+				rk.rank(ip, t.getRadius(), RankFilters.MEDIAN);
+				System.out.println("Filtre médian appliqué");
+				break;
+			case Moyenneur:
+				RankFilters rk2 = new RankFilters();
+				//filtre moyenneur avec le raidus du cas
+				rk2.rank(ip, t.getRadius(), RankFilters.MEAN);
+				System.out.println("Filtre moyenneur appliqué");
+				break;
+			default:
+				System.err.println("ERREUR : TRAITEMENT "+t.getTypeTraitement()+" NON PRIS EN CHARGE");
+				break;
+			}
+		}
+	}
+	
 
 }

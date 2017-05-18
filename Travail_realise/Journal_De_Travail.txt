@@ -519,3 +519,10 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 
 	- Génération de la documentation javadoc sous forme de page HTML (par Eclipse) ajoutée au projet Eclipse (non gitée) --> MARCHE BIEN !
 				
+
+
+18/05/17 : 
+	- fonction doTriatements dans croissanceRegions qui applique tous les traitements (stockés dans le cas de réf) sur l'image de base 
+		- Pour le moment prise en charge des filtres Unsharp, Median et Moyenneur
+
+	-TODO Ajouter le cas courrant dans la base de cas !!

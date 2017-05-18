@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xml>
+<!-- BASE DE CAS XML -->
+<BaseDeCas>
+	<Cas id="1">
+		<Probleme>
+			<Image>
+				<kurtosis>50</kurtosis> 
+				<moyenne>120</moyenne>
+				<asymetrie>70</asymetrie>
+				<variance>180</variance>	
+			</Image>
+			<NonImage>
+				<age>5</age>
+				<taille>120</taille>
+				<masse>25</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ColonneVertebrale">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="1" seuilLocal="1">56 78</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="15" seuilLocal="10">163 61</GermeObjet>
+				<GermeObjet type="TumeurRenale" seuilGlobal="30" seuilLocal="15">183 213</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="10">45 456</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="10">500 256</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="10">123 46</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="10">124 47</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="30.0" seuil="0.7">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="50" seuilSup="100" degreMax="80" reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation seuilInf="50" seuilSup="100" degreMax="70" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation seuilInf="50" seuilSup="120" degreMax="80" reference="ColonneVertebrale">ProcheDe</relation>
+			</PositionFloueTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="2">
+		<Probleme>
+			<Image>
+				<kurtosis>55</kurtosis> 
+				<moyenne>125</moyenne>
+				<asymetrie>80</asymetrie>
+				<variance>200</variance>	
+			</Image>
+			<NonImage>
+				<age>6</age>
+				<taille>140</taille>
+				<masse>35</masse>
+				<sexe>0</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>4</hauteurCoupe>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ColonneVertebrale">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="25" seuilLocal="14">65 70</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="25" seuilLocal="15">500 200</GermeObjet>
+				<GermeObjet type="TumeurRenale" seuilGlobal="30" seuilLocal="15">245 456</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="15" seuilLocal="5">45 46</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="15" seuilLocal="5">541 200</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="30.0" seuil="0.7">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="50" seuilSup="100" degreMax="80" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="50" seuilSup="100" degreMax="70" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation seuilInf="50" seuilSup="120" degreMax="80" reference="ColonneVertebrale">ProcheDe</relation>
+			</PositionFloueTumeur>
+		</Solution>
+	</Cas>
+</BaseDeCas>

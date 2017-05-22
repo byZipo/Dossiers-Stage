@@ -114,6 +114,14 @@ public class Solution {
 		return this.pretraitements.size();
 	}
 	
+	public ArrayList<Germe> getGermesInutiles(){
+		return germesInutiles;
+	}
+	
+	public ArrayList<RelationSpatiale> getPositionFloueTumeur(){
+		return positonFloueTumeur;
+	}
+	
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		st.append("\nSOLUTION:");

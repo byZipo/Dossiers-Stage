@@ -526,3 +526,19 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 		- Pour le moment prise en charge des filtres Unsharp, Median et Moyenneur
 
 	-TODO Ajouter le cas courrant dans la base de cas !!
+
+
+19/05/17 : 
+	- tout a été fusionné entre la croissance régions et la gestion relations spatiales, pour tout automatiser : 
+		- calcul de la position du germe tumeur à partir des relations patiales		
+		- semgnetation des objets de référence des relations spatiales, puis calcul de leur centre de gravité, 
+		  pour ensuite lancer le calcul de la position du germe de la tumeur
+		  la segmentation des obejts de réfrence nécessite un germe, que l'on va chercher dans la partie solution de la base de case, au niveau des germes utiles/inutiles --> gestion des erreurs si l'objet de référence est inexistant dans la base de cas des germes utiles/inutiles
+
+		- les seuils globaux et locaux de la croissance région sont toujours en dur pour le moment, c'est d'ailleurs le seul truc qui reste en dur
+
+		- création d'un constante pour la suppression/ou non des muscles (MUSCLES_A_ENLEVER)
+		- javadoc
+		- 
+
+	- 

@@ -14,6 +14,9 @@ import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
 import RegionGrow.baseDeCas.Traitement;
 import RegionGrow.lecture.LectureFichier;
+import RegionGrow.ontologieAnatomie.ObjetAnatomie;
+import RegionGrow.ontologieAnatomie.TumeurRenale;
+import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 // Importation des paquets ImageJ necessaires. 
 import ij.IJ;
 import ij.ImagePlus;
@@ -62,6 +65,10 @@ public class Croissance_Regions implements PlugInFilter {
 	public void run(ImageProcessor i){
 		
 		this.ip = i;
+		
+		//hauteur et largeur de l'image
+		h=ip.getHeight();
+		w=ip.getWidth();
 		//indice du numero de cas, pour la phase de test car pour le moment on ne fait pas de choix (RaPC) sur la base
 		int indiceBase = 0;
 
@@ -89,45 +96,54 @@ public class Croissance_Regions implements PlugInFilter {
 		
 		// RaPC !!! (basique pour essayer pour le moment)
 		indiceBase = getMeilleurProbleme(pEntree,base);
-		//indiceBase = 4;
-
+		Cas casRememore = base.getCas(indiceBase);
+		
+		ArrayList<Germe> lgermes = casRememore.getSolution().getGermesUtiles();
+		ArrayList<Germe> lgermesInutiles = casRememore.getSolution().getGermesInutiles();
+		
+		//pretaitements
+		doPretraitements(casRememore);
+		
+		//suppression des muscles
+		if(Constantes.MUSCLES_A_ENLEVER)ip = supprimerMuscles(lgermesInutiles);
+		
+		//calcul de la position du germe de la tumeur
+		/*
+		 * TODO A terme, il faudra calculer le centre de gravité de l'objet de référence de chaque relation, 
+		 * pour pouvoir affecter la position de l'objet de référence de la relation automatiquement
+		 * Que faire pour le seuils des germes de la tumeur ?????
+		 */
+		lgermes.add(recupererGermeTumeur(casRememore));
 		
 		
+		//segmentation
+		segmentation(lgermes, true);
 		
 		
-		//pour les test de suppression des muscles
-		boolean musclesAEnlever = false;
-		if(musclesAEnlever)ip = supprimerMuscles(base, 3, l);
-		segmentation(base, indiceBase, l);
+		/* 
+		 * TODO ICI il faudra ajouter un truc du genre : 
+		 * if(isSatifaisante(segmentation(legermes))) base = ajouterDansBaseDeCas(pEntree, base.getCas(indiceBase).getSolution());
+		 * ecritureXML(base);
+		 */
 		
 	}
 	
 	
 	/**
 	 * Réalise la segmentation par croissance de régions
-	 * @param base : la base de cas du RàPC
-	 * @param indiceBase : l'indice du cas à utiliser dans la base de cas (calculé grâce au RàPC)
-	 * @param l : la classe de lecture du fichier de base de cas
+	 * @param lgermes : la liste de germes
+	 * @param affichage : pour activer/désactiver l'affichage du résultat
 	 */
-	public void segmentation(BaseDeCas base, int indiceBase, LectureFichier l){
-				
+	public void segmentation(ArrayList<Germe> lgermes, boolean affichage){
 		
 		
-		//hauteur et largeur de l'image
-		h=ip.getHeight();
-		w=ip.getWidth();
-		
-		Cas reference = base.getCas(indiceBase);
-		
-		//pretaitements
-		doPretraitements(reference);
 		
 		//affichage de l'image pretraitée
 		ImagePlus pretraitee = new ImagePlus("Pretaitee",ip);
-		pretraitee.show();
-		pretraitee.updateAndDraw();
-		
-		
+		if(affichage){
+			pretraitee.show();
+			pretraitee.updateAndDraw();
+		}
 		//creation de la nouvelle image dans laquelle on va dessiner la segmentation
 		ImageProcessor ipDT= new ColorProcessor(w,h);
 		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);
@@ -135,11 +151,6 @@ public class Croissance_Regions implements PlugInFilter {
 		
 		//tableau des intensites en niveau de gris des pixels de l'image
 		int[][] pixelsA = ip.getIntArray();
-		
-		
-
-		//germes 
-		ArrayList<Germe> lgermes = reference.getSolution().getGermesUtiles();
 
 		//liste de correspondance germe (donc region) --> couleur, utile pour la fusion de deux regions
 		HashMap<Point,Integer> couleursRegions = new HashMap<Point,Integer>();
@@ -247,55 +258,55 @@ public class Croissance_Regions implements PlugInFilter {
 				liste.remove(0);
 
 				//affichage du resultat en cours
-				imageDT.show();
-				imageDT.updateAndDraw();
+				if(affichage){
+					imageDT.show();
+					imageDT.updateAndDraw();
+				}
 
 			}
 			//temporisateur pour l'affichage, entre chaque affichage de region
-			try {
+			/*try {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 		}
 
 		//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
 		fermeture();
 		
-		imageDT.show();
-		imageDT.updateAndDraw();
-		IJ.log("\n\n////////////////Apres segmentation : ///////////////\n");
-		IJ.log(base.toString());
-
+		if(affichage){
+			imageDT.show();
+			imageDT.updateAndDraw();
+		}
 		//reecriture de la base de cas dans le fichier TXT
-		try {
+		/*try {
 			l.ecritureFichierBaseEnLigne("BaseDeCasEnLigne.txt", base);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	/**
 	 * Réalise une segmentation de l'image en placant des germes sur les muscles, puis les supprime
-	 * TODO : A MODIFIER POUR SUPPRIMER UNE LISTE DE GERME DE LA CLASSE SOLUTION
 	 * @param base
 	 * @param indiceBase
 	 * @param l
 	 * @return l'image de base sans les muscles
 	 */
-	public ImageProcessor supprimerMuscles(BaseDeCas base, int indiceBase,LectureFichier l){
+	public ImageProcessor supprimerMuscles(ArrayList<Germe> lgermes){
 		//on fait une segmentation classique, il faut que les germes soient aux positions des muscles
-		segmentation(base, indiceBase, l);
+		segmentation(lgermes, true);
 		
-		//on crée une nouvelle image, qui sera une copie de celle en paramètre, mais sans les muscles
+		//on crée une nouvelle image, qui sera une copie de celle de base, mais sans les muscles
 		ImageProcessor ipMuscle= new ByteProcessor(w,h);
 		ImagePlus imageMuscles= new ImagePlus("Suppression muscles", ipMuscle);
 		ImageProcessor iprM = imageMuscles.getProcessor();
 		int[][] pixelsM = ip.getIntArray();
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
-				//pour savoir si un pixel fait parti d'un muscle il suffit de regarder si dans couleursPixels on a une valeur >0
+				//pour savoir si un pixel fait partie d'un muscle il suffit de regarder si dans couleursPixels on a une valeur >0
 				if(!(couleursPixels[i][j]>0))iprM.putPixel(i, j, pixelsM[i][j]); 
 			}
 		}
@@ -498,6 +509,101 @@ public class Croissance_Regions implements PlugInFilter {
 				break;
 			}
 		}
+	}
+	
+	/**
+	 * Fait appel aux méthodes de calcul de la position du germe de la tumeur :
+	 * La classe GestionRelationsSpatiales
+	 * @param casRememore : la cas remémoré de la base de cas
+	 * @return le germe de la tumeur
+	 */
+	public Germe recupererGermeTumeur(Cas casRememore){
+		GestionRelationsSpatiales gr = new GestionRelationsSpatiales(w,h);
+		ArrayList<RelationSpatiale> lr = casRememore.getSolution().getPositionFloueTumeur();
+		for(int indice = 0 ; indice < lr.size() ; indice++){
+			//TODO la position des objets de référence est en dur
+			Point ref = getCentreGravite(lr.get(indice).getReference(),casRememore.getSolution().getGermesUtiles(), casRememore.getSolution().getGermesInutiles());
+			lr.get(indice).getReference().setPosition(ref);
+		}
+		Point p1 = gr.calculeGerme(lr);
+		System.out.println("POSITION FLOUE DE LA TUMEUR : ("+p1.getX()+","+p1.getY()+")");
+		//TODO les seuils du germe de la tumeur sont en dur
+		Germe tumeur = new Germe((int)p1.getX(), (int)p1.getY(), 35, 20);
+		tumeur.setLabelObjet(new TumeurRenale());
+		tumeur.setColor();
+		return tumeur;
+	}
+
+	
+	/**
+	 * Calcule le centre de gravité de l'objet anatomique de référence passé en paramètre
+	 * le calcul est basé sur les moments géométriques, et requiert la position du centre de gravité d'un objet identique
+	 * dans la partie solution de la base de cas
+	 * Une erreur est déclenchée si aucun objet identique n'est trouvé
+	 * On entend par identique deux objets de la même classe
+	 * @param reference : l'objet anatomique de référence
+	 * @param germesUtiles : la liste des germes utiles de la solution
+	 * @param germesInutiles : la liste des germes inutiles de la solution
+	 * @return le centre de gravité de l'objet de référence (un Point)
+	 */
+	public Point getCentreGravite(ObjetAnatomie reference, ArrayList<Germe> germesUtiles, ArrayList<Germe> germesInutiles) {
+		//Pour chaque germe utile, on va rechercher l'objet identique à l'objet de référence, et le segmenter
+		//dès qu'on a trouvé l'objet identique, on arrête la boucle
+		
+		boolean trouve = false;
+		for (int i = 0; i < germesUtiles.size(); i++) {
+			Germe g = germesUtiles.get(i);
+			if(g.getLabelObjet().getClass().getName().equals(reference.getClass().getName())){
+				Germe ref = new Germe(g.getX(), g.getY(), 35,20);
+				ArrayList<Germe> lgermes = new ArrayList<Germe>();
+				lgermes.add(ref);
+				segmentation(lgermes, false);
+				trouve = true;
+				break;
+			}
+		}
+		
+		//si on n'a pas trouvé d'objet identique, on cherche dans la liste des germes inutiles
+		if(!trouve){
+			for (int i = 0; i < germesInutiles.size(); i++) {
+				Germe g = germesInutiles.get(i);
+				if(g.getLabelObjet().getClass().getName().equals(reference.getClass().getName())){
+					Germe ref = new Germe(g.getX(), g.getY(), 35,20);
+					ArrayList<Germe> lgermes = new ArrayList<Germe>();
+					lgermes.add(ref);
+					segmentation(lgermes, false);
+					trouve = true;
+					break;
+				}
+			}
+		}
+		
+		//si on n'a toujours pas trouvé, cela signifie que l'objet de référence n'est pas resensé dans la base de cas XML
+		// donc il est impossible de le segmenter pour trouver son centre de gravité, puisque l'on a aucun point de départ
+		if(!trouve){
+			System.err.println("ERREUR CENTRE DE GRAVITE : aucun objet de référence ne correspond dans la liste des germes utiles/inutiles ");
+			return null; 
+		}
+		
+		//calcul du centre de gravité de la forme segmentée grâce au tableau colorPixels
+		//on utilise les moments géométriques pour le calcul :
+		//mPQ = sommeXsommeY x^P * y^Q * f(x,y) avec f(x,y) = 1 si (x,y) appartient à la forme, 0 sinon
+		//centre de gravité = (m10/m00, m01/m00)
+		int m10 = 0;
+		int m01 = 0;
+		int m00 = 0;
+		for (int i = 0; i < w; i++) {
+			for (int j = 0; j < h; j++) {
+				if(couleursPixels[i][j]>0){
+					m10 += i;
+					m01 += j;
+					m00 += 1;
+				}
+			}
+		}
+		Point centreGravite = new Point((m10/m00),(m01/m00));
+		System.out.println("Centre de gravité de l'objet de référence : "+reference.toString()+" : ("+centreGravite.getX()+","+centreGravite.getY()+")");
+		return centreGravite;
 	}
 	
 

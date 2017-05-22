@@ -21,6 +21,11 @@ public class Probleme {
 	protected double nbCoupes;
 	protected double hauteurCoupe;
 	
+	protected double diametreTumeur;
+	protected double hauteurTumeur;
+	protected double epaisseurMuscles;
+
+
 	//informations image
 	protected double moyenne;
 	protected double asymetrie;
@@ -180,6 +185,30 @@ public class Probleme {
 		this.hauteurCoupe = hauteurCoupe;
 	}
 
+	public double getDiametreTumeur() {
+		return diametreTumeur;
+	}
+
+	public void setDiametreTumeur(double diametreTumeur) {
+		this.diametreTumeur = diametreTumeur;
+	}
+
+	public double getHauteurTumeur() {
+		return hauteurTumeur;
+	}
+
+	public void setHauteurTumeur(double hauteurTumeur) {
+		this.hauteurTumeur = hauteurTumeur;
+	}
+
+	public double getEpaisseurMuscles() {
+		return epaisseurMuscles;
+	}
+
+	public void setEpaisseurMuscles(double epaisseurMuscles) {
+		this.epaisseurMuscles = epaisseurMuscles;
+	}
+	
 	public double getMoyenne() {
 		return moyenne;
 	}
@@ -296,7 +325,7 @@ public class Probleme {
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		st.append("PROBLEME : \n");
-		st.append("| NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" \n| Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis+" ");
+		st.append("| NonImage : age:"+age+" , taille:"+taille+" , masse:"+masse+" , sexe:"+sexe+" , nbCoupes:"+nbCoupes+" , hauteurCoupe:"+hauteurCoupe+" , diamètre tumeur:"+diametreTumeur+" , hauteur tumeur:"+hauteurTumeur+" , epaisseur muscles:"+epaisseurMuscles+" \n| Image : moyenne:"+moyenne+" , asymetrie:"+asymetrie+" , variance:"+variance+" , kurtosis:"+kurtosis+" ");
 		for(int i = 0; i<positonFloueTumeur.size(); i++){
 			st.append("\n| Relation"+(i+1)+" : "+positonFloueTumeur.get(i).toStringSansSeuils()+" ");
 		}

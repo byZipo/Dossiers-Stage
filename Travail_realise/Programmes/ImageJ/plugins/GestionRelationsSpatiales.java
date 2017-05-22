@@ -41,6 +41,14 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 	ImageProcessor ipr;
 	ImagePlus imageDT;
 
+	
+	
+	public  GestionRelationsSpatiales(int w, int h) {
+		this.w=w;
+		this.h=h;
+	}
+	
+	
 	@Override
 	public int setup(String arg, ImagePlus imp) {
 		ImageConverter ic = new ImageConverter(imp);
@@ -173,6 +181,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 	public Point calculeGerme(ArrayList<RelationSpatiale> relations){
 		
 		//tableau remplit de 1 pour la première itération, qui n'a donc pas d'effet en t-norm multiplication
+		System.out.println(w+" "+h);
 		int[][] tab = new int[w][h];
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
@@ -183,7 +192,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		//pour chaque relation, on calcule sa carte de distance et on la fusionne avec la précédente
 		for(int i = 0 ; i < relations.size() ; i++){
 			RelationSpatiale r = relations.get(i);
-			int[][] tmp = r.getCarteDistance(w,h);;
+			int[][] tmp = r.getCarteDistance(w,h);
 			tab = fusion(tab, tmp);
 		}
 		
@@ -191,9 +200,10 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		tab = normaliser(tab);
 		
 		//dessin du résultat obtenu
-		dessin(tab);
+		//dessin(tab);
 		
 		//on retourne le meilleur pixel de la carte qui devient le germe
+		
 		return getGerme(tab);
 	}
 	

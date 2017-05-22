@@ -53,4 +53,7 @@ public final class Constantes {
 	
 	/*-***************************************-*/
 	
+	//activer/desactiver la suppresion des muscles lors de la segmentation
+	public static final boolean MUSCLES_A_ENLEVER = true;
+	
 }

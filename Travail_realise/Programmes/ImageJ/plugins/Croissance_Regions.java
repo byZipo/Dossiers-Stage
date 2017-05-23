@@ -1,6 +1,7 @@
 package RegionGrow.main; // ATTENTION : à enlever si l'on veux utiliser le plugin depuis l'interface ImageJ
 import static RegionGrow.main.Constantes.BLANC;
 import static RegionGrow.main.Constantes.MARQUE;
+import static RegionGrow.main.Constantes.MUSCLES_A_ENLEVER;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -69,9 +70,7 @@ public class Croissance_Regions implements PlugInFilter {
 		//hauteur et largeur de l'image
 		h=ip.getHeight();
 		w=ip.getWidth();
-		//indice du numero de cas, pour la phase de test car pour le moment on ne fait pas de choix (RaPC) sur la base
-		int indiceBase = 0;
-
+		
 		//lecture du fichier de la base de cas, et construction de la base
 		LectureFichier l = new LectureFichier();
 		BaseDeCas base = null;
@@ -94,8 +93,9 @@ public class Croissance_Regions implements PlugInFilter {
 		Probleme pEntree = new Probleme(5,175,22,0,4,3,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
 
 		
-		// RaPC !!! (basique pour essayer pour le moment)
-		indiceBase = getMeilleurProbleme(pEntree,base);
+		// RaPC !!! (basique pour essayer pour le moment
+		//indice du numero de cas
+		int indiceBase = getMeilleurProbleme(pEntree,base);
 		Cas casRememore = base.getCas(indiceBase);
 		
 		ArrayList<Germe> lgermes = casRememore.getSolution().getGermesUtiles();
@@ -105,16 +105,13 @@ public class Croissance_Regions implements PlugInFilter {
 		doPretraitements(casRememore);
 		
 		//suppression des muscles
-		if(Constantes.MUSCLES_A_ENLEVER)ip = supprimerMuscles(lgermesInutiles);
+		if(MUSCLES_A_ENLEVER)ip = supprimerObjets(lgermesInutiles);
 		
 		//calcul de la position du germe de la tumeur
-		/*
-		 * TODO A terme, il faudra calculer le centre de gravité de l'objet de référence de chaque relation, 
-		 * pour pouvoir affecter la position de l'objet de référence de la relation automatiquement
-		 * Que faire pour le seuils des germes de la tumeur ?????
-		 */
 		lgermes.add(recupererGermeTumeur(casRememore));
 		
+		//TODO en réalité ici il faut appeler la méthode avec pEntree et casRememore
+		//int[][] boiteEnglobante = getBoiteEnglobante(casRememore.getProbleme(), casRememore);
 		
 		//segmentation
 		segmentation(lgermes, true);
@@ -135,7 +132,6 @@ public class Croissance_Regions implements PlugInFilter {
 	 * @param affichage : pour activer/désactiver l'affichage du résultat
 	 */
 	public void segmentation(ArrayList<Germe> lgermes, boolean affichage){
-		
 		
 		
 		//affichage de l'image pretraitée
@@ -206,7 +202,7 @@ public class Croissance_Regions implements PlugInFilter {
 				}
 
 				//pour chaque voisin en 4-connexite (non visite) du pixel courant, on va tester son homogeneite, et l'ajouter ou non a la region
-					//droite
+				//droite
 				if(xCourant<w-1 && pixelsA[xCourant+1][yCourant] != MARQUE){
 					if(Math.abs(pixelsA[xCourant+1][yCourant]-moyenneRegion)<SeuilGlobal && Math.abs(pixelsA[xCourant][yCourant]-pixelsA[xCourant+1][yCourant])<=SeuilLocal)	{
 						liste.add(new Point(xCourant+1,yCourant));
@@ -268,7 +264,6 @@ public class Croissance_Regions implements PlugInFilter {
 			/*try {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
 		}
@@ -295,7 +290,7 @@ public class Croissance_Regions implements PlugInFilter {
 	 * @param l
 	 * @return l'image de base sans les muscles
 	 */
-	public ImageProcessor supprimerMuscles(ArrayList<Germe> lgermes){
+	public ImageProcessor supprimerObjets(ArrayList<Germe> lgermes){
 		//on fait une segmentation classique, il faut que les germes soient aux positions des muscles
 		segmentation(lgermes, true);
 		
@@ -519,9 +514,9 @@ public class Croissance_Regions implements PlugInFilter {
 	 */
 	public Germe recupererGermeTumeur(Cas casRememore){
 		GestionRelationsSpatiales gr = new GestionRelationsSpatiales(w,h);
+		
 		ArrayList<RelationSpatiale> lr = casRememore.getSolution().getPositionFloueTumeur();
 		for(int indice = 0 ; indice < lr.size() ; indice++){
-			//TODO la position des objets de référence est en dur
 			Point ref = getCentreGravite(lr.get(indice).getReference(),casRememore.getSolution().getGermesUtiles(), casRememore.getSolution().getGermesInutiles());
 			lr.get(indice).getReference().setPosition(ref);
 		}
@@ -604,6 +599,22 @@ public class Croissance_Regions implements PlugInFilter {
 		Point centreGravite = new Point((m10/m00),(m01/m00));
 		System.out.println("Centre de gravité de l'objet de référence : "+reference.toString()+" : ("+centreGravite.getX()+","+centreGravite.getY()+")");
 		return centreGravite;
+	}
+	
+	
+	/*TODO je ne vois pas comment coder cette méthode, sachant que j'ai à ma disposition : 
+	 * 	- nbCoupes, hauteurCoupe
+	 * 	- diametreTumeur, hauteurTumeur
+	 * 	- la position du germe de la tumeur calculé d'après la solution du casRememore
+	 */
+	public int[][] getBoiteEnglobante(Probleme pb, Cas casRememore){
+		/*double diametre = pb.getDiametreTumeur();
+		double hauteur = pb.getHauteurTumeur();
+		Germe g = this.recupererGermeTumeur(casRememore);
+		Point centreTumeur = new Point(g.getX(), g.getY());
+		int[][] boiteEnglobante = new int[w][h];
+		*/
+		return null;
 	}
 	
 

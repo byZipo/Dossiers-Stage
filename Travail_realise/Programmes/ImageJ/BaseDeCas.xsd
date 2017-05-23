@@ -30,6 +30,9 @@
                           <xs:element type="xs:double" name="sexe"/>
                           <xs:element type="xs:double" name="nbCoupes"/>
                           <xs:element type="xs:double" name="hauteurCoupe"/>
+                          <xs:element type="xs:double" name="diametreTumeur"/>
+                          <xs:element type="xs:double" name="hauteurTumeur"/>
+                          <xs:element type="xs:double" name="epaisseurMuscles"/>
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>

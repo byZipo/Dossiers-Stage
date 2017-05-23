@@ -528,7 +528,7 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	-TODO Ajouter le cas courrant dans la base de cas !!
 
 
-19/05/17 : 
+22/05/17 : 
 	- tout a été fusionné entre la croissance régions et la gestion relations spatiales, pour tout automatiser : 
 		- calcul de la position du germe tumeur à partir des relations patiales		
 		- semgnetation des objets de référence des relations spatiales, puis calcul de leur centre de gravité, 
@@ -541,4 +541,22 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 		- javadoc
 		- 
 
-	- 
+23/05/17 :
+	- mise à jour du .xsd pour integrer l'ajout de trois nouveaux attributs nonImage : 
+		- diamètre tumeur
+		- hauteur tumeur
+		- epaisseur muscles
+		Ces attributs devraient nous permettre de calculer une boite englobante pour la tumeur
+
+		IL FAUDRA APPLIQUER UN ENORME POIDS AUX RELATIONS SPATIALES LORS DE LA MESURE DE SIMILARITE
+		CAR SINON CELA N'AURA AUCUN SENS DE SE REMORER UN CAS QUI N'A PAS LES MEMES RELATIONS SPATIALES :
+		ex : haut / gauche / proche ne doit pas être associé à un haut / droite / proche ! 
+
+	- j'ai du mal à voir comment coder la fonction getBoiteEnglobante() (voir fonction)
+
+	TODO : mesure de similarité : 
+			- chercher un moyen de mesure la similarité entre les relations spatiales : 
+				- test d'egalité stricte ? coefficient de similarité ? etc. ?
+				- avec des poids plus ou moins forts, notament pour les relations qui ont beaucoup d'importance
+
+			- ne pas oublier de coder l'écriture XML de la base de cas : (https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/)

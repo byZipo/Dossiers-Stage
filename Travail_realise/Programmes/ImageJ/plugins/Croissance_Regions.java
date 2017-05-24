@@ -6,6 +6,8 @@ import static RegionGrow.main.Constantes.MUSCLES_A_ENLEVER;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -15,8 +17,13 @@ import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
 import RegionGrow.baseDeCas.Traitement;
 import RegionGrow.lecture.LectureFichier;
+import RegionGrow.ontologieAnatomie.ColonneVertebrale;
 import RegionGrow.ontologieAnatomie.ObjetAnatomie;
 import RegionGrow.ontologieAnatomie.TumeurRenale;
+import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
+import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
+import RegionGrow.ontologieRelationsSpatiales.MoyennementProcheDe;
+import RegionGrow.ontologieRelationsSpatiales.ProcheDe;
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 // Importation des paquets ImageJ necessaires. 
 import ij.IJ;
@@ -341,6 +348,63 @@ public class Croissance_Regions implements PlugInFilter {
 		IJ.log("MEILLEURE SIMILARITE : "+best+" --> INDICE CAS : "+(indice+1));
 		return indice;
 	}
+	
+	
+	public int getMeilleurProbleme2(Probleme p, BaseDeCas base){
+		
+		//On commence par récupérer la liste des cas ayant les mêmes relations spatiales (l'ordre n'a pas d'importance)
+		ArrayList<Cas> potentiels = getCasMemesRelations(p,base);
+		System.out.println("Nombre de cas potentiels (mêmes relations spatiales) : "+potentiels.size());
+		for(Cas c : potentiels){
+			System.out.println(c.getProbleme().getPositonFloueTumeur().toString());
+		}
+		//TODO calcul du meilleur cas parmis potentiels, et récupération des paramètres des fcts floues
+		//TODO mesure de similarité sur les critères Image et NonImage (+poids) pour récupérer les seuils globaux et locaux pour la tumeur
+		
+		//TODO récupérer aussi les autres germes (des autres organes) + leurs seuils
+		
+		//du coup la méthode ne retournera plus un entier, mais plusieurs choses ^^
+		return 0;
+	}
+	
+	/**
+	 * Retourne une liste de cas ayant les mêmes relations spatiales que le problème  passé en paramètre
+	 * Deux relations sont identiques si elles ont le même nome et la même référence
+	 * L'ordre des relations n'a pas d'importance
+	 * @param p : le problème
+	 * @param base : la base de cas
+	 * @return la liste des cas ayant les mêmes relations spatiales
+	 */
+	public ArrayList<Cas> getCasMemesRelations(Probleme p, BaseDeCas base){
+		
+		ArrayList<RelationSpatiale> pRel = p.getPositonFloueTumeur();
+		ArrayList<Cas> res = new ArrayList<Cas>();
+		
+		//pour chaque cas de la base
+		for (int i = 0; i < base.getTailleBase(); i++) {
+			Cas c = base.getCas(i);
+			ArrayList<RelationSpatiale> cRel = c.getProbleme().getPositonFloueTumeur();
+			
+			//on compare les deux listes de relations spatiales
+			//il faut une égalité sans importance d'ordre (ex:{A,B,C,D} et {A,C,D,B})
+			//(il ne peut pas y avoir de doublons dans les listes)
+			boolean listesEgales = true;
+			if(cRel.size()!=pRel.size())listesEgales=false;
+			else{
+				for (RelationSpatiale r : cRel) {
+					if(!pRel.contains(r)){
+						listesEgales=false;
+						break;
+					}
+				}
+			}
+			//si les listes de relation sont égales, on peut ajouter la cas au résultat
+			if(listesEgales){
+				res.add(c);
+			}
+		}
+		return res;
+	}
 
 
 
@@ -615,6 +679,42 @@ public class Croissance_Regions implements PlugInFilter {
 		int[][] boiteEnglobante = new int[w][h];
 		*/
 		return null;
+	}
+	
+	public static void main(String[] args) {
+		Croissance_Regions c = new Croissance_Regions();
+		LectureFichier l = new LectureFichier();
+		BaseDeCas base = l.parserXML("BaseDeCas.xml");
+		Probleme p = new Probleme();
+		
+		ColonneVertebrale c1 = new ColonneVertebrale();
+		c1.setPosition(new Point(391,374));
+		
+		AGaucheDe rs1 = new AGaucheDe();
+		rs1.setReference(c1);
+		rs1.setSeuilInf(90);
+		rs1.setSeuilSup(270);
+		rs1.setDegreMax(180);
+		
+		EnHautDe rs2 = new EnHautDe();
+		rs2.setReference(c1);
+		rs2.setSeuilInf(0);
+		rs2.setSeuilSup(180);
+		rs2.setDegreMax(90);
+		
+		ProcheDe rs3 = new ProcheDe();
+		rs3.setReference(c1);
+		
+		p.ajouterRelationFloue(rs1);
+		p.ajouterRelationFloue(rs2);
+		p.ajouterRelationFloue(rs3);
+		
+		c.getMeilleurProbleme2(p, base);
+		
+		
+		
+		
+		
 	}
 	
 

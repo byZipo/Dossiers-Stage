@@ -1,5 +1,7 @@
 package RegionGrow.ontologieRelationsSpatiales;
 
+import java.util.Objects;
+
 import RegionGrow.ontologieAnatomie.ObjetAnatomie;
 
 /**
@@ -122,5 +124,33 @@ public abstract class RelationSpatiale {
 	 */
 	public String toStringSansSeuils(){
 		return "Type:"+getClass().getSimpleName()+" reference:"+((reference!=null)?reference.toString():"null")+" ";
+	}
+	
+	
+	public String getNom(){
+		return this.getClass().getName();
+	}
+	
+	/**
+	 * redéfinition de la méthode equals pour pouvoir comparer deux relations spatiales
+	 * compare à la fois le nom de la classe et le nom de l'objet anatomique de référence
+	 * @return true si les deux relations ont le même nom, false sinon
+	 */
+	@Override
+	public boolean equals(Object o){
+		if(this.getNom().equals(o.getClass().getName())){
+			String s = ((RelationSpatiale) o).getReference().getNom();
+			if(this.reference.getNom().equals(s))return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * redéfinition de la méthode hashCode() pour pouvoir comparer deux relations spatiales
+	 * @return un hashé construit à partir des attributs de la classe
+	 */
+	@Override
+	public int hashCode(){
+		return Objects.hash(reference,seuilInf,seuilSup,degreMax);
 	}
 }

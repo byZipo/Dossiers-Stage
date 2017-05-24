@@ -29,6 +29,9 @@ public abstract class ObjetAnatomie {
 	public void setCouleur(){
 		
 	}
+	public String getNom(){
+		return this.getClass().getName();
+	}
 	
 	/**
 	 * Retourne le nom de l'objet anatomique concerné

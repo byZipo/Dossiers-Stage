@@ -560,3 +560,23 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 				- avec des poids plus ou moins forts, notament pour les relations qui ont beaucoup d'importance
 
 			- ne pas oublier de coder l'écriture XML de la base de cas : (https://www.mkyong.com/java/how-to-create-xml-file-in-java-dom/)
+
+
+
+24/05/17 : 	
+	Questions : 
+		- Similarité exacte pour les relations ? 
+			- peut-être la faire en deux partie : premeire partie sur les relations spatiales, et ensutie parmis les cas ayant les même relations, on prend le meilleur cas possible.
+		- Adaptation ? à la main ou automatisée ? : 
+			- Lancer plusieurs fois le programme RàPC, observer les resultats et modifer l'adaptation des paramètres
+		- Mesure de satisfaction de la segmentation automatisée ? --> aussi pour l'adaptation
+		- La boite englobante est vraiment un casse tête, et selon moi, avec des paramètres du genre : 
+			- epaisseur tumeur, diametre, etc est nul car cela reviendrait à faire enormement de calculs sur une tumeur, donc autant mettre à la main directement le germe.
+
+
+	TODO : 
+		- Lire des articles sur la similarité, pour trouver les meileurs fonctions de distance possible pour notre problème
+
+	DONE : 
+		- GetMeilleurProbleme2() (en cours) : 
+			- j'ai codé la méthode getCasMemesRelations() qui retourne la liste des cas ayant les mêmes relations spatiales (nom de classe + objet de référence) C'est un parti pris, je pense qu'il est nécessaire d'avoir les mêmes relations avant même de calculer uns similarité, cela n'aurait pas de sens de se remémorer un cas n'ayant pas la tumeur au même endroit.

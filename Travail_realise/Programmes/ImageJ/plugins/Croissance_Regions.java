@@ -6,8 +6,6 @@ import static RegionGrow.main.Constantes.MUSCLES_A_ENLEVER;
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -22,7 +20,6 @@ import RegionGrow.ontologieAnatomie.ObjetAnatomie;
 import RegionGrow.ontologieAnatomie.TumeurRenale;
 import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
 import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
-import RegionGrow.ontologieRelationsSpatiales.MoyennementProcheDe;
 import RegionGrow.ontologieRelationsSpatiales.ProcheDe;
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 // Importation des paquets ImageJ necessaires. 

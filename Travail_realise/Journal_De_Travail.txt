@@ -580,3 +580,54 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	DONE : 
 		- GetMeilleurProbleme2() (en cours) : 
 			- j'ai codé la méthode getCasMemesRelations() qui retourne la liste des cas ayant les mêmes relations spatiales (nom de classe + objet de référence) C'est un parti pris, je pense qu'il est nécessaire d'avoir les mêmes relations avant même de calculer uns similarité, cela n'aurait pas de sens de se remémorer un cas n'ayant pas la tumeur au même endroit.
+			Deuxième hypothèse : on sépare les traitements position germe tumeur / seuillage tumeur : 
+				- la liste des cas ayant les mêmes relations spatiales permet de déterminer le cas sur lequel se baser pour calculer la position du germe
+				- la base de cas dans sa totalité permet, par mesure de similarité de calculer les meilleurs seuils pour la tumeur, quelque soit sa position (ce qui importe c'est la teinte, le couleur, la texture, etc.)
+
+				DONC : ALGO POUR LA TUMEUR
+					- 1ère remémoration pour récupérer les cas ayant les mêmes relations :
+						- parmis ces cas, récupérer celui le plus proche du cas courant : 
+							- récupérer ses paramètres de fonctions floues, et calculer la positon du germe tumeur
+					- 2ème remémoration pour récupérer les seuils de la croissance région de la tumeur :
+						- parmis tous les cas de la base, quelles que soient les relations
+						- on récupère uniquement les seuils globaux et locaux pour la tumeur
+
+
+29/05/17 : 
+
+	COMPTE RENDU MINI REUNION :
+	- les données que l'on peut avoir via l'echographie sont encore à définir, on  pourrait très bien avoir aussi : 
+		- la position du centre de la hauteur de la tumeur (on pourrait donc calculuer la limite verticale de la tumeur)
+		- à voir
+
+	- on peut aussi imaginer une similarité classique selon les critères images/non images et ensuite faire une adaptation différente selon la différence de criètre : 
+		- relations spatiales différentes --> modifications par homotétie par exemple (gauche/droite)
+		- critères images différents --> appliquer des filtres pour que notre image ressemble à l'iamge remémorée
+		- criètres non images différents --> à voir
+		En gros l'adaptation c'est pas forcémenent le fait de modifier legerement la solution remémorée, ça peut passer par une legere modification de l'image d'entrée.
+
+	- Faire une présentation sur la smilarité / ce que j'au fait
+
+	- Recherches sur les calculs de similarité, lecture d'articles :
+		- Similarity and Metrics in Case-Based Reasoning
+		- CASE-BASED-REASONING FOR IMAGE SEGMENTATION
+		- https://hal.inria.fr/inria-00107561/document
+		- Contributions à la conception de systèmes de raisonnement à partir de cas
+		- http://onlinelibrary.wiley.com/doi/10.1111/j.1467-8640.2009.00337.x/full
+		- http://ac.els-cdn.com/S0020025597100081/1-s2.0-S0020025597100081-main.pdf?_tid=f6d4fbb6-4477-11e7-9cd9-00000aacb35f&acdnat=1496066949_48272be87629e2dd45fff6ba9cce8ce0
+
+		J'essaye de voir si je vais avoir à comparer les relations spatiales entre elles, ou non (les intégrer dans les calculs de similarité)
+
+		Problème : 
+			SI j'ai la liste de relations spatiales suivante : 
+				- ADroiteDe Colonne, EnHautDeColonne, ProcheDeColonne
+				- EnBasDe ReinDroit, MoyennementProche ReinDroit, ADroiteDe Colonne
+
+			Comment savoir si la tumeur est placée au même endroit ? similarité floue ?
+
+
+
+
+
+	- ma fonction de calcul de la position du germe tumeur par rapport au centre de gravité des objets de référence remémorés, et non pas par copie des germes de ces mêmes objets, est une forme d'adaptation ;)
+	--> A METTRE DANS LA PRESENTATION

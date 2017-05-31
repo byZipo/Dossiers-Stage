@@ -631,3 +631,51 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 
 	- ma fonction de calcul de la position du germe tumeur par rapport au centre de gravité des objets de référence remémorés, et non pas par copie des germes de ces mêmes objets, est une forme d'adaptation ;)
 	--> A METTRE DANS LA PRESENTATION
+
+
+30/05/17 : 
+	- Diapo SImilarité en cours
+	- Similarity and Metrics in Case-Based Reasoning
+	- Case Completion and Similarity in Case-Based Reasoning
+
+	- plusieurs formules sont disponibles dans ces articles, je pense faire une comparaison
+
+31/05/17:
+	- 
+
+
+
+
+	00000101
+	00001101
+
+	01111000
+	01111101  	
+
+	00011001
+	00101000
+
+
+	2+4+1 = 7 
+	----------
+	7 + 1*2 + 0.5*3
+
+	= 0.6667
+
+
+	00000101
+	00000101
+
+	01111000
+	01111010  	
+
+	00011001
+	00011000
+
+	8
+	--------
+	8 + 1*1 + 0.5*2
+
+
+
+

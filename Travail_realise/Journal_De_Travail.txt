@@ -684,13 +684,17 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 
 
 
-	01/06/17:
-		- Automatic diagnosis with genetic algorithms and case-based reasoning :
-			http://www.sciencedirect.com/science/article/pii/S0954181099000096
-		- Application ofCase Based Reasoning in Injection Moulding :
-			http://ac.els-cdn.com/S0924013696026659/1-s2.0-S0924013696026659-main.pdf?_tid=ec3cf152-46bd-11e7-b865-00000aab0f27&acdnat=1496316898_a67f2e6f9947efa040724db0cf3ee5f5
-		- Diaporama, trouvé plein de formules de distances/similarité
-		- Etude de ce qu'a utilisé Perner pour le TI
+01/06/17:
+	- Automatic diagnosis with genetic algorithms and case-based reasoning :
+		http://www.sciencedirect.com/science/article/pii/S0954181099000096
+	- Application ofCase Based Reasoning in Injection Moulding :
+		http://ac.els-cdn.com/S0924013696026659/1-s2.0-S0924013696026659-main.pdf?_tid=ec3cf152-46bd-11e7-b865-00000aab0f27&acdnat=1496316898_a67f2e6f9947efa040724db0cf3ee5f5
+	- Diaporama, trouvé plein de formules de distances/similarité
+	- Etude de ce qu'a utilisé Perner pour le TI
+
+
+02/06/07:
+
 
 
 

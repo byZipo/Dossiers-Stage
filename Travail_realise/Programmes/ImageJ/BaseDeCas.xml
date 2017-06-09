@@ -5,10 +5,10 @@
 	<Cas id="1">
 		<Probleme>
 			<Image>
-				<kurtosis>50</kurtosis> 
-				<moyenne>120</moyenne>
-				<asymetrie>70</asymetrie>
-				<variance>180</variance>	
+				<kurtosis>-0.858</kurtosis> 
+				<moyenne>83.967</moyenne>
+				<asymetrie>0.307</asymetrie>
+				<variance>75.353</variance>	
 			</Image>
 			<NonImage>
 				<age>5</age>
@@ -53,9 +53,67 @@
 				<relation seuilInf="90" seuilSup="270" degreMax="0" reference="ColonneVertebrale">MoyennementProcheDe</relation>
 				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinDroit">EnBasDe</relation>
 			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>35</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>20</SeuilLocalTumeur>
 		</Solution>
 	</Cas>
 	<Cas id="2">
+		<Probleme>
+			<Image>
+				<kurtosis>-1.095</kurtosis> 
+				<moyenne>66.475</moyenne>
+				<asymetrie>0.625</asymetrie>
+				<variance>78.152</variance>	
+			</Image>
+			<NonImage>
+				<age>6</age>
+				<taille>130</taille>
+				<masse>23</masse>
+				<sexe>0</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ReinDroit">EnBasDe</relation>
+				<relation reference="ColonneVertebrale">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="1" seuilLocal="1">265 237</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="35" seuilLocal="20">134 147</GermeObjet>
+				<!--<GermeObjet type="TumeurRenale" seuilGlobal="35" seuilLocal="20">183 213</GermeObjet>  -->
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="25" seuilLocal="15">204 292</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="25" seuilLocal="15">332 294</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="25" seuilLocal="15">87 218</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="25" seuilLocal="15">111 76</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="25" seuilLocal="15">430 223</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="25" seuilLocal="15">433 157</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="25" seuilLocal="15">393 77</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="25" seuilLocal="15">225 56</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+			<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="30.0" seuil="0.3">Unsharped</operation>
+				
+				
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="90" seuilSup="270" degreMax="180" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="90" seuilSup="270" degreMax="0" reference="ColonneVertebrale">ProcheDe</relation>
+				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinDroit">EnBasDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>20</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>10</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="68">
 		<Probleme>
 			<Image>
 				<kurtosis>5555</kurtosis> 
@@ -99,9 +157,11 @@
 				<relation seuilInf="50" seuilSup="100" degreMax="70" reference="ColonneVertebrale">EnHautDe</relation>
 				<relation seuilInf="50" seuilSup="120" degreMax="80" reference="ColonneVertebrale">ProcheDe</relation>
 			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>15</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>10</SeuilLocalTumeur>
 		</Solution>
 	</Cas>
-	<Cas id="3">
+	<Cas id="69">
 		<Probleme>
 			<Image>
 				<kurtosis>555546</kurtosis> 
@@ -145,6 +205,8 @@
 				<relation seuilInf="50" seuilSup="100" degreMax="80" reference="ColonneVertebrale">AGaucheDe</relation>
 				<relation seuilInf="50" seuilSup="120" degreMax="80" reference="ColonneVertebrale">ProcheDe</relation>
 			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>25</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>20</SeuilLocalTumeur>
 		</Solution>
 	</Cas>
 </BaseDeCas>

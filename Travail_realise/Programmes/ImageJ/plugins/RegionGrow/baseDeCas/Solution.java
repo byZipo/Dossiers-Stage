@@ -26,6 +26,10 @@ public class Solution {
 	//liste de relations spatiales floues concernant la position de la tumeur (avec les valeurs des seuils flous)
 	protected ArrayList<RelationSpatiale> positonFloueTumeur;
 	
+	//seuils local et global pour la croissance région de la tumeur de la solution
+	protected int seuilLocal;
+	protected int seuilGlobal;
+	
 	
 	/**
 	 * Constructeur vide qui initialise simplement les listes de gemres utiles et inutiles, les pretraitements et les positions floues
@@ -36,6 +40,8 @@ public class Solution {
 		this.pretraitements = new ArrayList<Traitement>();
 		this.positonFloueTumeur = new ArrayList<RelationSpatiale>();
 	}
+
+	
 
 	/**
 	 * Constructeur simple sans germes inutiles, ni prétraitements
@@ -122,6 +128,23 @@ public class Solution {
 		return positonFloueTumeur;
 	}
 	
+	
+	public int getSeuilLocal() {
+		return seuilLocal;
+	}
+
+	public void setSeuilLocal(int seuilLocal) {
+		this.seuilLocal = seuilLocal;
+	}
+
+	public int getSeuilGlobal() {
+		return seuilGlobal;
+	}
+
+	public void setSeuilGlobal(int seuilGlobal) {
+		this.seuilGlobal = seuilGlobal;
+	}
+	
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		st.append("\nSOLUTION:");
@@ -141,6 +164,10 @@ public class Solution {
 		for (int i = 0; i < positonFloueTumeur.size(); i++) {
 			st.append("\n	"+positonFloueTumeur.get(i).toString());
 		}
+		st.append("\n   --> SeuilGlobal: ");
+		st.append("\n	"+seuilGlobal);
+		st.append("\n   --> SeuilLocal: ");
+		st.append("\n	"+seuilLocal);
 		return st.toString();
 	}
 

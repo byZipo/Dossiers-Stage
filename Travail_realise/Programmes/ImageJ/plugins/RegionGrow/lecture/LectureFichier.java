@@ -238,6 +238,8 @@ public class LectureFichier{
 					final Element objetsInutiles = (Element)solution.getElementsByTagName("ObjetsInutiles").item(0);
 					final Element pretraitements = (Element)solution.getElementsByTagName("PreTraitements").item(0);
 					final Element positionFloueTumeur = (Element)solution.getElementsByTagName("PositionFloueTumeur").item(0);
+					final Element seuilLocalTumeur = (Element)solution.getElementsByTagName("SeuilLocalTumeur").item(0);
+					final Element seuilGLobalTumeur = (Element)solution.getElementsByTagName("SeuilGlobalTumeur").item(0);
 					
 					
 					//les caractéristiques de la partie objetsUtiles
@@ -325,6 +327,13 @@ public class LectureFichier{
 						//System.out.println("POSITION FLOUE SOLUTION TEST : "+s.getRelationSpatiale(j).getReference().getClass()+" "+s.getRelationSpatiale(j).getSeuilInf()+" "+s.getRelationSpatiale(j).getSeuilSup()+" "+s.getRelationSpatiale(j).getDegreMax());
 						//System.out.println(carac.getNodeName()+" seuilInf:"+carac.getAttribute("seuilInf")+" seuilSup:"+carac.getAttribute("seuilSup")+" degreMax:"+carac.getAttribute("degreMax")+" reference:"+carac.getAttribute("reference")+" --> "+carac.getTextContent());
 					}
+					
+					
+					//le seuil global de la croissance région de la tumeur
+					s.setSeuilGlobal(Integer.parseInt(seuilGLobalTumeur.getTextContent()));
+					
+					//le seuil local de la croissance région de la tumeur
+					s.setSeuilLocal(Integer.parseInt(seuilLocalTumeur.getTextContent()));
 					
 					//Création du cas contenant le problème et la solution
 					Cas c = new Cas(p,s);

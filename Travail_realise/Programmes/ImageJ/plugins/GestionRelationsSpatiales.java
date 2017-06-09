@@ -4,7 +4,10 @@ import static RegionGrow.main.Constantes.BLEU;
 import static RegionGrow.main.Constantes.VERT;
 
 import java.awt.Point;
+import java.nio.file.Path;
 import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
 
 import RegionGrow.ontologieAnatomie.ColonneVertebrale;
 import RegionGrow.ontologieAnatomie.ReinDroit;
@@ -13,6 +16,7 @@ import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
 import RegionGrow.ontologieRelationsSpatiales.EnBasDe;
 import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
 import RegionGrow.ontologieRelationsSpatiales.MoyennementProcheDe;
+import RegionGrow.ontologieRelationsSpatiales.ProcheDe;
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 import ij.IJ;
 import ij.ImagePlus;
@@ -83,10 +87,10 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		
 		
 		//calcul du centre de gravité de la colonne vertébrale (point de référence)
-		Point ref = new Point(391, 374);
+		/*Point ref = new Point(391, 374);
 		Point ref2 = new Point(154,72);
 		pixelsA[(int)ref.getX()][(int)ref.getY()]=-50;
-		pixelsA[(int)ref2.getX()][(int)ref2.getY()]=-50;
+		pixelsA[(int)ref2.getX()][(int)ref2.getY()]=-50;*/
 		
 		/*int[][] haut = enHautDe(ref);
 		int[][] droite = aDroiteDe(ref);
@@ -107,7 +111,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		
 		
 		
-		ArrayList<RelationSpatiale> rel = new ArrayList<RelationSpatiale>();
+		/*ArrayList<RelationSpatiale> rel = new ArrayList<RelationSpatiale>();
 		
 		//objets
 		ColonneVertebrale c1 = new ColonneVertebrale();
@@ -165,7 +169,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		
 		//calcul + affichage
 		Point germe = calculeGerme(rel);
-		IJ.log("POISITION GERME TUMEUR : "+germe.getX()+" "+germe.getY());
+		IJ.log("POISITION GERME TUMEUR : "+germe.getX()+" "+germe.getY());*/
 		
 		/******************************************************/
 		
@@ -302,5 +306,29 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		}
 		return res;
 		
+	}
+	
+	public static void main(String[] args) {
+		//selection de l'image a segmenter
+		//le repertoire par defaut du JFileChooser est constitue a l'aide de \\ et non pas des \
+		JFileChooser dialogue = new JFileChooser("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\CT");
+		Path path = null;
+		if (dialogue.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
+			path = dialogue.getSelectedFile().toPath();
+		}
+		ImagePlus im = new ImagePlus(path.toString());
+		GestionRelationsSpatiales g = new GestionRelationsSpatiales(im.getWidth(), im.getHeight());
+		//il suffit de faire appel aux methodes de base d'un plugin ImageJ : setup() et run()
+		g.setup("", im);
+		ImageProcessor i = im.getProcessor();
+		g.run(i);
+		ArrayList<RelationSpatiale> mlsdkf = new ArrayList<>();
+		ProcheDe pd = new ProcheDe();
+		
+		ColonneVertebrale c1 = new ColonneVertebrale();
+		c1.setPosition(new Point(391,374));
+		pd.setReference(c1);
+		mlsdkf.add(pd);
+		Point p  = g.calculeGerme(mlsdkf);
 	}
 }

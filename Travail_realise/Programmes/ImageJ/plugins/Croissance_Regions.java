@@ -94,7 +94,7 @@ public class Croissance_Regions implements PlugInFilter {
 		IJ.log("\nSTATISTIQUES IMAGE EN ENTREE : moyenne : "+stats.mean+" asymetrie : "+stats.skewness+" ecart-type : "+stats.stdDev+" kurtosis : "+stats.kurtosis+"\n");
 
 		//les caracs nonImage sont en dur forcement
-		Probleme pEntree = new Probleme(5,175,22,0,4,3,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
+		Probleme pEntree = new Probleme(5,120,25,1,50,5,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
 
 		
 		// RaPC !!! (basique pour essayer pour le moment
@@ -584,7 +584,7 @@ public class Croissance_Regions implements PlugInFilter {
 		Point p1 = gr.calculeGerme(lr);
 		System.out.println("POSITION FLOUE DE LA TUMEUR : ("+p1.getX()+","+p1.getY()+")");
 		//TODO les seuils du germe de la tumeur sont en dur
-		Germe tumeur = new Germe((int)p1.getX(), (int)p1.getY(), 35, 20);
+		Germe tumeur = new Germe((int)p1.getX(), (int)p1.getY(), casRememore.getSolution().getSeuilGlobal(), casRememore.getSolution().getSeuilLocal());
 		tumeur.setLabelObjet(new TumeurRenale());
 		tumeur.setColor();
 		return tumeur;

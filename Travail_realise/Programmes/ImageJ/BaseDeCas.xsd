@@ -126,6 +126,9 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
+                    <xs:element type="xs:double" name="SeuilGlobalTumeur"/>
+                    <xs:element type="xs:double" name="SeuilLocalTumeur"/>
+                   
                   </xs:sequence>
                 </xs:complexType>
               </xs:element>

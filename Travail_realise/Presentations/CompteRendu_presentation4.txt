@@ -1,0 +1,5 @@
+boite englobante tres simplifiée
+separer les rapc en deux parites comme je l'ai dit
+definir une ontologie qui contient la pos des germes de tous les objets
+par adaptation en fct de la position de la tumeur, modifier le positionnemnt de ces germes
+quelles sont les informations precises que l'on recupere apres echograhpie ? demander au chirurgien le 5juillet

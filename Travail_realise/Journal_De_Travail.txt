@@ -693,10 +693,17 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- Etude de ce qu'a utilisé Perner pour le TI
 
 
-02/06/07:
+09/06/07:
+	Compte rendu présentation effectué sur papier pour une fois.
+	Dans l'optique de tester mes fonctions de simlarité, j'ai décidé de constituer une "vraie" base de cas contenant 4/5 scanners. Problème : les DICOM de SAIAD ne contiennent pas l'âge, la taille, ni la masse du patient, on a uniquement sont sexe.
+	du coup je construit à la main une base de cas ^^, en mettant des chiffres random pour les caracs nonImage
 
 
+	- Ajout de deux attributs supplémentaires dans la base de cas et donc dans la solution : 
+		- seuilLocal
+		- seuilGlobal
+	qui représentent les seuils de la tumeur du cas.
 
-
+	- Codage de la fonction ProcheDe()
 
 

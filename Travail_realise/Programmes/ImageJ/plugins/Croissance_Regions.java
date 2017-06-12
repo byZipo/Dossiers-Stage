@@ -15,6 +15,7 @@ import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
 import RegionGrow.baseDeCas.Traitement;
 import RegionGrow.lecture.LectureFichier;
+import RegionGrow.ontologieAnatomie.ArtereRenale;
 import RegionGrow.ontologieAnatomie.ColonneVertebrale;
 import RegionGrow.ontologieAnatomie.ObjetAnatomie;
 import RegionGrow.ontologieAnatomie.TumeurRenale;
@@ -94,7 +95,7 @@ public class Croissance_Regions implements PlugInFilter {
 		IJ.log("\nSTATISTIQUES IMAGE EN ENTREE : moyenne : "+stats.mean+" asymetrie : "+stats.skewness+" ecart-type : "+stats.stdDev+" kurtosis : "+stats.kurtosis+"\n");
 
 		//les caracs nonImage sont en dur forcement
-		Probleme pEntree = new Probleme(5,120,25,1,50,5,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
+		Probleme pEntree = new Probleme(3,100,22,1,50,5,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
 
 		
 		// RaPC !!! (basique pour essayer pour le moment
@@ -112,7 +113,15 @@ public class Croissance_Regions implements PlugInFilter {
 		if(MUSCLES_A_ENLEVER)ip = supprimerObjets(lgermesInutiles);
 		
 		//calcul de la position du germe de la tumeur
+		
+		//je peux effectivemnt
+		/*Germe t1 = recupererGermeTumeur(casRememore);
+		Germe t2 = new Germe(t1.getX()-50,t1.getY()-30,t1.getSeuilGlobal(),t1.getSeuilLocal());
+		t2.setLabelObjet(new TumeurRenale());*/
+		//t2.setColor();
 		lgermes.add(recupererGermeTumeur(casRememore));
+		//lgermes.add(t2);
+		
 		
 		//TODO en réalité ici il faut appeler la méthode avec pEntree et casRememore
 		//int[][] boiteEnglobante = getBoiteEnglobante(casRememore.getProbleme(), casRememore);
@@ -574,7 +583,7 @@ public class Croissance_Regions implements PlugInFilter {
 	 * @return le germe de la tumeur
 	 */
 	public Germe recupererGermeTumeur(Cas casRememore){
-		GestionRelationsSpatiales gr = new GestionRelationsSpatiales(w,h);
+		GestionRelationsSpatiales gr = new GestionRelationsSpatiales(w,h,ip);
 		
 		ArrayList<RelationSpatiale> lr = casRememore.getSolution().getPositionFloueTumeur();
 		for(int indice = 0 ; indice < lr.size() ; indice++){

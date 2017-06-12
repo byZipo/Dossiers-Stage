@@ -24,7 +24,9 @@ public class ProcheDe extends RelationDeDistance{
 		int y = (int)Math.abs(centre.getY()-coin.getY());
 		int demiDiagonale = (int)Math.sqrt((x*x)+(y*y));
 		
-		int seuilInf = demiDiagonale/5;
+		
+		//valeur à mettre pour un ProcheDe "par défaut" : 5
+		int seuilInf = (int) (demiDiagonale/this.degreMax);
 		int seuilSup = demiDiagonale/2 + (int)(demiDiagonale/(3));
 		//int degreMax = demiDiagonale/2;
 		

@@ -74,6 +74,7 @@ public abstract class RelationSpatiale {
 	 * @param seuilInf : la chaîne correspondant au seuilInf
 	 */
 	public void setSeuilInfByString(String seuilInf){
+		if(seuilInf==null || seuilInf.equals(""))seuilInf = "0";
 		try{
 			this.seuilInf = Double.parseDouble(seuilInf);
 		}catch(Exception e){
@@ -88,6 +89,7 @@ public abstract class RelationSpatiale {
 	 * @param seuilSup : la chaîne correspondant au seuilSup
 	 */
 	public void setSeuilSupByString(String seuilSup){
+		if(seuilSup==null || seuilSup.equals(""))seuilSup = "0";
 		try{
 			this.seuilSup = Double.parseDouble(seuilSup);
 		}catch(Exception e){

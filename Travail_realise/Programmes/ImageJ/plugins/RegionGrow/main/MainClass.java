@@ -25,13 +25,13 @@ public class MainClass {
 		}
 		ImagePlus im = new ImagePlus(path.toString());
 		Croissance_Regions c = new Croissance_Regions();
-		GestionRelationsSpatiales g = new GestionRelationsSpatiales(im.getWidth(), im.getHeight());
+		//GestionRelationsSpatiales g = new GestionRelationsSpatiales(im.getWidth(), im.getHeight());
 		//il suffit de faire appel aux methodes de base d'un plugin ImageJ : setup() et run()
 		c.setup("", im);
-		g.setup("", im);
+		//g.setup("", im);
 		ImageProcessor i = im.getProcessor();
 		c.run(i);
-		g.run(i);
+		//g.run(i);
 	}
 	
 	public static void main(String[] args) {

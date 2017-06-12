@@ -25,9 +25,11 @@ public class MoyennementProcheDe extends RelationDeDistance{
 		int y = (int)Math.abs(centre.getY()-coin.getY());
 		int demiDiagonale = (int)Math.sqrt((x*x)+(y*y));
 		
+		
 		int seuilInf = demiDiagonale/5;
 		int seuilSup = demiDiagonale/2 + (int)(demiDiagonale/(3));
-		int degreMax = demiDiagonale/2;
+		//valeur à mettre pour un MoyennementProcheDe "par défaut" : 2
+		int degreMax = (int) (demiDiagonale/this.degreMax);
 		
 		
 		//affectation couleur

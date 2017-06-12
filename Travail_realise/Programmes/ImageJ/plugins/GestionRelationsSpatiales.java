@@ -47,9 +47,10 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 
 	
 	
-	public  GestionRelationsSpatiales(int w, int h) {
+	public  GestionRelationsSpatiales(int w, int h, ImageProcessor ip) {
 		this.w=w;
 		this.h=h;
+		this.run(ip);
 	}
 	
 	
@@ -204,7 +205,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		tab = normaliser(tab);
 		
 		//dessin du résultat obtenu
-		//dessin(tab);
+		dessin(tab);
 		
 		//on retourne le meilleur pixel de la carte qui devient le germe
 		
@@ -222,8 +223,7 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		for (int i = 0; i < w; i++) {
 			for (int j = 0; j < h; j++) {
 				int[] tab = {fusion2[i][j],fusion2[i][j],fusion2[i][j]}; //l'image est rgb donc requiert 3 canaux 
-				if(pixelsA[i][j]!=-50)ipr.putPixel(i, j, tab); //dessin des relations spatiales floues
-				else ipr.putPixel(i, j, BLEU); //dessin du point de référence
+				ipr.putPixel(i, j, tab); //dessin des relations spatiales floues
 				if(fusion2[i][j]==0){
 					int[] cpy = {pixelsCopy[i][j],pixelsCopy[i][j],pixelsCopy[i][j]}; 
 					ipr.putPixel(i,j,cpy); //dessin de l'image de base la où il n'y a pas de relations spatiales floues
@@ -317,16 +317,17 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 			path = dialogue.getSelectedFile().toPath();
 		}
 		ImagePlus im = new ImagePlus(path.toString());
-		GestionRelationsSpatiales g = new GestionRelationsSpatiales(im.getWidth(), im.getHeight());
+		GestionRelationsSpatiales g = new GestionRelationsSpatiales(im.getWidth(), im.getHeight(),im.getProcessor());
 		//il suffit de faire appel aux methodes de base d'un plugin ImageJ : setup() et run()
 		g.setup("", im);
 		ImageProcessor i = im.getProcessor();
 		g.run(i);
 		ArrayList<RelationSpatiale> mlsdkf = new ArrayList<>();
 		ProcheDe pd = new ProcheDe();
+		pd.setDegreMax(5);
 		
 		ColonneVertebrale c1 = new ColonneVertebrale();
-		c1.setPosition(new Point(391,374));
+		c1.setPosition(new Point(264,318));
 		pd.setReference(c1);
 		mlsdkf.add(pd);
 		Point p  = g.calculeGerme(mlsdkf);

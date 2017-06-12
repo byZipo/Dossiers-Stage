@@ -707,3 +707,22 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- Codage de la fonction ProcheDe()
 
 
+12/06/17 : 
+	- les attributs des relations spatiales (seuilInf, seuilMax) sont dorénavant optionnels, si non renseignés, ils sont mis à 0. j'effectue cette modification pour le cas des relations de distances, qui ne contiennent pas ces attributs (ils sont auto-calculés).
+	- le degreMax pour les relations de distances (procheDe, MPDe, etc.) sert désormais de "poids" pour la distance.
+		(mettre à 2 par défaut pour MPDe)
+		(mettre à 5 par défaut pour ProcheDe)
+	- il est possible de dessiner quoiqu'il arrive les fonctions floues, j'ai résolu le problème.
+
+	- COMMENT PLACER PLUSIEURS GERMES ??????
+		- pour placer plusieurs germes sur le rein par exemple, on peut utiliser le RàPC
+		- pour placer le premier germe de la tumeur, on utilise la logique floue
+		- mais pour placer d'autres germes tumeur ????
+
+
+	- J'ai 3 cas qui fonctionnent plutôt pas mal dans ma base de cas, par contre cela ne marche pas quand je lance avec le 4eme qui pourtant est tres similaire au 3eme : les germes du rein sont dans la tumeur ^^. 
+	Il faut trouver un moyen piur être très précis sur la position des germes du rein, car cet organe est généralement très fin et proche de la tumeur.
+
+	- j'arrive à placer plusieurs gemres pour le même organe dans la partie solution d'un cas, pour les reins par exemple. Je peux aussi le faire pour la tumeur (en terme de code c'est possible, j'ai essayé), mais quelle méthodologie adopter pour les séparer suffisement, et ne pas sortir de la forme ?
+
+	

@@ -108,6 +108,11 @@ public class Germe {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	public void setPos(int x, int y){
+		this.x=x;
+		this.y=y;
+	}
 
 	public int getCouleur() {
 		if(couleur==0){

@@ -33,6 +33,10 @@ public abstract class ObjetAnatomie {
 		return this.getClass().getName();
 	}
 	
+	public String getNomSimple(){
+		return this.getClass().getSimpleName();
+	}
+	
 	/**
 	 * Retourne le nom de l'objet anatomique concerné
 	 */

@@ -726,3 +726,16 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- j'arrive à placer plusieurs gemres pour le même organe dans la partie solution d'un cas, pour les reins par exemple. Je peux aussi le faire pour la tumeur (en terme de code c'est possible, j'ai essayé), mais quelle méthodologie adopter pour les séparer suffisement, et ne pas sortir de la forme ?
 
 	
+
+13/06/17:
+	- Pistes pour améliorer le positionnement des germes : 
+		- utiliser cette fameuse ontologie ^^
+		- pour le rein par exemple : on sait qu'il sera plutôt blanc (ou clair), donc si la couleur du pixel associé au germe calculé est noire, on a faux, il faut déplacer le germe (l'ontologie pourrait nous dire dans quel sens le faire) J'ai codé un algo, qui a l'air de fonctionner : 
+			- fonction adaptationGermes()
+			j'utilise la 8connexité pour faire un rayon autour de mon germe de base, en cherchant un pixel ayant une intensité > à mon seuil (nouvelle constante SEUIL_INF_COULEUR_REIN)
+			si je  n'ai pas trouvé, j'augmente la taille du rayon, et je continue jusqu'à trouver.
+
+
+	- cette fois j'ai deux options : 
+		- lire la these de kizzy dans le but de comprendre les ontologies
+		- coder ma mesure de similarité découpée

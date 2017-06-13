@@ -56,4 +56,7 @@ public final class Constantes {
 	//activer/desactiver la suppresion des muscles lors de la segmentation
 	public static final boolean MUSCLES_A_ENLEVER = true;
 	
+	//définit l'intensité minimale en niveau de gris d'un rein sur les scanners (avec prétraitement)
+	public static final int SEUIL_INF_COULEUR_REIN = 150;
+	
 }

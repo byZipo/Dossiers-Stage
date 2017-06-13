@@ -18,6 +18,7 @@ import RegionGrow.lecture.LectureFichier;
 import RegionGrow.ontologieAnatomie.ArtereRenale;
 import RegionGrow.ontologieAnatomie.ColonneVertebrale;
 import RegionGrow.ontologieAnatomie.ObjetAnatomie;
+import RegionGrow.ontologieAnatomie.Rein;
 import RegionGrow.ontologieAnatomie.TumeurRenale;
 import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
 import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
@@ -106,8 +107,12 @@ public class Croissance_Regions implements PlugInFilter {
 		ArrayList<Germe> lgermes = casRememore.getSolution().getGermesUtiles();
 		ArrayList<Germe> lgermesInutiles = casRememore.getSolution().getGermesInutiles();
 		
+		
 		//pretaitements
 		doPretraitements(casRememore);
+		
+		//adaptation position des germes en fonction de la couleur supposée sous le germe
+		lgermes = adaptationGermes(lgermes);
 		
 		//suppression des muscles
 		if(MUSCLES_A_ENLEVER)ip = supprimerObjets(lgermesInutiles);
@@ -686,6 +691,58 @@ public class Croissance_Regions implements PlugInFilter {
 		*/
 		return null;
 	}
+	
+	
+	/**
+	 * Adapte la position des germes en fonction de leur caractéristique prédominante  
+	 * par exemple le rein est toujours clair donc on s'attend à un pixel clair, sinon on adapte
+	 * @param lgermes : la liste des germes
+	 * @return : la liste des germes adaptée
+	 */
+	public ArrayList<Germe> adaptationGermes(ArrayList<Germe> lgermes){
+		
+		
+		int[][] image = ip.getIntArray();
+		
+		for(int i = 0 ; i < lgermes.size() ; i++){
+			Germe g = lgermes.get(i);
+			
+			
+			//Si le germe a pour label un Rein (Droit ou Gauche)
+			if(g.getLabelObjet() instanceof Rein){
+				//le rein est généralement clair, donc à forte intensité, on a donc faux si on a une faible valeur
+				int alpha = 1;
+				//tant qu'on n'a pas trouvé de pixel à l'intensité suffistante
+				while(image[g.getX()][g.getY()]<150){
+					
+					//on rgearde le voisinnage (8-connexe) du germe et on cherche un voisin potentiel
+					for(int x = -alpha ; x <= alpha ; x++){
+						for(int y = -alpha ; y <= alpha ; y++){
+							
+							//si un voisin correspond, on remplace l'ancien germe par celui-ci
+							if(image[g.getX()+alpha][g.getY()+alpha] >= Constantes.SEUIL_INF_COULEUR_REIN) {
+								System.out.println("Adaptation de la position d'un germe de type : "+g.getLabelObjet().getNomSimple()+" --> ancienne pos : ("+g.getX()+","+g.getY()+") nouvelle pos : ("+(g.getX()+alpha)+","+(g.getY()+alpha)+")");
+								lgermes.get(i).setPos(g.getX()+alpha, g.getY()+alpha);
+								
+							}
+						}
+					}
+					
+					//augmentation du rayon de recherche
+					alpha++;
+					g = lgermes.get(i);
+				}
+			}
+			
+			
+			//Si le germe a pour label un blahblahblah TODO
+		}
+		
+		return lgermes;
+		
+	}
+	
+	
 	
 	public static void main(String[] args) {
 		Croissance_Regions c = new Croissance_Regions();

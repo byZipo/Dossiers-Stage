@@ -6,3 +6,10 @@ Ontologies / Web Semantique / LD / OWL / Similarités
 Ontologie : concepts / relations / axiomes / instances / faits
 les informations utiles sont soulignées en jaune depuis mendeley directement sur le PDF.
 pour les ontologies, le contenu qui m'intéresse va jusqu'à la page 35.
+
+Partie Similarité : 
+table de transcription RTGS qui fait la correspondance entre thai et anglais (latin).
+la translitération compare les caractères, au contraire de la transcription qui est plus phonétique/syllabique
+
+
+Elle décrit tous les alogirthmes du style : hamming, levensthein, lcs, etc. et décrit ceux qui seront potentiellement les plus adaptés à son problème.

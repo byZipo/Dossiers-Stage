@@ -739,3 +739,9 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- cette fois j'ai deux options : 
 		- lire la these de kizzy dans le but de comprendre les ontologies
 		- coder ma mesure de similarité découpée
+		- 
+
+19/06/17:
+	- matin soutenance blanche de lisa, à l'issu de laquelle on m'a demandé de faire un DICE + IU sur une segmentation croissanceRegion + Watershed sur un des scanners utilisés par Lisa pour ensuite comparer les résultats DeepLearning VS Segmentation classiques.
+
+	- j'ai donc réalisé la croissance région, il me reste à coder le DICE + IU et à faire aussi le watersheed.

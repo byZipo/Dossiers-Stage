@@ -14,7 +14,7 @@ public class Seuillage_hysteresis implements PlugInFilter {
 	public void run(ImageProcessor ip){
 		//ICI ON PEUT REGLER LES SEUILS
 		int Sb = 40; //seuil haut
-		int Sh = 160; // seuil bas
+		int Sh = 80; // seuil bas
 		int w = ip.getWidth();
 		int h = ip.getHeight();
 		byte [] pixels = ( byte []) ip.getPixels();

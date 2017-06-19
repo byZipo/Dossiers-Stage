@@ -5,9 +5,12 @@ import static RegionGrow.main.Constantes.MUSCLES_A_ENLEVER;
 
 import java.awt.Point;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+
+import javax.swing.JFileChooser;
 
 import RegionGrow.baseDeCas.BaseDeCas;
 import RegionGrow.baseDeCas.Cas;
@@ -19,7 +22,10 @@ import RegionGrow.ontologieAnatomie.ArtereRenale;
 import RegionGrow.ontologieAnatomie.ColonneVertebrale;
 import RegionGrow.ontologieAnatomie.ObjetAnatomie;
 import RegionGrow.ontologieAnatomie.Rein;
+import RegionGrow.ontologieAnatomie.ReinDroit;
+import RegionGrow.ontologieAnatomie.ReinGauche;
 import RegionGrow.ontologieAnatomie.TumeurRenale;
+import RegionGrow.ontologieAnatomie.VeineRenale;
 import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
 import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
 import RegionGrow.ontologieRelationsSpatiales.ProcheDe;
@@ -750,7 +756,7 @@ public class Croissance_Regions implements PlugInFilter {
 		BaseDeCas base = l.parserXML("BaseDeCas.xml");
 		Probleme p = new Probleme();
 		
-		ColonneVertebrale c1 = new ColonneVertebrale();
+		/*ColonneVertebrale c1 = new ColonneVertebrale();
 		c1.setPosition(new Point(391,374));
 		
 		AGaucheDe rs1 = new AGaucheDe();
@@ -772,7 +778,162 @@ public class Croissance_Regions implements PlugInFilter {
 		p.ajouterRelationFloue(rs2);
 		p.ajouterRelationFloue(rs3);
 		
-		c.getMeilleurProbleme2(p, base);
+		c.getMeilleurProbleme2(p, base);*/
+		JFileChooser dialogue = new JFileChooser("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\CT");
+		Path path = null;
+		if (dialogue.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
+			 path = dialogue.getSelectedFile().toPath();
+		}
+		ImagePlus im = new ImagePlus(path.toString());
+		//GestionRelationsSpatiales g = new GestionRelationsSpatiales(im.getWidth(), im.getHeight());
+		//il suffit de faire appel aux methodes de base d'un plugin ImageJ : setup() et run()
+		c.setup("", im);
+		//g.setup("", im);
+		ImageProcessor i = im.getProcessor();
+		c.ip=i;
+		c.h=c.ip.getHeight();
+		c.w=c.ip.getWidth();
+		
+		
+		ArrayList<Germe> lgermes = new ArrayList<Germe>();
+		ColonneVertebrale c1 = new ColonneVertebrale();
+		c1.setPosition(new Point(318,274));
+		TumeurRenale t = new TumeurRenale();
+		t.setPosition(new Point(0,0));
+		ReinGauche reinG = new ReinGauche();
+		reinG.setPosition(new Point(0,0));
+		ReinDroit reinD = new ReinDroit();
+		reinD.setPosition(new Point(0,0));
+		VeineRenale veine = new VeineRenale();
+		veine.setPosition(new Point(0, 0));
+		ArtereRenale artere = new ArtereRenale();
+		artere.setPosition(new Point(0, 0));
+		
+		
+		Germe g1 = new Germe();
+		g1.setPos(318, 270);
+		g1.setLabelObjet(c1);
+		g1.setColor();
+		g1.setSeuilLocal(30);
+		g1.setSeuilGlobal(45);
+		
+		Germe g2 = new Germe();
+		g2.setPos(389,267);
+		g2.setLabelObjet(c1);
+		g2.setColor();
+		g2.setSeuilLocal(30);
+		g2.setSeuilGlobal(45);
+		
+		Germe g3 = new Germe();
+		g3.setPos(265, 209);
+		g3.setLabelObjet(t);
+		g3.setColor();
+		g3.setSeuilLocal(20);
+		g3.setSeuilGlobal(20);
+		
+		Germe gt2 = new Germe();
+		gt2.setPos(254, 146);
+		gt2.setLabelObjet(t);
+		gt2.setColor();
+		gt2.setSeuilLocal(20);
+		gt2.setSeuilGlobal(20);
+		
+		Germe gt3 = new Germe();
+		gt3.setPos(213, 158);
+		gt3.setLabelObjet(t);
+		gt3.setColor();
+		gt3.setSeuilLocal(20);
+		gt3.setSeuilGlobal(20);
+		
+		
+		Germe gt4 = new Germe();
+		gt4.setPos(339, 221);
+		gt4.setLabelObjet(t);
+		gt4.setColor();
+		gt4.setSeuilLocal(20);
+		gt4.setSeuilGlobal(20);
+		
+		Germe gt5 = new Germe();
+		gt5.setPos(313, 156);
+		gt5.setLabelObjet(t);
+		gt5.setColor();
+		gt5.setSeuilLocal(50);
+		gt5.setSeuilGlobal(50);
+
+		Germe gt6 = new Germe();
+		gt6.setPos(276, 140);
+		gt6.setLabelObjet(t);
+		gt6.setColor();
+		gt6.setSeuilLocal(20);
+		gt6.setSeuilGlobal(20);
+		
+		
+		Germe g4 = new Germe();
+		g4.setPos(232, 127);
+		g4.setLabelObjet(reinG);
+		g4.setColor();
+		g4.setSeuilLocal(10);
+		g4.setSeuilGlobal(15);
+		
+		Germe g5 = new Germe();
+		g5.setPos(330, 363);
+		g5.setLabelObjet(reinD);
+		g5.setColor();
+		g5.setSeuilLocal(15);
+		g5.setSeuilGlobal(30);
+		
+		Germe veine1 = new Germe();
+		veine1.setPos(261, 292);
+		veine1.setLabelObjet(veine);
+		veine1.setColor();
+		veine1.setSeuilGlobal(30);
+		veine1.setSeuilLocal(20);
+		
+		Germe veine2 = new Germe();
+		veine2.setPos(211, 255);
+		veine2.setLabelObjet(veine);
+		veine2.setColor();
+		veine2.setSeuilGlobal(30);
+		veine2.setSeuilLocal(20);
+		
+		Germe artere1 = new Germe();
+		artere1.setPos(292,286);
+		artere1.setLabelObjet(artere);
+		artere1.setColor();
+		artere1.setSeuilGlobal(30);
+		artere1.setSeuilLocal(20);
+		
+		Germe artere2 = new Germe();
+		artere2.setPos(302,244);
+		artere2.setLabelObjet(artere);
+		artere2.setColor();
+		artere2.setSeuilGlobal(30);
+		artere2.setSeuilLocal(20);
+		
+		Germe veine3 = new Germe();
+		veine3.setPos(290, 306);
+		veine3.setLabelObjet(veine);
+		veine3.setColor();
+		veine3.setSeuilGlobal(30);
+		veine3.setSeuilLocal(20);
+		
+		lgermes.add(g1);
+		lgermes.add(g2);
+		lgermes.add(g3);
+		lgermes.add(g4);
+		lgermes.add(g5);
+		lgermes.add(gt2);
+		lgermes.add(gt3);
+		lgermes.add(gt4);
+		lgermes.add(gt5);
+		lgermes.add(gt6);
+		lgermes.add(veine1);
+		lgermes.add(veine2);
+		lgermes.add(veine3);
+		lgermes.add(artere1);
+		lgermes.add(artere2);
+		
+		c.segmentation(lgermes, true);
 		
 		
 		

@@ -13,7 +13,7 @@ public class Norme_Gradient_Seuil implements PlugInFilter {
 
 	public void run(ImageProcessor ip){
 		
-		int S = 30; //ICI ON PEUT REGLER LE SEUILLAGE
+		int S = 40; //ICI ON PEUT REGLER LE SEUILLAGE
 		/* AVEC normalisation
 		 * Pour barbara : S = 20 donne de bons résultats
 		 * Pour micors : idem S = 20

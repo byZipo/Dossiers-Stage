@@ -750,6 +750,8 @@ public class Croissance_Regions implements PlugInFilter {
 	
 	
 	
+	
+	
 	public static void main(String[] args) {
 		Croissance_Regions c = new Croissance_Regions();
 		LectureFichier l = new LectureFichier();
@@ -794,7 +796,8 @@ public class Croissance_Regions implements PlugInFilter {
 		c.h=c.ip.getHeight();
 		c.w=c.ip.getWidth();
 		
-		
+		//CROISSANCE DE REGIONS MANUELLE POUR L'IMAGE LISA_2
+		/*
 		ArrayList<Germe> lgermes = new ArrayList<Germe>();
 		ColonneVertebrale c1 = new ColonneVertebrale();
 		c1.setPosition(new Point(318,274));
@@ -934,6 +937,10 @@ public class Croissance_Regions implements PlugInFilter {
 		lgermes.add(artere2);
 		
 		c.segmentation(lgermes, true);
+		*/
+		
+
+		
 		
 		
 		

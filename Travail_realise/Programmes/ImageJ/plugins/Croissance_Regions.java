@@ -349,11 +349,15 @@ public class Croissance_Regions implements PlugInFilter {
 
 		//somme des carcteristiques du probleme d'entree
 		double valEntree = p.getSommeCaracs(); 
+		
 		for(int i = 0 ; i < base.getTailleBase(); i++){
 			double distance = 0;
 			Probleme tmp = base.getCas(i).getProbleme();
 			//somme des caracteristiques du probleme courant de la base
 			double valTmp = tmp.getSommeCaracs();
+			double simNonImage = p.getSimNonImage(tmp, 1, 1, 0.5);
+			double simImage = p.getSimImage(tmp, 1, base.getValeursMinImage(), base.getValeursMaxImage());
+			System.out.println(p.getSimGlobale(simNonImage, simImage,0.5,0.5));
 			//calcul de distance entre les deux problemes
 			distance = Math.abs(valTmp - valEntree);
 			IJ.log("DISTANCE avec cas"+(i+1)+" : "+distance);

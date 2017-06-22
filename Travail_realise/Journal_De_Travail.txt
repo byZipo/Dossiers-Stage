@@ -745,3 +745,26 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- matin soutenance blanche de lisa, à l'issu de laquelle on m'a demandé de faire un DICE + IU sur une segmentation croissanceRegion + Watershed sur un des scanners utilisés par Lisa pour ensuite comparer les résultats DeepLearning VS Segmentation classiques.
 
 	- j'ai donc réalisé la croissance région, il me reste à coder le DICE + IU et à faire aussi le watersheed.
+
+20/06/17:
+	- codage d'une nouvelle classe qui réalise dez calculs de similiratié :
+		- DICE
+		- IU ou indice de Jacquart
+	 	+ tests sur les images segmentées la veille, et transimission des résultats à Lisa
+
+
+	 	PRETRAITEMENTS 	: il me semble que l'egalisation d'hisogramme (et les augmentation contraste/luminosité) sont aussi de très bons filtres ---> A TESTER !!!!
+
+
+21/06/17:
+	- fin de la lecture de la thèse de Kizzyy.
+	- cette fois il faut que je termine mon approche vis à vis de la similarité
+	- je pourrai ensuite passer à l'algorithme de "double ràpc", et à la création de l'ontologie
+
+
+	IL VA ME FALLOIR DES IMAGES DE MËME TAILLLLEEE (pour éviter les indexoutofpounds de placement des germes)
+
+	- fonction getSimNonImage() codée, elle effectue le calcul de similarité de Perner pour les caracs NonImage
+	- fonction getSimImage() codéée, idem selon Perner
+	- fonction getSimGlobale() codée, idem selon Perner
+	--> ça fonctionne ^^!

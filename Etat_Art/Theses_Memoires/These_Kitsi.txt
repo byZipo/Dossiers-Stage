@@ -13,3 +13,25 @@ la translitération compare les caractères, au contraire de la transcription qu
 
 
 Elle décrit tous les alogirthmes du style : hamming, levensthein, lcs, etc. et décrit ceux qui seront potentiellement les plus adaptés à son problème.
+
+Par rapport à mon projet, le problème c'est qu'ici on compare des chaines de caractère uniquement.
+Par contre certaines distances pêuvent êtres adaptées à mon problème, à voir.
+
+Les ontologies sont codées sous protégé donc je pense que cette thèse me sera utile concernant ce point.
+	
+
+Ontologie sous protégé (donc en OWL) + Requêtes en Sparql
+utilisation du reasonner pour inférer + contrôle de la constence de l'ontologie 
+Pour obtenir la réponse à une question (requête) on peut utiliser :
+	- requête SparQl
+	- reasonner Protégé
+
+
+Mes enjeux : 
+	- trouver une ontologie existante de représentation des organes qui soit pertinente et utilisatable dans notre projet.
+	- être capable de raisonner pour inférer des K non décrites dans l'ontologie (voir les exemples avec AGAucheDe, etc.)
+	- intéragir entre mon programme Java et l'ontologie (Kizzyy utilise Jena --> à regarder de plus près)
+	- décrire précisément quelles données stocker dans l'ontologie, en plus des organes et des relations spatiales
+	- vu qu'on a à la fois les relations spatiales et les organes (objets), on pourrait imaginer faire deux ontologies, à l'image de ce qu'a fait Kizzyy (tourisme + langage + profil utilisateur)
+
+

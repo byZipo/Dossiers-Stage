@@ -1,13 +1,16 @@
 package RegionGrow.main;
 
+import java.awt.Color;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 
 import ij.ImagePlus;
+import ij.io.FileSaver;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.ByteProcessor;
+import ij.process.ColorProcessor;
 import ij.process.ImageProcessor;
 
 
@@ -155,6 +158,43 @@ public class CritereSatisfaction implements PlugInFilter{
 	}
 	
 	
+	public void supprimerGris(ColorProcessor c){
+		
+		
+		ImageProcessor ipDT= new ColorProcessor(c.getWidth(),c.getHeight());
+		ImagePlus imageDT= new ImagePlus("Croissance Regions", ipDT);
+		ImageProcessor ipr = imageDT.getProcessor();
+		
+		
+		for (int i = 0; i < c.getWidth(); i++) {
+			for (int j = 0; j < c.getHeight(); j++) {
+				Color col = c.getColor(i, j);
+				if(col.getRed() ==  72 && col.getGreen() == 119 && col.getBlue() ==72){
+					ipr.putPixel(i, j, new int[]{72,119,72});
+				}else if(col.getRed() ==  90 && col.getGreen() == 52 && col.getBlue() ==41){
+					ipr.putPixel(i, j, new int[]{90,52,41});
+				}
+				else if(col.getRed() ==  0 && col.getGreen() == 75 && col.getBlue() ==103){
+					ipr.putPixel(i, j, new int[]{0,75,103});
+				}
+				else if(col.getRed() ==  108 && col.getGreen() == 50 && col.getBlue() ==39){
+					ipr.putPixel(i, j, new int[]{108,50,39});
+				}
+				//System.out.print(c.getColor(262,266 ).getBlue()+" ");
+				
+			}
+		}
+		
+		imageDT.show();
+		imageDT.updateAndDraw();
+		
+		/*FileSaver save = new FileSaver(imageDT);
+		save.saveAsPng();*/
+		
+		
+	}
+	
+	
 	public static void main(String[] args) {
 		CritereSatisfaction d = new CritereSatisfaction();
 		
@@ -184,6 +224,24 @@ public class CritereSatisfaction implements PlugInFilter{
 		System.out.println(d.getIU(tab1, tab2));
 		d.getDiceParObjet(tab1, tab2);
 		d.getIUParObjet(tab1, tab2);
+		
+		
+		/////////// SUPPRESSION GRIS WATERSHED //////////////
+		
+		/*
+		
+		JFileChooser dialogue3 = new JFileChooser("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\CT");
+		Path path3 = null;
+		if (dialogue3.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
+			 path3 = dialogue3.getSelectedFile().toPath();
+		}
+		ImagePlus im3 = new ImagePlus(path3.toString());
+		d.setup("", im3);
+		ColorProcessor c3 = im3.getProcessor().convertToRGB().convertToColorProcessor();
+		
+		d.supprimerGris(c3);
+		
+		*/
 	}
 	
 	

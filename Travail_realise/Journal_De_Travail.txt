@@ -768,3 +768,21 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- fonction getSimImage() codéée, idem selon Perner
 	- fonction getSimGlobale() codée, idem selon Perner
 	--> ça fonctionne ^^!
+
+
+
+23/06/17 : 
+
+	essayer de faire le DICE ou L'IU sur les résultats du watershed
+
+	rappel rapide du rapc (concepts, définitions, etc)
+	puis présenter mes travaux dans le projet : 
+		- modélisation du rapc
+		- subtilités
+		- séparation des rapc
+		- logique floue
+		- ontologies
+		- similarité
+		- adaptation
+		- base de cas
+		- etc.

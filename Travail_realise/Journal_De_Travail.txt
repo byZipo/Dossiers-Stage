@@ -772,17 +772,45 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 
 
 23/06/17 : 
+	- mini réunion :
+		-essayer de faire le DICE ou L'IU sur les résultats du watershed --> FAIT
+		- voir Fourier
+		- présentation du 5 juillet : 
+			-rappel rapide du rapc (concepts, définitions, etc)
+			-puis présenter mes travaux dans le projet : 
+				- modélisation du rapc
+				- subtilités
+				- séparation des rapc
+				- logique floue
+				- ontologies
+				- similarité
+				- adaptation
+				- base de cas
+				- etc.
 
-	essayer de faire le DICE ou L'IU sur les résultats du watershed
 
-	rappel rapide du rapc (concepts, définitions, etc)
-	puis présenter mes travaux dans le projet : 
-		- modélisation du rapc
-		- subtilités
-		- séparation des rapc
-		- logique floue
-		- ontologies
-		- similarité
-		- adaptation
-		- base de cas
-		- etc.
+24/06/17 : 
+	- commencer la présentation
+	- recherches conernant fourier, qui semble par forcément fait pour de la comparaison 
+		--> on peut obtenir kurtosis, skewness et tout, mas du coup, quel interet supplémentaire par rapport aux stats de base ? aucun à mon avis
+
+
+			A METTRE DANS UNE PRESENTATION : 
+			--> je viens de le prouver : voir image FFt_naporteReinDePlus:
+				comparaison des criètres image sur 3 images, dont deux très semblables :
+				lignes impaires : critères calculés sur image de base
+				lignes paires : criètres calculés sur l'image FFT 
+				l'ordre est le suivant : "2.png" (et sa FFT), "3.png"(et sa FFT), "4.png" (et sa FFT)
+				on observe que la différence de similarité entre les criètres n'est pas meilleure en FFT, par exemple
+				si l'on regarde la moyenne : 
+					- en Image de base, diffMoyenne = environ 13 entre 2 et 3, et environ 8 entre 3 et 4 --> OK
+					- en FFT, diffMoyenne = environ 3.5 entre 2 et 3, et environ 4 entre 3 et 4 --> FAUX
+				donc utiliser les caractéristiques des FFT n'est pas concluant
+
+				APRES JE NE SAIS PAS SI ON PEUT COMPARER DIRECTEMENT LES IMAGES FFT ? A MON AVIS NON , A CE COMPTE LA ON POURRAIT AUSSI DIRECTEMENT COMPARER UNE IMAGE DE BASE ^^
+				donc je pense qu'on peut dire que la solution de la FFT n'est pas à retenir, car elle n'apporte rien de plus (et se trompe même comme pour la moyenne par exemple)
+
+
+		--> en plus niveau implementation c'est ultra chiant car imageJ propose un plugin FFT mais il est tout pourri, aucun moyen de récupérer des données à la fin.
+	- recherches sur le transformée de Hough, idem
+

@@ -6,12 +6,19 @@ import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 
+
 import ij.ImagePlus;
+import ij.ImageStack;
 import ij.io.FileSaver;
+import ij.io.Opener;
+import ij.measure.Measurements;
+import ij.plugin.FFT;
+import ij.plugin.filter.FFTFilter;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.ByteProcessor;
 import ij.process.ColorProcessor;
 import ij.process.ImageProcessor;
+import ij.process.ImageStatistics;
 
 
 /**
@@ -242,7 +249,26 @@ public class CritereSatisfaction implements PlugInFilter{
 		d.supprimerGris(c3);
 		
 		*/
+		Opener o = new Opener();
+		o.open();
+		FFT fft = new FFT();
+		fft.run("");
+		/*int centerOfMass2 = Measurements.CENTER_OF_MASS;
+		int skewness2 = Measurements.SKEWNESS;*/
+		
+		
+/*		
+		System.out.println(Measurements.CENTER_OF_MASS);
+		System.out.println(Measurements.SKEWNESS);
+		System.out.println(Measurements.KURTOSIS);
+		System.out.println(Measurements.MEDIAN);
+		System.out.println(Measurements.MEDIAN);
+		System.out.println(Measurements.STD_DEV);
+		
+*/
 	}
+	
+
 	
 	
 	

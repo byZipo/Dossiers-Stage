@@ -6,9 +6,10 @@ import java.util.ArrayList;
 
 import javax.swing.JFileChooser;
 
-
+import RegionGrow.baseDeCas.Probleme;
 import ij.ImagePlus;
 import ij.ImageStack;
+import ij.gui.Roi;
 import ij.io.FileSaver;
 import ij.io.Opener;
 import ij.measure.Measurements;
@@ -202,6 +203,55 @@ public class CritereSatisfaction implements PlugInFilter{
 	}
 	
 	
+	
+	public double getSSIM(ImageProcessor ip1, ImageProcessor ip2){
+		
+		
+		double k1 = 0.01;
+		double k2 = 0.03;
+		
+		ImageStatistics st1 = ip1.getStatistics();
+		ImageStatistics st2 = ip2.getStatistics();
+		
+		double mu1 = st1.mean;
+		double mu2 = st2.mean;
+		
+		double sigma1 = (double)(st1.stdDev*st1.stdDev);
+		double sigma2 = (double)(st2.stdDev*st2.stdDev);
+		
+		double c1 = (double)(k1*255)*(k1*255);
+		double c2 = (double)(k2*255)*(k2*255);
+		
+		double numerateur = (double)(((double)(2*mu1*mu2)+c1)*((double)(2*sigma1*sigma2)+c2));
+		double denominateur = (double)(((double)(mu1*mu1) + (double)(mu2*mu2)+ c1)*((double)(sigma1*sigma1)+(double)(sigma2*sigma2)+c2));
+		
+		
+		return (double)(numerateur/denominateur);
+	}
+	
+	
+	public double getMSSIM(ImageProcessor ip1, ImageProcessor ip2){
+		
+		int pas = 50;
+		double res = 0;
+		int nbWindows = 0;
+		
+		for (int i = 0; i < (ip1.getWidth()>ip2.getWidth()?ip2.getWidth():ip1.getWidth()); i+=pas) {
+			for (int j = 0; j < (ip1.getHeight()>ip2.getHeight()?ip2.getHeight():ip1.getHeight()); j+=pas){
+				nbWindows++;
+				ip1.setRoi(i, j, pas, pas);
+				ip2.setRoi(i, j, pas, pas);
+				//Roi r = new Roi(i, j, pas, pas);
+				ImageProcessor tmp1 = ip1.crop();
+				ImageProcessor tmp2 = ip2.crop();
+				res += getSSIM(tmp1,tmp2);
+			}
+		}
+		
+		return res/nbWindows;
+	}
+	
+	
 	public static void main(String[] args) {
 		CritereSatisfaction d = new CritereSatisfaction();
 		
@@ -231,6 +281,9 @@ public class CritereSatisfaction implements PlugInFilter{
 		System.out.println(d.getIU(tab1, tab2));
 		d.getDiceParObjet(tab1, tab2);
 		d.getIUParObjet(tab1, tab2);
+		System.out.println(d.getSSIM(c1, c2));
+		System.out.println(d.getMSSIM(c1, c2));
+		
 		
 		
 		/////////// SUPPRESSION GRIS WATERSHED //////////////
@@ -249,10 +302,16 @@ public class CritereSatisfaction implements PlugInFilter{
 		d.supprimerGris(c3);
 		
 		*/
+		
+		
+		
+		/*
 		Opener o = new Opener();
 		o.open();
 		FFT fft = new FFT();
 		fft.run("");
+		
+		*/
 		/*int centerOfMass2 = Measurements.CENTER_OF_MASS;
 		int skewness2 = Measurements.SKEWNESS;*/
 		

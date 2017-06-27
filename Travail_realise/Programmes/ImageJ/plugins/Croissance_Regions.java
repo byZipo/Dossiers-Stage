@@ -357,7 +357,7 @@ public class Croissance_Regions implements PlugInFilter {
 			double valTmp = tmp.getSommeCaracs();
 			double simNonImage = p.getSimNonImage(tmp, 1, 1, 0.5);
 			double simImage = p.getSimImage(tmp, 1, base.getValeursMinImage(), base.getValeursMaxImage());
-			System.out.println(p.getSimGlobale(simNonImage, simImage,0.5,0.5));
+			System.out.println("SimImage:"+simImage+" SimNonImage:"+simNonImage+" SimGlobale:"+p.getSimGlobale(simNonImage, simImage,0.5,0.5));
 			//calcul de distance entre les deux problemes
 			distance = Math.abs(valTmp - valEntree);
 			IJ.log("DISTANCE avec cas"+(i+1)+" : "+distance);
@@ -607,7 +607,6 @@ public class Croissance_Regions implements PlugInFilter {
 		}
 		Point p1 = gr.calculeGerme(lr);
 		System.out.println("POSITION FLOUE DE LA TUMEUR : ("+p1.getX()+","+p1.getY()+")");
-		//TODO les seuils du germe de la tumeur sont en dur
 		Germe tumeur = new Germe((int)p1.getX(), (int)p1.getY(), casRememore.getSolution().getSeuilGlobal(), casRememore.getSolution().getSeuilLocal());
 		tumeur.setLabelObjet(new TumeurRenale());
 		tumeur.setColor();

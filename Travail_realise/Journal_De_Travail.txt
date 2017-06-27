@@ -789,7 +789,7 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 				- etc.
 
 
-24/06/17 : 
+26/06/17 : 
 	- commencer la présentation
 	- recherches conernant fourier, qui semble par forcément fait pour de la comparaison 
 		--> on peut obtenir kurtosis, skewness et tout, mas du coup, quel interet supplémentaire par rapport aux stats de base ? aucun à mon avis
@@ -814,3 +814,50 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 		--> en plus niveau implementation c'est ultra chiant car imageJ propose un plugin FFT mais il est tout pourri, aucun moyen de récupérer des données à la fin.
 	- recherches sur le transformée de Hough, idem
 
+27/06/17:
+	- AU FINAL APRES TOUS MES TESTS, la mesure de similarité de Perner est bien la meilleure pour notre Probleme:
+	- DANS LE DIAPO JE PEUX METTRE QUE J'AI COMPARE : 
+		- Manhatan, Distance carrée, etc. (fonctions de distance classiques Minkowski)
+		- Perner
+		- Similarité sur Fourier
+
+	- Pour fourier souvelle piste : utiliser Dice pour comparer les images
+		--> DICE ne fonctionne pas, car même si les images sont très similaires(en fourier), si on regarde pixel par pixel, on n'a jamais le même valeur, il faudrait trouver un indice de similarité qui regarde la strucutre globaale plutot que les pixels un par un :
+			DICE :  A inter B=9029 |A|+|B|=524288
+			0.034442901611328125
+			IU :  A inter B=9029 A union B=515259
+			0.017523226183336925
+		Même en utilisant un filtre Median ou Mean, cela ne fonctionne pas
+
+	--> Je vais donc tester SSIM, ou Structural SIMilarity, qui a aussi une amélioration venant d'un article : 
+	Image Quality Assessment: From Error Visibility to Structural Similarity 
+	Zhou Wang, Member, IEEE, Alan Conrad Bovik, Fellow, IEEE, Hamid Rahim Sheikh, Student Member, IEEE, and Eero P. Simoncelli, Senior Member, IEEE
+	--> MSSIM  pour MeanSSIM.
+
+
+	Fonction SSIM() et MSSIM() codées, et testées, et il s'avère que MSSIM() donne de très bons résultats, nettement meilleurs que les fonctions de similarité de Perner, voir comparatif suivant : 
+
+	***************************************************************************************************************************
+	Similarités de Perner calculées sur  base de cas par rapport à l'image "4"
+
+	"1"  SimImage:0.9226209995186953  SimNonImage:0.5 	          SimGlobale:0.7113104997593476
+	"2"  SimImage:0.9830733590940354  SimNonImage:0.9629629629629629  SimGlobale:0.9730181610284991
+	"3"  SimImage:0.9711848421354814  SimNonImage:0.9230769230769231  SimGlobale:0.9471308826062023
+
+	Meilleure similarité Image avec "2" --> NE CORRESPOND PAS A LA REALITE
+
+
+	---------------------------------------------------------------------------------------------------------------------------
+
+	Similarités SSIM et MSSIM calculées sur la base de cas par rapport à l'image "4" (ne prend en compte que les caracs Image)
+
+	"1"   SSIM : 0.8975910643192091  MSSIM : 0.22941583568087417
+	"2"   SSIM : 0.9116374341382677  MSSIM : 0.24401485237806908
+	"3"   SSIM : 0.9673152360663541  MSSIM : 0.8563090989734682
+
+
+	Meilleure similarité Image avec "3"  --> CORRESPOND MIEUX A LA REALITE
+
+	MSSIM permet de mieux séparer les cas "ressemblants" pour faire resortir le plus similaire
+	******************************************************************************************************************************
+	j'en conclut que je vais utiliser MSSIM, qui pour moi est vraiment optimisé pour notre problème ! 

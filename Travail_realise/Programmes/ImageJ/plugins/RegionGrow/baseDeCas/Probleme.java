@@ -529,12 +529,13 @@ public class Probleme {
 		for (int i = 0; i < caracsImageT.size(); i++) {
 			double minI = listeMin.get(i);
 			double maxI = listeMax.get(i);
+			
 			double xI = caracsImageP.get(i);
 			double yI = caracsImageT.get(i);
 			double partieGauche = (double)(xI-minI)/(maxI-minI);
 			double partieDroite = (double)(yI-minI)/(maxI-minI);
 			
-			res += w * Math.abs(partieGauche-partieDroite);
+			res += (double) w * Math.abs(partieGauche-partieDroite);
 		}
 		return 1 - (res/n);
 	}

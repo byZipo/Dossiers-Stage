@@ -216,8 +216,8 @@ public class CritereSatisfaction implements PlugInFilter{
 		double mu1 = st1.mean;
 		double mu2 = st2.mean;
 		
-		double sigma1 = (double)(st1.stdDev*st1.stdDev);
-		double sigma2 = (double)(st2.stdDev*st2.stdDev);
+		double sigma1 = (double)(st1.stdDev);
+		double sigma2 = (double)(st2.stdDev);
 		
 		double c1 = (double)(k1*255)*(k1*255);
 		double c2 = (double)(k2*255)*(k2*255);

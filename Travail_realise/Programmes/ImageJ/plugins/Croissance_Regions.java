@@ -107,7 +107,7 @@ public class Croissance_Regions implements PlugInFilter {
 		
 		// RaPC !!! (basique pour essayer pour le moment
 		//indice du numero de cas
-		int indiceBase = getMeilleurProbleme(pEntree,base);
+		int indiceBase = getMeilleurProbleme(ip,pEntree,base);
 		Cas casRememore = base.getCas(indiceBase);
 		
 		ArrayList<Germe> lgermes = casRememore.getSolution().getGermesUtiles();
@@ -338,35 +338,48 @@ public class Croissance_Regions implements PlugInFilter {
 	
 	/**
 	 * Calcul de similarite entre le probleme courrant et ceux de la base, pour retourner l'indice du plus similaire
-	 * Pour le moment on fait une distance de Manhattan sans ponderation, donc pas tres optimisée 
+	 * La formule utilisée est un "mix" entre les formules de Perner et l'indice MSSIM
+	 * @param ip : L'ImageProcessor, donc l'image du nouveau Problème
 	 * @param p : le Problème à comparer
 	 * @param base : la base de cas
 	 * @return le meilleur problème = le plus similaire
 	 */
-	public int getMeilleurProbleme(Probleme p, BaseDeCas base){
-		double best = Integer.MAX_VALUE;
+	public int getMeilleurProbleme(ImageProcessor ip,Probleme p, BaseDeCas base){
+		double best = Integer.MIN_VALUE;
 		int indice = 0;
-
-		//somme des carcteristiques du probleme d'entree
-		double valEntree = p.getSommeCaracs(); 
 		
+		System.out.println("--------------------------------------------------");
+		System.out.println("CALCUL DE SIMIALRITE");
+		
+		//calcul de similarité pour chaque cas de la base de cas
 		for(int i = 0 ; i < base.getTailleBase(); i++){
-			double distance = 0;
+			System.out.println("Cas "+(i+1)+" :");
+			double similarite = 0;
+			
+			//Problème courant de la base
 			Probleme tmp = base.getCas(i).getProbleme();
-			//somme des caracteristiques du probleme courant de la base
-			double valTmp = tmp.getSommeCaracs();
+			
+			//Formules de Perner
 			double simNonImage = p.getSimNonImage(tmp, 1, 1, 0.5);
 			double simImage = p.getSimImage(tmp, 1, base.getValeursMinImage(), base.getValeursMaxImage());
-			System.out.println("SimImage:"+simImage+" SimNonImage:"+simNonImage+" SimGlobale:"+p.getSimGlobale(simNonImage, simImage,0.5,0.5));
-			//calcul de distance entre les deux problemes
-			distance = Math.abs(valTmp - valEntree);
-			IJ.log("DISTANCE avec cas"+(i+1)+" : "+distance);
-			if(distance<best){
-				best = distance;
+			System.out.println("(Perner) SimImage:"+simImage+" SimNonImage:"+simNonImage+" SimGlobale:"+p.getSimGlobale(simNonImage, simImage,0.5,0.5));
+			
+			//MSSIM
+			double MMSIM = p.getMSSIM(ip, tmp);
+			System.out.println("(MSSIM) Similarité Image: "+MMSIM);
+			
+			//Similarité globale
+			similarite = (MMSIM/2) + (simNonImage/2);
+			System.out.println("SIMILARITE GLOBALE avec cas"+(i+1)+" : "+similarite+"\n");
+			
+			//Mise à jour du "meilleur" cas si sa similairté est plus grande (distance plus faible)
+			if(similarite>best){
+				best = similarite;
 				indice = i;
 			}
 		}
-		IJ.log("MEILLEURE SIMILARITE : "+best+" --> INDICE CAS : "+(indice+1));
+		System.out.println("MEILLEURE SIMILARITE : "+best+" --> INDICE CAS : "+(indice+1));
+		System.out.println("--------------------------------------------------");
 		return indice;
 	}
 	

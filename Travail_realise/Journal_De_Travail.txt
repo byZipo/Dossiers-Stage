@@ -861,3 +861,21 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	MSSIM permet de mieux séparer les cas "ressemblants" pour faire resortir le plus similaire
 	******************************************************************************************************************************
 	j'en conclut que je vais utiliser MSSIM, qui pour moi est vraiment optimisé pour notre problème ! 
+
+	(PS: j'avais oublié de dire que des critères fonctionnent bcp mieux sur les images de bases, et non sur les Fourier des images, ce qui facilite le codage ^^) En effet les transformées de Fourier se ressembles toutes pour ce genre de critere, avec un allo de lumiere centrale qui se propage vers l'extérieur, de plus en plus gris, on a donc à chaque fois une similarité de 0.9 au minimum, ce qui n'est pas très significatif
+
+	citer les articles suivants sur lesquels je me suis basé pour la formule MSSIM : 
+		- https://sci-hub.io/10.1109/TIP.2003.819861
+		- https://sci-hub.io/10.1109/ICIP.2006.313132
+
+
+
+28/06/17:
+	- pour MSSIM j'ai besoin des stats sur chaque fenêtre, problèmes :
+		- je ne dispose pas de l'image entière dans la base de cas.
+	Il faut donc soit que je stocke le chemin vers l'image dans la base, soit que je stocke les stats de toutes les fenêtres.
+	--> j'ai utilisé le chemin car c'es ttorp lourd d'ajouter les fentrage, par exemple cela ferait 10*10=100 fenetres par cas, avec 4 stats à chaque fois
+	--> ça fonctionne bien avec le chemin
+	- autre article  :http://sci-hub.io/10.1109/ACSSC.2003.1292216
+
+	(implémentation dans le programme principale des fonctions SSIM et MSSIM, qui fonctionnent, du coup j'ai du aussi ajouter le chemin dans les cas, représentés par l'indice du cas (ex:"1"), et dans la partie Java, j'ai un champ PATH, que je remplis avec l'indice + une constante pour la chemin complet (C://...), que je récupère pour récuperer l'image et donc l'imageProcessor")

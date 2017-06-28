@@ -30,6 +30,7 @@ import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
 import RegionGrow.baseDeCas.Solution;
 import RegionGrow.baseDeCas.Traitement;
+import RegionGrow.main.Constantes;
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 
 /**
@@ -186,6 +187,8 @@ public class LectureFichier{
 					/*-*******************************************-*/
 					
 					Probleme p = new Probleme();
+					p.setPath(Constantes.CHEMIN_BASE_DE_CAS+"\\"+cas.getAttribute("id")+".png");
+					
 					//les trois balises de la partie problème
 					final Element image = (Element)probleme.getElementsByTagName("Image").item(0);
 					final Element nonImage = (Element)probleme.getElementsByTagName("NonImage").item(0);

@@ -4,6 +4,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
+import ij.ImagePlus;
+import ij.process.ImageProcessor;
+import ij.process.ImageStatistics;
 
 /**
  * Un problème est réprésenté par des caractéristiques image et non-image, et des poids pour chacun d'eux
@@ -38,6 +41,9 @@ public class Probleme {
 	
 	//liste de relations spatiales floues concernant la position de la tumeur
 	protected ArrayList<RelationSpatiale> positonFloueTumeur;
+	
+	//le chemin vers l'image réelle associée à ce problème
+	protected String path;
 
 	public Probleme(){
 		this.positonFloueTumeur = new ArrayList<RelationSpatiale>();
@@ -551,7 +557,69 @@ public class Probleme {
 	 */
 	public double getSimGlobale(double simNonImage, double simImage, double wNI, double wI) {
 		return (double)((double)(wNI*simNonImage) + (double)(wI*simImage));
-	}	
+	}
+	
+	
+	public double getSSIM(ImageProcessor ip1, ImageProcessor ip2){
+		
+		
+		double k1 = 0.01;
+		double k2 = 0.03;
+		
+		ImageStatistics st1 = ip1.getStatistics();
+		ImageStatistics st2 = ip2.getStatistics();
+		
+		double mu1 = st1.mean;
+		double mu2 = st2.mean;
+		
+		double sigma1 = (double)(st1.stdDev);
+		double sigma2 = (double)(st2.stdDev);
+		
+		double c1 = (double)(k1*255)*(k1*255);
+		double c2 = (double)(k2*255)*(k2*255);
+		
+		double numerateur = (double)(((double)(2*mu1*mu2)+c1)*((double)(2*sigma1*sigma2)+c2));
+		double denominateur = (double)(((double)(mu1*mu1) + (double)(mu2*mu2)+ c1)*((double)(sigma1*sigma1)+(double)(sigma2*sigma2)+c2));
+		
+		
+		return (double)(numerateur/denominateur);
+	}
+	
+	
+	public double getMSSIM(ImageProcessor ip, Probleme p){
+		
+		ImageProcessor ip1 = (ImageProcessor) ip.clone();
+		
+		ImagePlus i2 = new ImagePlus(p.getPath());
+		ImageProcessor ip2 = i2.getProcessor();
+		
+		int pas = 50;
+		double res = 0;
+		int nbWindows = 0;
+		
+		for (int i = 0; i < (ip1.getWidth()>ip2.getWidth()?ip2.getWidth():ip1.getWidth()); i+=pas) {
+			for (int j = 0; j < (ip1.getHeight()>ip2.getHeight()?ip2.getHeight():ip1.getHeight()); j+=pas){
+				nbWindows++;
+				ip1.setRoi(i, j, pas, pas);
+				ip2.setRoi(i, j, pas, pas);
+				//Roi r = new Roi(i, j, pas, pas);
+				ImageProcessor tmp1 = ip1.crop();
+				ImageProcessor tmp2 = ip2.crop();
+				res += getSSIM(tmp1,tmp2);
+			}
+		}
+		
+		return res/nbWindows;
+	}
+	
+	public String getPath(){
+		return this.path;
+	}
+	
+	public void setPath(String p){
+		this.path=p;
+	}
+	
 	
 	public String toString(){
 		StringBuilder st = new StringBuilder();

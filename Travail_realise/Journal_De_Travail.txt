@@ -788,6 +788,16 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 				- base de cas
 				- etc.
 
+				- passer très vite sur les premières parties (modélisation, subtilités, ontoliges)
+				- accentuer sur les resultats
+					- suppression des muscles
+					- adaptation et recherche du rein pour le segmenter
+					- résultat position floue germe tumeur
+					- résultat global segmentation
+				- appuyer le raisonnement scientifique en utilisant des formules (par exemple pour la similarité)
+				
+
+
 
 26/06/17 : 
 	- commencer la présentation
@@ -877,5 +887,6 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	--> j'ai utilisé le chemin car c'es ttorp lourd d'ajouter les fentrage, par exemple cela ferait 10*10=100 fenetres par cas, avec 4 stats à chaque fois
 	--> ça fonctionne bien avec le chemin
 	- autre article  :http://sci-hub.io/10.1109/ACSSC.2003.1292216
+	- wiki SSIM : https://en.wikipedia.org/wiki/Structural_similarity#cite_note-:0-3
 
 	(implémentation dans le programme principale des fonctions SSIM et MSSIM, qui fonctionnent, du coup j'ai du aussi ajouter le chemin dans les cas, représentés par l'indice du cas (ex:"1"), et dans la partie Java, j'ai un champ PATH, que je remplis avec l'indice + une constante pour la chemin complet (C://...), que je récupère pour récuperer l'image et donc l'imageProcessor")

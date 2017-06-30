@@ -340,9 +340,9 @@ public class Croissance_Regions implements PlugInFilter {
 	 * Calcul de similarite entre le probleme courrant et ceux de la base, pour retourner l'indice du plus similaire
 	 * La formule utilisée est un "mix" entre les formules de Perner et l'indice MSSIM
 	 * @param ip : L'ImageProcessor, donc l'image du nouveau Problème
-	 * @param p : le Problème à comparer
+	 * @param p : le nouveau Problème à comparer
 	 * @param base : la base de cas
-	 * @return le meilleur problème = le plus similaire
+	 * @return l'indice du meilleur problème = le plus similaire
 	 */
 	public int getMeilleurProbleme(ImageProcessor ip,Probleme p, BaseDeCas base){
 		double best = Integer.MIN_VALUE;
@@ -372,7 +372,7 @@ public class Croissance_Regions implements PlugInFilter {
 			similarite = (MMSIM/2) + (simNonImage/2);
 			System.out.println("SIMILARITE GLOBALE avec cas"+(i+1)+" : "+similarite+"\n");
 			
-			//Mise à jour du "meilleur" cas si sa similairté est plus grande (distance plus faible)
+			//Mise à jour du "meilleur" cas si sa similairté est plus grande
 			if(similarite>best){
 				best = similarite;
 				indice = i;

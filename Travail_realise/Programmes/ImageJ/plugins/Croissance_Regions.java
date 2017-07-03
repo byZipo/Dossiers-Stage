@@ -118,7 +118,7 @@ public class Croissance_Regions implements PlugInFilter {
 		doPretraitements(casRememore);
 		
 		//adaptation position des germes en fonction de la couleur supposée sous le germe
-		lgermes = adaptationGermes(lgermes);
+		//lgermes = adaptationGermes(lgermes);
 		
 		//suppression des muscles
 		if(MUSCLES_A_ENLEVER)ip = supprimerObjets(lgermesInutiles);
@@ -735,7 +735,7 @@ public class Croissance_Regions implements PlugInFilter {
 				//le rein est généralement clair, donc à forte intensité, on a donc faux si on a une faible valeur
 				int alpha = 1;
 				//tant qu'on n'a pas trouvé de pixel à l'intensité suffistante
-				while(image[g.getX()][g.getY()]<150){
+				while(image[g.getX()][g.getY()]<Constantes.SEUIL_INF_COULEUR_REIN){
 					
 					//on rgearde le voisinnage (8-connexe) du germe et on cherche un voisin potentiel
 					for(int x = -alpha ; x <= alpha ; x++){

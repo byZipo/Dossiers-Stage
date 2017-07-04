@@ -812,7 +812,7 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 				lignes paires : criètres calculés sur l'image FFT 
 				l'ordre est le suivant : "2.png" (et sa FFT), "3.png"(et sa FFT), "4.png" (et sa FFT)
 				on observe que la différence de similarité entre les criètres n'est pas meilleure en FFT, par exemple
-				si l'on regarde la moyenne : 
+				si l'on regarde la moyenne :  
 					- en Image de base, diffMoyenne = environ 13 entre 2 et 3, et environ 8 entre 3 et 4 --> OK
 					- en FFT, diffMoyenne = environ 3.5 entre 2 et 3, et environ 4 entre 3 et 4 --> FAUX
 				donc utiliser les caractéristiques des FFT n'est pas concluant
@@ -890,3 +890,9 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- wiki SSIM : https://en.wikipedia.org/wiki/Structural_similarity#cite_note-:0-3
 
 	(implémentation dans le programme principale des fonctions SSIM et MSSIM, qui fonctionnent, du coup j'ai du aussi ajouter le chemin dans les cas, représentés par l'indice du cas (ex:"1"), et dans la partie Java, j'ai un champ PATH, que je remplis avec l'indice + une constante pour la chemin complet (C://...), que je récupère pour récuperer l'image et donc l'imageProcessor")
+
+04/07:
+	- présentation SAIAD pour demain terminée 
+	- désormais il faut appeler les données NonImage les métadonnées
+	- désormais il faut dire règes floues et plus logique floue
+

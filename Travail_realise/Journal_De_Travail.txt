@@ -896,3 +896,7 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- désormais il faut appeler les données NonImage les métadonnées
 	- désormais il faut dire règes floues et plus logique floue
 
+11/07:
+	- rédaction du cahier des charges de SAIAD pour la partie XML et formats de fichiers.
+
+

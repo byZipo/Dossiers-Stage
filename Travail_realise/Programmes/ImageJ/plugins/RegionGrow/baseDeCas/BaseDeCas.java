@@ -1,7 +1,5 @@
 package RegionGrow.baseDeCas;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Super classe de la base de cas

@@ -1,6 +1,5 @@
 package RegionGrow.main; //A commenter pour utiliser sous ImageJ
 
-import static RegionGrow.main.Constantes.BLEU;
 import static RegionGrow.main.Constantes.VERT;
 
 import java.awt.Point;
@@ -10,15 +9,8 @@ import java.util.ArrayList;
 import javax.swing.JFileChooser;
 
 import RegionGrow.ontologieAnatomie.ColonneVertebrale;
-import RegionGrow.ontologieAnatomie.ReinDroit;
-import RegionGrow.ontologieRelationsSpatiales.ADroiteDe;
-import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
-import RegionGrow.ontologieRelationsSpatiales.EnBasDe;
-import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
-import RegionGrow.ontologieRelationsSpatiales.MoyennementProcheDe;
 import RegionGrow.ontologieRelationsSpatiales.ProcheDe;
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
-import ij.IJ;
 import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter;
 import ij.process.ColorProcessor;

@@ -897,6 +897,13 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- désormais il faut dire règes floues et plus logique floue
 
 11/07:
-	- rédaction du cahier des charges de SAIAD pour la partie XML et formats de fichiers.
+	- rédaction du cahier des charges de SAIAD pour la partie XML et formats de fichiers.	
 
 
+13/07:
+	- la bonne ontologie qui fonctionne (FMA) est la 4 dans le dossier webSemantique/Tests
+		--> article associé : A reference ontology for biomedical informatics: the Foundational Model of Anatomy
+	- j'ai screen l'arborescence pour acceder aux reins
+
+
+14/07 : aujourdhui je vais faire la getmeilleurprobleme2 (sans ontologie mais avec comparaison exacte)

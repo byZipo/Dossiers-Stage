@@ -18,17 +18,9 @@ import RegionGrow.baseDeCas.Germe;
 import RegionGrow.baseDeCas.Probleme;
 import RegionGrow.baseDeCas.Traitement;
 import RegionGrow.lecture.LectureFichier;
-import RegionGrow.ontologieAnatomie.ArtereRenale;
-import RegionGrow.ontologieAnatomie.ColonneVertebrale;
 import RegionGrow.ontologieAnatomie.ObjetAnatomie;
 import RegionGrow.ontologieAnatomie.Rein;
-import RegionGrow.ontologieAnatomie.ReinDroit;
-import RegionGrow.ontologieAnatomie.ReinGauche;
 import RegionGrow.ontologieAnatomie.TumeurRenale;
-import RegionGrow.ontologieAnatomie.VeineRenale;
-import RegionGrow.ontologieRelationsSpatiales.AGaucheDe;
-import RegionGrow.ontologieRelationsSpatiales.EnHautDe;
-import RegionGrow.ontologieRelationsSpatiales.ProcheDe;
 import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 // Importation des paquets ImageJ necessaires. 
 import ij.IJ;

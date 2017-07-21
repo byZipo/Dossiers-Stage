@@ -906,4 +906,19 @@ terminer le parserXML() pour construire et retourner l'objet BaseDeCas qui pourr
 	- j'ai screen l'arborescence pour acceder aux reins
 
 
-14/07 : aujourdhui je vais faire la getmeilleurprobleme2 (sans ontologie mais avec comparaison exacte)
+14/07 : aujourdhui je vais faire la getmeilleurprobleme2 (sans ontologie mais avec comparaison exacte) --> en fait non
+J'ai commencé le rapport, qui commence à avoir un plan correct
+articles en plus au cas où pour la biblio (j'en chie à trouver^^):
+	- http://sci-hub.io/10.1109/TIP.2003.819311
+	- http://ac.els-cdn.com/S0952197606000297/1-s2.0-S0952197606000297-main.pdf?_tid=06a97504-6afb-11e7-9015-00000aab0f02&acdnat=1500301384_f82631fcc6ca8389aaee185ba6db2a46
+
+
+17-19/07:
+	rédaction du rapport, plan global et intro finis
+
+20/07: je fais les test donc la je construis la base de cas avec 18 cas
+	   le cas 6 montre une tres bonne isolation du rein tout blanc, à montrer pourquoi pas
+
+	   reception des données patients par Y.CHAUSSY, avec tout ce qu'il me faut
+
+21/07 : base de cas de 18 cas terminées (manque juste le numéro 4), et il faudra aussi ajouter les données patients

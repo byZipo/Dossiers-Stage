@@ -25,6 +25,7 @@ import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 // Importation des paquets ImageJ necessaires. 
 import ij.IJ;
 import ij.ImagePlus;
+import ij.plugin.ContrastEnhancer;
 import ij.plugin.filter.PlugInFilter;
 import ij.plugin.filter.RankFilters;
 import ij.plugin.filter.UnsharpMask;
@@ -110,7 +111,7 @@ public class Croissance_Regions implements PlugInFilter {
 		doPretraitements(casRememore);
 		
 		//adaptation position des germes en fonction de la couleur supposée sous le germe
-		//lgermes = adaptationGermes(lgermes);
+		lgermes = adaptationGermes(lgermes);
 		
 		//suppression des muscles
 		if(MUSCLES_A_ENLEVER)ip = supprimerObjets(lgermesInutiles);
@@ -589,6 +590,12 @@ public class Croissance_Regions implements PlugInFilter {
 				rk2.rank(ip, t.getRadius(), RankFilters.MEAN);
 				System.out.println("Filtre moyenneur appliqué");
 				break;
+			case Egaliseur:
+				ContrastEnhancer c = new ContrastEnhancer();
+				c.setNormalize(true);
+				c.equalize(ip);
+				System.out.println("Egalisation d'histogramme appliquée");
+				break;
 			default:
 				System.err.println("ERREUR : TRAITEMENT "+t.getTypeTraitement()+" NON PRIS EN CHARGE");
 				break;
@@ -638,7 +645,7 @@ public class Croissance_Regions implements PlugInFilter {
 		for (int i = 0; i < germesUtiles.size(); i++) {
 			Germe g = germesUtiles.get(i);
 			if(g.getLabelObjet().getClass().getName().equals(reference.getClass().getName())){
-				Germe ref = new Germe(g.getX(), g.getY(), 35,20);
+				Germe ref = new Germe(g.getX(), g.getY(), g.getSeuilGlobal(),g.getSeuilLocal());
 				ArrayList<Germe> lgermes = new ArrayList<Germe>();
 				lgermes.add(ref);
 				segmentation(lgermes, false);

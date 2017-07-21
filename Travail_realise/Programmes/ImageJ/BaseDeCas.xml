@@ -163,4 +163,761 @@
 			<SeuilLocalTumeur>15</SeuilLocalTumeur>
 		</Solution>
 	</Cas>
+	<Cas id="5">
+		<Probleme>
+			<Image>
+				<kurtosis>-1.670</kurtosis> 
+				<moyenne>54.061</moyenne>
+				<asymetrie>0.405</asymetrie>
+				<variance>57.375</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ReinDroit">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinDroit">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">263 317</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">202 251</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">148 334</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">212 315</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="1">Median</operation>
+				<operation name="UnsharpedMask" radius="30.0" seuil="0.7">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="90" seuilSup="270" degreMax="180" reference="ReinDroit">AGaucheDe</relation>
+				<relation degreMax="2.5" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation degreMax="5" reference="ReinDroit">ProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>35</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>25</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="6">
+		<Probleme>
+			<Image>
+				<kurtosis>-0.633</kurtosis> 
+				<moyenne>119.868</moyenne>
+				<asymetrie>-0.633</asymetrie>
+				<variance>68.443</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation reference="ReinGauche">AGaucheDe</relation>
+				<relation reference="ReinGauche">EnBasDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinGauche">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">240 322</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">375 251</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">359 214</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="20" seuilLocal="15">414 221</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="3">Median</operation>
+				<operation name="UnsharpedMask" radius="30.0" seuil="0.6">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="90" seuilSup="270" degreMax="0" reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation degreMax="2.5" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinGauche">EnBasDe</relation>
+				<relation seuilInf="90" seuilSup="270" degreMax="180" reference="ReinGauche">AGaucheDe</relation>
+				<relation degreMax="5" reference="ReinGauche">ProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>30</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>25</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="7">
+		<Probleme>
+			<Image>
+				<kurtosis>-1.820</kurtosis> 
+				<moyenne>66.304</moyenne>
+				<asymetrie>0.196</asymetrie>
+				<variance>64.129</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinDroit">EnHautDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinDroit">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">258 331</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">132 366</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">209 343</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">205 298</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="30.0" seuil="0.5">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="20" seuilSup="200" degreMax="110" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="2.5" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="0" seuilSup="180" degreMax="90" reference="ReinDroit">EnHautDe</relation>
+				<relation degreMax="5" reference="ReinDroit">ProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>30</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>25</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="8">
+		<Probleme>
+			<Image>
+				<kurtosis>-0.624</kurtosis> 
+				<moyenne>121.405</moyenne>
+				<asymetrie>-0.793</asymetrie>
+				<variance>69.268</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinGauche">EnBasDe</relation>
+				<relation reference="ReinGauche">ADroiteDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinGauche">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">242 335</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="25" seuilLocal="15">311 303</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="25" seuilLocal="15">281 299</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="25" seuilLocal="15">318 276</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="30.0" seuil="0.5">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="90" seuilSup="270" degreMax="0" reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation seuilInf="0" seuilSup="38" degreMax="18" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="4" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinGauche">EnBasDe</relation>
+				<relation degreMax="5" reference="ReinGauche">ProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>18</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>11</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="9">
+		<Probleme>
+			<Image>
+				<kurtosis>-0.501</kurtosis> 
+				<moyenne>111.068</moyenne>
+				<asymetrie>-0.801</asymetrie>
+				<variance>62.895</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinGauche">EnHautDe</relation>
+				<relation reference="ColonneVertebrale">LoinDe</relation>
+				<relation reference="ReinGauche">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="10" seuilLocal="3">242 317</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="15" seuilLocal="10">320 205</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="15" seuilLocal="10">357 216</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="13" seuilLocal="5">406 289</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="10" seuil="0.5">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinGauche">EnBasDe</relation>
+				<relation degreMax="5.7" reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>17</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>11</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="10">
+		<Probleme>
+			<Image>
+				<kurtosis>-1.604</kurtosis> 
+				<moyenne>52.320</moyenne>
+				<asymetrie>0.481</asymetrie>
+				<variance>57.484</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinDroit">EnHautDe</relation>
+				<relation reference="ReinDroit">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinDroit">MoyennementProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="10" seuilLocal="3">268 308</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="15" seuilLocal="13">186 318</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="15" seuilLocal="13">206 265</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="15" seuilLocal="13">223 288</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="13" seuilLocal="5">75 241</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="13" seuilLocal="5">77 284</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="1">Median</operation>
+				<operation name="UnsharpedMask" radius="15" seuil="0.6">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="40" seuilSup="220" degreMax="130" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="2.5" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="0" seuilSup="180" degreMax="90" reference="ReinDroit">EnHautDe</relation>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ReinDroit">AGaucheDe</relation>
+				<relation degreMax="5.1" reference="ReinDroit">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>20</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>15</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="11">
+		<Probleme>
+			<Image>
+				<kurtosis>-1.696</kurtosis> 
+				<moyenne>56.005</moyenne>
+				<asymetrie>0.428</asymetrie>
+				<variance>60.384</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinDroit">EnHautDe</relation>
+				<relation reference="ReinDroit">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinDroit">MoyennementProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="15" seuilLocal="10">273 294</GermeObjet>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="15" seuilLocal="10">267 314</GermeObjet>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="15" seuilLocal="10">245 335</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="15" seuilLocal="13">234 277</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="15" seuilLocal="13">200 324</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="15" seuilLocal="13">198 264</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="13" seuilLocal="5">75 241</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="13" seuilLocal="5">77 284</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="15" seuil="0.6">Unsharped</operation>
+					<operation name="FiltreMedian" radius="2">Median</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="40" seuilSup="220" degreMax="130" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="2.5" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="0" seuilSup="180" degreMax="90" reference="ReinDroit">EnHautDe</relation>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ReinDroit">AGaucheDe</relation>
+				<relation degreMax="5.1" reference="ReinDroit">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>20</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>15</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="12">
+		<Probleme>
+			<Image>
+				<kurtosis>-1.804</kurtosis> 
+				<moyenne>64.643</moyenne>
+				<asymetrie>0.237</asymetrie>
+				<variance>63.718</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinGauche">EnHautDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="15" seuilLocal="10">256 333</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">124 368</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">209 342</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">148 361</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="15" seuil="0.6">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="40" seuilSup="220" degreMax="130" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="2.5" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="0" seuilSup="180" degreMax="90" reference="ReinDroit">EnHautDe</relation>
+				<relation degreMax="5.1" reference="ReinDroit">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>20</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>15</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="13">
+		<Probleme>
+			<Image>
+				<kurtosis>-708</kurtosis> 
+				<moyenne>53.636</moyenne>
+				<asymetrie>0.379</asymetrie>
+				<variance>56.395</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinGauche">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="15" seuilLocal="10">263 318</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">238 275</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">179 348</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">201 282</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">194 243</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="15" seuilLocal="10">72 267</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="15" seuil="0.6">Unsharped</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="40" seuilSup="220" degreMax="130" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="2.5" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="90" seuilSup="270" degreMax="180" reference="ReinDroit">AGaucheDe</relation>
+				<relation degreMax="5.1" reference="ReinDroit">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>20</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>15</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="14">
+		<Probleme>
+			<Image>
+				<kurtosis>-1.830</kurtosis> 
+				<moyenne>65.285</moyenne>
+				<asymetrie>0.174</asymetrie>
+				<variance>62.562</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinDroit">EnHautDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinDroit">MoyennementProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">256 331</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">144 372</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">208 346</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">189 369</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">179 344</GermeObjet>
+				<GermeObjet type="ReinDroit" seuilGlobal="20" seuilLocal="15">199 317</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="15" seuil="0.6">Unsharped</operation>
+					<operation name="FiltreMedian" radius="2">Median</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="60" seuilSup="240" degreMax="150" reference="ColonneVertebrale">AGaucheDe</relation>
+				<relation seuilInf="20" seuilSup="200" degreMax="110" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="3" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="0" seuilSup="180" degreMax="90" reference="ReinDroit">EnHautDe</relation>
+				<relation degreMax="6.1" reference="ReinDroit">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>15</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>10</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="15">
+		<Probleme>
+			<Image>
+				<kurtosis>-0.638</kurtosis> 
+				<moyenne>123.295</moyenne>
+				<asymetrie>-0.797</asymetrie>
+				<variance>70.355</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinGauche">EnBasDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">244 333</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">271 301</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">291 241</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">321 229</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">348 252</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">285 323</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">282 256</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="15" seuilLocal="10">396 325</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+				<operation name="UnsharpedMask" radius="20" seuil="0.6">Unsharped</operation>
+				<operation name="FiltreMedian" radius="2">Median</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="90" seuilSup="270" degreMax="0" reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation seuilInf="0" seuilSup="38" degreMax="18" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="3" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinGauche">EnBasDe</relation>
+				<relation degreMax="5.1" reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>30</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>25</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="16">
+		<Probleme>
+			<Image>
+				<kurtosis>-0.535</kurtosis> 
+				<moyenne>111.303</moyenne>
+				<asymetrie>-0.782</asymetrie>
+				<variance>63.285</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinGauche">EnBasDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">239 317</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">319 187</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">352 200</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">391 250</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="20" seuilLocal="15">367 223</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="10" seuilLocal="10">408 261</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="10" seuilLocal="10">409 329</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="10" seuilLocal="10">362 191</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="1">Median</operation>
+				<operation name="UnsharpedMask" radius="8" seuil="0.5">Unsharped</operation>
+				<operation name="FiltreMedian" radius="1">Median</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="90" seuilSup="270" degreMax="0" reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation seuilInf="0" seuilSup="38" degreMax="18" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="3" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinGauche">EnBasDe</relation>
+				<relation degreMax="5.1" reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>10</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>5</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="17">
+		<Probleme>
+			<Image>
+				<kurtosis>-0.607</kurtosis> 
+				<moyenne>123.289</moyenne>
+				<asymetrie>-0.787</asymetrie>
+				<variance>70.315</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation reference="ColonneVertebrale">EnHautDe</relation>
+				<relation reference="ReinGauche">EnBasDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">237 316</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="12" seuilLocal="8">390 245</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="12" seuilLocal="8">352 191</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="12" seuilLocal="8">320 183</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="12" seuilLocal="8">399 253</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+				<GermeObjet type="Muscle" seuilGlobal="5" seuilLocal="5">397 354</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="5" seuilLocal="5">334 380</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="8" seuilLocal="5">334 174</GermeObjet>
+				<GermeObjet type="Muscle" seuilGlobal="5" seuilLocal="5">402 204</GermeObjet>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="1">Median</operation>
+				<operation name="UnsharpedMask" radius="15" seuil="0.5">Unsharped</operation>
+				<operation name="FiltreMedian" radius="1">Median</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="90" seuilSup="270" degreMax="0" reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation seuilInf="0" seuilSup="38" degreMax="18" reference="ColonneVertebrale">EnHautDe</relation>
+				<relation degreMax="5.1" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinGauche">EnBasDe</relation>
+				<relation degreMax="3.1" reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>18</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>14</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
+	<Cas id="18">
+		<Probleme>
+			<Image>
+				<kurtosis>-0.634</kurtosis> 
+				<moyenne>120.312</moyenne>
+				<asymetrie>-0.791</asymetrie>
+				<variance>68.691</variance>	
+			</Image>
+			<NonImage>
+				<age>3</age>
+				<taille>100</taille>
+				<masse>17</masse>
+				<sexe>1</sexe>
+				<nbCoupes>50</nbCoupes>
+				<hauteurCoupe>5</hauteurCoupe>
+				<diametreTumeur>20</diametreTumeur>
+				<hauteurTumeur>30</hauteurTumeur>
+				<epaisseurMuscles>20</epaisseurMuscles>
+			</NonImage>
+			<PositionTumeur>
+				<relation reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation reference="ReinGauche">AGaucheDe</relation>
+				<relation reference="ReinGauche">EnBasDe</relation>
+				<relation reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation reference="ReinGauche">ProcheDe</relation>
+			</PositionTumeur>
+		</Probleme>
+		<Solution>
+			<ObjetsUtiles>
+				<GermeObjet type="ColonneVertebrale" seuilGlobal="20" seuilLocal="15">240 322</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="10" seuilLocal="5">369 253</GermeObjet>
+				<GermeObjet type="ReinGauche" seuilGlobal="10" seuilLocal="5">310 208</GermeObjet>
+			</ObjetsUtiles>
+			<ObjetsInutiles>
+			</ObjetsInutiles>
+			<PreTraitements>
+				<operation name="Egaliseur">Egaliseur</operation>
+				<operation name="FiltreMedian" radius="1">Median</operation>
+				<operation name="UnsharpedMask" radius="20" seuil="0.8">Unsharped</operation>
+				<operation name="FiltreMedian" radius="3">Median</operation>
+			</PreTraitements>
+			<PositionFloueTumeur>
+				<relation seuilInf="90" seuilSup="270" degreMax="0" reference="ColonneVertebrale">ADroiteDe</relation>
+				<relation degreMax="2.5" reference="ColonneVertebrale">MoyennementProcheDe</relation>
+				<relation seuilInf="180" seuilSup="360" degreMax="270" reference="ReinGauche">EnBasDe</relation>
+				<relation seuilInf="90" seuilSup="270" degreMax="180" reference="ReinGauche">AGaucheDe</relation>
+				<relation degreMax="3.1" reference="ReinGauche">MoyennementProcheDe</relation>
+			</PositionFloueTumeur>
+			<SeuilGlobalTumeur>46</SeuilGlobalTumeur>
+			<SeuilLocalTumeur>39</SeuilLocalTumeur>
+		</Solution>
+	</Cas>
 </BaseDeCas>

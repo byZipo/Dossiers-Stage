@@ -8,7 +8,7 @@ package RegionGrow.main;
 public final class Constantes {
 	
 	//les types de traitements
-	public static enum TypeTraitement {Unsharped,Moyenneur,Median};
+	public static enum TypeTraitement {Unsharped,Moyenneur,Median,Egaliseur};
 	
 	//la couleur blanche sur 3 canaux RGB en conversion entière (= 24 bits à 1 en binaire)
 	public static final int BLANC = 16777215;

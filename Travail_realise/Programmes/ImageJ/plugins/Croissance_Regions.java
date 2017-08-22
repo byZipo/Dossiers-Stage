@@ -25,6 +25,7 @@ import RegionGrow.ontologieRelationsSpatiales.RelationSpatiale;
 // Importation des paquets ImageJ necessaires. 
 import ij.IJ;
 import ij.ImagePlus;
+import ij.io.FileSaver;
 import ij.plugin.ContrastEnhancer;
 import ij.plugin.filter.PlugInFilter;
 import ij.plugin.filter.RankFilters;
@@ -55,6 +56,8 @@ public class Croissance_Regions implements PlugInFilter {
 	protected ImageProcessor ipr;
 	//couleur de chaque pixel de l'image
 	protected int[][] couleursPixels;
+	// le chemin du nouveau cas
+	String path;
 
 	
 	//fonction appelée automatiquement pas ImageJ au lancement du plugin
@@ -64,6 +67,7 @@ public class Croissance_Regions implements PlugInFilter {
 		ImageConverter ic = new ImageConverter(imp);
 		ic.convertToGray8();
 		imp.updateAndDraw();
+		this.path = arg;
 		return DOES_8G;
 	}
 
@@ -96,7 +100,7 @@ public class Croissance_Regions implements PlugInFilter {
 
 		//les caracs nonImage sont en dur forcement
 		Probleme pEntree = new Probleme(3,100,22,1,50,5,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
-
+		pEntree.setPath(path);
 		
 		// RaPC !!! (basique pour essayer pour le moment
 		//indice du numero de cas
@@ -153,7 +157,7 @@ public class Croissance_Regions implements PlugInFilter {
 		
 		//affichage de l'image pretraitée
 		ImagePlus pretraitee = new ImagePlus("Pretaitee",ip);
-		if(affichage){
+		if(affichage && 1==0){
 			pretraitee.show();
 			pretraitee.updateAndDraw();
 		}
@@ -271,7 +275,7 @@ public class Croissance_Regions implements PlugInFilter {
 				liste.remove(0);
 
 				//affichage du resultat en cours
-				if(affichage){
+				if(affichage && 1==0){
 					imageDT.show();
 					imageDT.updateAndDraw();
 				}
@@ -291,6 +295,9 @@ public class Croissance_Regions implements PlugInFilter {
 		if(affichage){
 			imageDT.show();
 			imageDT.updateAndDraw();
+			//FileSaver save = new FileSaver(imageDT);
+			//String nom = path.substring(59);
+			//save.saveAsPng("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\Resultats\\"+nom);
 		}
 		//reecriture de la base de cas dans le fichier TXT
 		/*try {
@@ -309,7 +316,7 @@ public class Croissance_Regions implements PlugInFilter {
 	 */
 	public ImageProcessor supprimerObjets(ArrayList<Germe> lgermes){
 		//on fait une segmentation classique, il faut que les germes soient aux positions des muscles
-		segmentation(lgermes, true);
+		segmentation(lgermes, false);
 		
 		//on crée une nouvelle image, qui sera une copie de celle de base, mais sans les muscles
 		ImageProcessor ipMuscle= new ByteProcessor(w,h);
@@ -322,8 +329,8 @@ public class Croissance_Regions implements PlugInFilter {
 				if(!(couleursPixels[i][j]>0))iprM.putPixel(i, j, pixelsM[i][j]); 
 			}
 		}
-		imageMuscles.show();
-		imageMuscles.updateAndDraw();
+		//imageMuscles.show();
+		//imageMuscles.updateAndDraw();
 		return ipMuscle;
 	}
 
@@ -346,11 +353,16 @@ public class Croissance_Regions implements PlugInFilter {
 		
 		//calcul de similarité pour chaque cas de la base de cas
 		for(int i = 0 ; i < base.getTailleBase(); i++){
+			
 			System.out.println("Cas "+(i+1)+" :");
 			double similarite = 0;
 			
 			//Problème courant de la base
 			Probleme tmp = base.getCas(i).getProbleme();
+			
+			//pour ne pas se remémorer le cas courant (ex : si on évalue le cas 1 on ne doit pas se le remémorer)
+			if(tmp.getPath().equals(p.getPath()))continue;
+			System.out.println(tmp.getPath()+" "+p.getPath());
 			
 			//Formules de Perner
 			double simNonImage = p.getSimNonImage(tmp, 1, 1, 0.5);
@@ -743,15 +755,16 @@ public class Croissance_Regions implements PlugInFilter {
 							//si un voisin correspond, on remplace l'ancien germe par celui-ci
 							if(image[g.getX()+alpha][g.getY()+alpha] >= Constantes.SEUIL_INF_COULEUR_REIN) {
 								System.out.println("Adaptation de la position d'un germe de type : "+g.getLabelObjet().getNomSimple()+" --> ancienne pos : ("+g.getX()+","+g.getY()+") nouvelle pos : ("+(g.getX()+alpha)+","+(g.getY()+alpha)+")");
-								lgermes.get(i).setPos(g.getX()+alpha, g.getY()+alpha);
-								
+								g.setPos(g.getX()+alpha, g.getY()+alpha);
+								x = alpha+1;
+								y = alpha+1;
 							}
 						}
 					}
 					
 					//augmentation du rayon de recherche
 					alpha++;
-					g = lgermes.get(i);
+					//g = lgermes.get(i);
 				}
 			}
 			

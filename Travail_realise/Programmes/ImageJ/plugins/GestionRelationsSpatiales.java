@@ -228,8 +228,8 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		ipr.putPixel((int)germe.getX(), (int)germe.getY(), VERT); //dessin du germe
 		
 		//mise à jour du composant ImageJ, et dessin de l'image
-		imageDT.show();
-		imageDT.updateAndDraw();
+		//imageDT.show();
+		//imageDT.updateAndDraw();
 	}
 	
 	

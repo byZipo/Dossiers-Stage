@@ -2,6 +2,7 @@ package RegionGrow.main;
 
 import java.awt.Color;
 import java.nio.file.Path;
+import java.util.Arrays;
 
 import javax.swing.JFileChooser;
 
@@ -98,8 +99,8 @@ public class CritereSatisfaction implements PlugInFilter{
 	public void afficherDiceObjets(double[] tab){
 		System.out.println("Tumeur: "+tab[88]);
 		System.out.println("Rein Sein: "+tab[61]);
-		System.out.println("Artère: "+tab[66]);
-		System.out.println("Veine: "+tab[59]);
+		//System.out.println("Artère: "+tab[66]);
+		//System.out.println("Veine: "+tab[59]);
 	}
 
 	/**
@@ -243,6 +244,88 @@ public class CritereSatisfaction implements PlugInFilter{
 	}
 	
 	
+	public void verifierResultats(){
+		
+		
+		double[] diceMoyen = new double[256];
+		double[] iuMoyen = new double[256];
+		double[][] diceMedian = new double[256][16];
+		double[][] iuMedian = new double[256][16];
+		for (int i = 3; i <= 18; i++) {
+			String pathResultats = "C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\Resultats\\";
+			String pathTerrain = "C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\VeritesTerrain\\";
+			pathResultats +=i+".png";
+			pathTerrain +=i+".png";
+			
+			
+			ImagePlus im = new ImagePlus(pathResultats);
+			this.setup("", im);
+			ByteProcessor c1 = im.getProcessor().convertToByteProcessor();
+			int[][] tab1 = c1.getIntArray();
+			
+			ImagePlus im2 = new ImagePlus(pathTerrain);
+			this.setup("", im2);
+			ByteProcessor c2 = im2.getProcessor().convertToByteProcessor();
+			int[][] tab2 = c2.getIntArray();
+			
+			//System.out.println(getDice(tab1, tab2));
+			//System.out.println(getIU(tab1, tab2));
+			double[] dice = getDiceParObjet(tab1, tab2);
+			double[] iu = getIUParObjet(tab1, tab2);
+			
+			for (int j = 0; j < iu.length; j++) {
+				diceMoyen[j] += dice[j];
+				iuMoyen[j] += iu[j];
+				diceMedian[j][i-3] = dice[j];
+				iuMedian[j][i-3] = iu[j];
+			}
+			
+			System.out.println("--------------------------------");
+		}
+		
+		System.out.println("-- RESULTATS GLOBAUX --");
+		System.out.println("Dice moyen par organe :");
+		System.out.println("Tumeur: "+diceMoyen[88]/16);
+		System.out.println("Rein Sein: "+diceMoyen[61]/16);
+		System.out.println("IU moyen par organe : ");
+		System.out.println("Tumeur: "+iuMoyen[88]/16);
+		System.out.println("Rein Sein: "+iuMoyen[61]/16);
+		
+		double[] tmpMT = diceMedian[88];
+		double[] tmpMR = diceMedian[61];
+		double[] tmpIT = iuMedian[88];
+		double[] tmpIR = iuMedian[61];
+		
+		Arrays.sort(tmpMT);
+		Arrays.sort(tmpMR);
+		Arrays.sort(tmpIT);
+		Arrays.sort(tmpIR);
+		
+		System.out.println("---------------------------------------");
+		System.out.println("Dice median par organe : ");
+		double medianMT;
+		if (tmpMT.length % 2 == 0) medianMT = ((double)tmpMT[tmpMT.length/2] + (double)tmpMT[tmpMT.length/2 - 1])/2;
+		else medianMT = (double) tmpMT[tmpMT.length/2];
+		double medianMR;
+		if (tmpMR.length % 2 == 0) medianMR = ((double)tmpMR[tmpMR.length/2] + (double)tmpMR[tmpMR.length/2 - 1])/2;
+		else medianMR = (double) tmpMR[tmpMR.length/2];
+		System.out.println("Tumeur: "+medianMT);
+		System.out.println("Rein: "+medianMR);
+		
+		
+		System.out.println("IU median par organe : ");
+		double medianIT;
+		if (tmpMT.length % 2 == 0) medianIT = ((double)tmpIT[tmpIT.length/2] + (double)tmpIT[tmpIT.length/2 - 1])/2;
+		else medianIT = (double) tmpIT[tmpIT.length/2];
+		double medianIR;
+		if (tmpMR.length % 2 == 0) medianIR = ((double)tmpIR[tmpIR.length/2] + (double)tmpIR[tmpIR.length/2 - 1])/2;
+		else medianIR = (double) tmpIR[tmpIR.length/2];
+		System.out.println("Tumeur: "+medianIT);
+		System.out.println("Rein: "+medianIR);
+		
+	}
+	
+	
 	public static void main(String[] args) {
 		CritereSatisfaction d = new CritereSatisfaction();
 		
@@ -268,12 +351,21 @@ public class CritereSatisfaction implements PlugInFilter{
 		int[][] tab2 = c2.getIntArray();
 		
 		
+		
+		
+		
 		System.out.println(d.getDice(tab1, tab2));
 		System.out.println(d.getIU(tab1, tab2));
 		d.getDiceParObjet(tab1, tab2);
 		d.getIUParObjet(tab1, tab2);
-		System.out.println(d.getSSIM(c1, c2));
-		System.out.println(d.getMSSIM(c1, c2));
+		
+		
+		
+		System.out.println("#########################################");
+		d.verifierResultats();
+		
+		//System.out.println(d.getSSIM(c1, c2));
+		//System.out.println(d.getMSSIM(c1, c2));
 		
 		
 		

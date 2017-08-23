@@ -157,9 +157,9 @@ public class Croissance_Regions implements PlugInFilter {
 		
 		//affichage de l'image pretraitée
 		ImagePlus pretraitee = new ImagePlus("Pretaitee",ip);
-		if(affichage && 1==0){
-			pretraitee.show();
-			pretraitee.updateAndDraw();
+		if(affichage){
+			//pretraitee.show();
+			//pretraitee.updateAndDraw();
 		}
 		//creation de la nouvelle image dans laquelle on va dessiner la segmentation
 		ImageProcessor ipDT= new ColorProcessor(w,h);
@@ -275,9 +275,9 @@ public class Croissance_Regions implements PlugInFilter {
 				liste.remove(0);
 
 				//affichage du resultat en cours
-				if(affichage && 1==0){
-					imageDT.show();
-					imageDT.updateAndDraw();
+				if(affichage){
+					//imageDT.show();
+					//imageDT.updateAndDraw();
 				}
 
 			}
@@ -361,7 +361,7 @@ public class Croissance_Regions implements PlugInFilter {
 			Probleme tmp = base.getCas(i).getProbleme();
 			
 			//pour ne pas se remémorer le cas courant (ex : si on évalue le cas 1 on ne doit pas se le remémorer)
-			if(tmp.getPath().equals(p.getPath()))continue;
+			//if(tmp.getPath().equals(p.getPath()))continue;
 			System.out.println(tmp.getPath()+" "+p.getPath());
 			
 			//Formules de Perner

@@ -36,6 +36,7 @@ public class MainClass {
 		//g.setup("", im);
 		ImageProcessor i = im.getProcessor();
 		c.run(i);
+		
 		//g.run(i);
 	}
 	

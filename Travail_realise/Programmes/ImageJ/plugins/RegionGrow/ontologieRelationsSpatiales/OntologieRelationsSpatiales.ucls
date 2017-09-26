@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.9" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+  <class id="1" language="java" name="RegionGrow.ontologieRelationsSpatiales.RelationDirectionnelle" 
+    project="Segmentation" file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/RelationDirectionnelle.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="51" width="150" x="253" y="833"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="RegionGrow.ontologieRelationsSpatiales.RelationDirectionnelleBinaire" 
+    project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/RelationDirectionnelleBinaire.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="51" width="188" x="123" y="924"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="RegionGrow.ontologieRelationsSpatiales.ProcheDe" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/ProcheDe.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="69" width="168" x="351" y="924"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="RegionGrow.ontologieRelationsSpatiales.EnBasDe" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/EnBasDe.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="69" width="168" x="-85" y="1033"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="RegionGrow.ontologieRelationsSpatiales.AGaucheDe" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/AGaucheDe.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="69" width="168" x="123" y="1033"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="RegionGrow.ontologieRelationsSpatiales.RelationSpatiale" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/RelationSpatiale.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="447" width="193" x="384" y="255"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="RegionGrow.ontologieRelationsSpatiales.RelationMetrique" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/RelationMetrique.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="51" width="123" x="384" y="742"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="RegionGrow.ontologieRelationsSpatiales.EnHautDe" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/EnHautDe.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="69" width="168" x="331" y="1033"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="RegionGrow.ontologieRelationsSpatiales.RelationDeDistance" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/RelationDeDistance.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="51" width="138" x="515" y="833"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="RegionGrow.ontologieRelationsSpatiales.LoinDe" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/LoinDe.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="69" width="168" x="559" y="924"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="RegionGrow.ontologieRelationsSpatiales.ADroiteDe" project="Segmentation" 
+    file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/ADroiteDe.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="69" width="168" x="539" y="1033"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="RegionGrow.ontologieRelationsSpatiales.MoyennementProcheDe" 
+    project="Segmentation" file="/Segmentation/src/RegionGrow/ontologieRelationsSpatiales/MoyennementProcheDe.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="69" width="168" x="767" y="924"/>    
+    <display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="false">      
+      <attributes public="true" package="false" protected="true" private="true" static="true"/>      
+      <operations public="true" package="false" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <generalization id="15">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="1"/>  
+  </generalization>  
+  <generalization id="16">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <generalization id="18">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="19">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="20">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="9"/>  
+  </generalization>  
+  <generalization id="21">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="22">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="23">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="false" package="false" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="false">    
+    <attributes public="true" package="false" protected="true" private="true" static="true"/>    
+    <operations public="true" package="false" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="false" multiplicity="false"/>
+</class-diagram>

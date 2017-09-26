@@ -76,44 +76,86 @@ public class Germe {
 		this.labelObjet=objet;
 	}
 	
+	/**
+	 * retourne le seuil global du germe
+	 * @return le seuil global
+	 */
 	public int getSeuilGlobal() {
 		return seuilGlobal;
 	}
 
+	/**
+	 * définit le seuil global du germe
+	 * @param seuilGlobal : le seuil
+	 */
 	public void setSeuilGlobal(int seuilGlobal) {
 		this.seuilGlobal = seuilGlobal;
 	}
 
+	/**
+	 * retourne le seuil local du germe
+	 * @return : le seuil local
+	 */
 	public int getSeuilLocal() {
 		return seuilLocal;
 	}
 
+	
+	/**
+	 * définit le seuil local du germe
+	 * @param seuilLocal : le seuil local
+	 */
 	public void setSeuilLocal(int seuilLocal) {
 		this.seuilLocal = seuilLocal;
 	}
 
+	/**
+	 * retourne la coordonnée x du germe
+	 * @return : x
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * définit la coordonnée x du germe
+	 * @param x : la coordonnée x
+	 */
 	public void setX(int x) {
 		if(x != (int)x)System.err.println("PAS INT");
 		this.x = x;
 	}
 
+	/**
+	 * retourne la coordonnée y du germe
+	 * @return : y
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * définit la coordonnée y du germe
+	 * @param y : la coordonnée y
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 	
+	/**
+	 * définit la position du germe
+	 * @param x : x
+	 * @param y : y
+	 */
 	public void setPos(int x, int y){
 		this.x=x;
 		this.y=y;
 	}
 
+	/**
+	 * retourne la couleur du germe
+	 * @return : la couleur
+	 */
 	public int getCouleur() {
 		if(couleur==0){
 			Random r = new Random();
@@ -122,10 +164,18 @@ public class Germe {
 		else return couleur;
 	}
 
+	/**
+	 * définit la couleur du germe
+	 * @param couleur : la couleur
+	 */
 	public void setCouleur(int couleur) {
 		this.couleur = couleur;
 	}
 	
+	/**
+	 * définit l'objet anatomique associé au germe
+	 * @param ref : le nom de l'objet
+	 */
 	public void setTypeByString(String ref) {
 		String nomComplet = "RegionGrow.ontologieAnatomie."+ref; //il faut ajouter le chemin vers la classe
 		try {
@@ -137,9 +187,18 @@ public class Germe {
 		}
 	}
 	
+	/**
+	 * retourne l'objet anatomique associé ua germe
+	 * @return l'objet anatomique
+	 */
 	public ObjetAnatomie getLabelObjet() {
 		return labelObjet;
 	}
+	
+	/**
+	 * définit l'objet anatomique du germe
+	 * @param labelObjet : l'objet anatomique
+	 */
 	public void setLabelObjet(ObjetAnatomie labelObjet) {
 		this.labelObjet = labelObjet;
 	}
@@ -199,7 +258,9 @@ public class Germe {
 	}
 	
 	
-	
+	/**
+	 * affiche le germe
+	 */
 	public String toString(){
 		return "position : ("+x+";"+y+") , seuilGlobal : "+seuilGlobal+" , seuilLocal : "+seuilLocal+" , couleur : "+couleur+" , type:"+labelObjet;
 	}

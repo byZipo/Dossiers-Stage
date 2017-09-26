@@ -559,7 +559,12 @@ public class Probleme {
 		return (double)((double)(wNI*simNonImage) + (double)(wI*simImage));
 	}
 	
-	
+	/**
+	 * calcule la valeur du critere SSIM entre deux images
+	 * @param ip1 : première image
+	 * @param ip2 : deuxième image
+	 * @return : la valeur du critère SSIM
+	 */
 	public double getSSIM(ImageProcessor ip1, ImageProcessor ip2){
 		
 		
@@ -585,7 +590,12 @@ public class Probleme {
 		return (double)(numerateur/denominateur);
 	}
 	
-	
+	/**
+	 * calcule la valeur du critere MSSIM entre deux images
+	 * @param ip1 : première image
+	 * @param ip2 : deuxième image
+	 * @return : la valeur du critère MSSIM
+	 */
 	public double getMSSIM(ImageProcessor ip, Probleme p){
 		
 		ImageProcessor ip1 = (ImageProcessor) ip.clone();
@@ -620,7 +630,9 @@ public class Probleme {
 		this.path=p;
 	}
 	
-	
+	/**
+	 * affiche le probleme
+	 */
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		st.append("PROBLEME : \n");

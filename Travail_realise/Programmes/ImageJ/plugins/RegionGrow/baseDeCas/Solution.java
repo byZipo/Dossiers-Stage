@@ -145,6 +145,9 @@ public class Solution {
 		this.seuilGlobal = seuilGlobal;
 	}
 	
+	/**
+	 * affiche la solution
+	 */
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		st.append("\nSOLUTION:");

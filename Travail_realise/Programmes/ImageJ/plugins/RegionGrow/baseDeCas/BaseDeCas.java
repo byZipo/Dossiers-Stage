@@ -19,33 +19,61 @@ public class BaseDeCas {
 		this.taille = lcas.size();
 	}
 
+	/**
+	 * retourne le cas d'indice i
+	 * @param i : l'indice du cas
+	 * @return le cas
+	 */
 	public Cas getCas(int i){
 		return lcas.get(i);
 	}
 
+	/**
+	 * ajoute un casà la base
+	 * @param c : le cas à a jouter
+	 */
 	public void ajouterCas(Cas c){
 		this.lcas.add(c);
 		this.taille++;
 	}
 
+	
+	/**
+	 * supprime un cas de la base
+	 * @param c : le cas à supprimer
+	 */
 	public void supprimerCas(Cas c){
 		this.lcas.remove(c);
 		this.taille--;
 	}
 
 
+	/**
+	 * retourne la taille de la base de cas
+	 * @return la taille
+	 */
 	public int getTailleBase(){
 		return this.taille;
 	}
 
+	/**
+	 * définit la taille de la base
+	 * @param t : la taille 
+	 */
 	public void setTailleBase(int t){
 		this.taille = t;
 	}
 
+	/**
+	 * définit la taille de la base par rappport au nombre de cas
+	 */
 	public void setTailleBase(){
 		this.taille = lcas.size();
 	}
 
+	/**
+	 * affiche la base de cas
+	 */
 	public String toString(){
 		StringBuilder st = new StringBuilder();
 		for(int i = 0 ; i < taille ; i++){

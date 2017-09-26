@@ -5,12 +5,11 @@ import static RegionGrow.main.Constantes.MUSCLES_A_ENLEVER;
 
 import java.awt.Point;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import javax.swing.JFileChooser;
+import com.sun.xml.internal.bind.v2.runtime.output.StAXExStreamWriterOutput;
 
 import RegionGrow.baseDeCas.BaseDeCas;
 import RegionGrow.baseDeCas.Cas;
@@ -87,9 +86,6 @@ public class Croissance_Regions implements PlugInFilter {
 			base = l.LectureFichierBaseEnLigne("BaseDeCasEnLigne.txt");
 			BaseDeCas test = l.parserXML("BaseDeCas.xml");
 			base = test;
-			//System.out.println(base.toString());
-			//IJ.log("////////////////Avant segmentation : ///////////////\n");
-			//IJ.log(base.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -102,7 +98,6 @@ public class Croissance_Regions implements PlugInFilter {
 		Probleme pEntree = new Probleme(3,100,22,1,50,5,stats.mean,stats.skewness,stats.stdDev,stats.kurtosis);
 		pEntree.setPath(path);
 		
-		// RaPC !!! (basique pour essayer pour le moment
 		//indice du numero de cas
 		int indiceBase = getMeilleurProbleme(ip,pEntree,base);
 		Cas casRememore = base.getCas(indiceBase);
@@ -117,23 +112,16 @@ public class Croissance_Regions implements PlugInFilter {
 		//adaptation position des germes en fonction de la couleur supposée sous le germe
 		lgermes = adaptationGermes(lgermes);
 		
+		//vérifie si les germes du rein sont bien placés
+		System.out.println("Germes du rein tous bien placés ? :"+germesReinBienPlaces(lgermes));
+		
 		//suppression des muscles
 		if(MUSCLES_A_ENLEVER)ip = supprimerObjets(lgermesInutiles);
 		
-		//calcul de la position du germe de la tumeur
-		
-		//je peux effectivemnt
-		/*Germe t1 = recupererGermeTumeur(casRememore);
-		Germe t2 = new Germe(t1.getX()-50,t1.getY()-30,t1.getSeuilGlobal(),t1.getSeuilLocal());
-		t2.setLabelObjet(new TumeurRenale());*/
-		//t2.setColor();
+		//calcul de la position du germe de la tumeur 
+		//(si on commente cette ligne ça ne segmente que le rein et la colonne)
 		lgermes.add(recupererGermeTumeur(casRememore));
-		//lgermes.add(t2);
-		
-		
-		//TODO en réalité ici il faut appeler la méthode avec pEntree et casRememore
-		//int[][] boiteEnglobante = getBoiteEnglobante(casRememore.getProbleme(), casRememore);
-		
+
 		//segmentation
 		segmentation(lgermes, true);
 		
@@ -156,7 +144,7 @@ public class Croissance_Regions implements PlugInFilter {
 		
 		
 		//affichage de l'image pretraitée
-		ImagePlus pretraitee = new ImagePlus("Pretaitee",ip);
+		//ImagePlus pretraitee = new ImagePlus("Pretaitee",ip);
 		if(affichage){
 			//pretraitee.show();
 			//pretraitee.updateAndDraw();
@@ -281,12 +269,6 @@ public class Croissance_Regions implements PlugInFilter {
 				}
 
 			}
-			//temporisateur pour l'affichage, entre chaque affichage de region
-			/*try {
-				Thread.sleep(250);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}*/
 		}
 
 		//fusionRegions(new Point(154,200), new Point(113,213), couleursRegions);
@@ -295,10 +277,14 @@ public class Croissance_Regions implements PlugInFilter {
 		if(affichage){
 			imageDT.show();
 			imageDT.updateAndDraw();
+			// POUR SAuVEGARDER LES RESULTATS DES SEGMENTATION DANS UN DOSSIER
+			// (PENSER A CHANGER LE NOM DU DOSSIER POUR NE PAS ECRASER)
 			//FileSaver save = new FileSaver(imageDT);
 			//String nom = path.substring(59);
-			//save.saveAsPng("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\Resultats\\"+nom);
+			//save.saveAsPng("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\ResultatsSansAdaptation\\"+nom);
 		}
+		
+		
 		//reecriture de la base de cas dans le fichier TXT
 		/*try {
 			l.ecritureFichierBaseEnLigne("BaseDeCasEnLigne.txt", base);
@@ -309,9 +295,7 @@ public class Croissance_Regions implements PlugInFilter {
 	
 	/**
 	 * Réalise une segmentation de l'image en placant des germes sur les muscles, puis les supprime
-	 * @param base
-	 * @param indiceBase
-	 * @param l
+	 * @param lgermes : la liste des germes des objets à supprimer
 	 * @return l'image de base sans les muscles
 	 */
 	public ImageProcessor supprimerObjets(ArrayList<Germe> lgermes){
@@ -337,6 +321,7 @@ public class Croissance_Regions implements PlugInFilter {
 
 	
 	/**
+	 * 1er RàPC
 	 * Calcul de similarite entre le probleme courrant et ceux de la base, pour retourner l'indice du plus similaire
 	 * La formule utilisée est un "mix" entre les formules de Perner et l'indice MSSIM
 	 * @param ip : L'ImageProcessor, donc l'image du nouveau Problème
@@ -361,7 +346,7 @@ public class Croissance_Regions implements PlugInFilter {
 			Probleme tmp = base.getCas(i).getProbleme();
 			
 			//pour ne pas se remémorer le cas courant (ex : si on évalue le cas 1 on ne doit pas se le remémorer)
-			//if(tmp.getPath().equals(p.getPath()))continue;
+			if(tmp.getPath().equals(p.getPath()))continue;
 			System.out.println(tmp.getPath()+" "+p.getPath());
 			
 			//Formules de Perner
@@ -388,22 +373,26 @@ public class Croissance_Regions implements PlugInFilter {
 		return indice;
 	}
 	
-	
+	/**
+	 * 2ème RàPC
+	 * (non utilisé pour le moment car la base etant petite, il existe des cas sans relations équivalents)
+	 * cela ne change pas les résultats pour autant
+	 * pour récupérer l'indice dans la base (donc le cas) pour la position de la tumeur
+	 * @param p : le Problème à résoudre
+	 * @param base : la base de cas
+	 * @return l'indice dans la base de cas du cas à se remémorer
+	 */
 	public int getMeilleurProbleme2(Probleme p, BaseDeCas base){
 		
 		//On commence par récupérer la liste des cas ayant les mêmes relations spatiales (l'ordre n'a pas d'importance)
-		ArrayList<Cas> potentiels = getCasMemesRelations(p,base);
+		HashMap<Cas, Integer> potentiels = getCasMemesRelations(p,base);
 		System.out.println("Nombre de cas potentiels (mêmes relations spatiales) : "+potentiels.size());
-		for(Cas c : potentiels){
-			System.out.println(c.getProbleme().getPositonFloueTumeur().toString());
-		}
-		//TODO calcul du meilleur cas parmis potentiels, et récupération des paramètres des fcts floues
-		//TODO mesure de similarité sur les critères Image et NonImage (+poids) pour récupérer les seuils globaux et locaux pour la tumeur
 		
-		//TODO récupérer aussi les autres germes (des autres organes) + leurs seuils
+		//actuellement on retourne simplement l'indice du premier cas de la liste des cas ayant les mêmes relations
+		return potentiels.get(0);
 		
-		//du coup la méthode ne retournera plus un entier, mais plusieurs choses ^^
-		return 0;
+		//TODO calcul du meilleur cas parmis potentiels ? (pas simplement le premier qui vient)
+		
 	}
 	
 	/**
@@ -414,10 +403,10 @@ public class Croissance_Regions implements PlugInFilter {
 	 * @param base : la base de cas
 	 * @return la liste des cas ayant les mêmes relations spatiales
 	 */
-	public ArrayList<Cas> getCasMemesRelations(Probleme p, BaseDeCas base){
+	public HashMap<Cas, Integer> getCasMemesRelations(Probleme p, BaseDeCas base){
 		
 		ArrayList<RelationSpatiale> pRel = p.getPositonFloueTumeur();
-		ArrayList<Cas> res = new ArrayList<Cas>();
+		HashMap<Cas, Integer> res = new HashMap<Cas, Integer>();
 		
 		//pour chaque cas de la base
 		for (int i = 0; i < base.getTailleBase(); i++) {
@@ -439,7 +428,7 @@ public class Croissance_Regions implements PlugInFilter {
 			}
 			//si les listes de relation sont égales, on peut ajouter la cas au résultat
 			if(listesEgales){
-				res.add(c);
+				res.put(c,i);
 			}
 		}
 		return res;
@@ -753,9 +742,9 @@ public class Croissance_Regions implements PlugInFilter {
 						for(int y = -alpha ; y <= alpha ; y++){
 							
 							//si un voisin correspond, on remplace l'ancien germe par celui-ci
-							if(image[g.getX()+alpha][g.getY()+alpha] >= Constantes.SEUIL_INF_COULEUR_REIN) {
-								System.out.println("Adaptation de la position d'un germe de type : "+g.getLabelObjet().getNomSimple()+" --> ancienne pos : ("+g.getX()+","+g.getY()+") nouvelle pos : ("+(g.getX()+alpha)+","+(g.getY()+alpha)+")");
-								g.setPos(g.getX()+alpha, g.getY()+alpha);
+							if(image[g.getX()+x][g.getY()+y] >= Constantes.SEUIL_INF_COULEUR_REIN) {
+								System.out.println("Adaptation de la position d'un germe de type : "+g.getLabelObjet().getNomSimple()+" --> ancienne pos : ("+g.getX()+","+g.getY()+") nouvelle pos : ("+(g.getX()+x)+","+(g.getY()+y)+")");
+								g.setPos(g.getX()+x, g.getY()+y);
 								x = alpha+1;
 								y = alpha+1;
 							}
@@ -777,15 +766,38 @@ public class Croissance_Regions implements PlugInFilter {
 	}
 	
 	
+	/**
+	 * teste si tous les germes du rein sont bien placés
+	 * c'est à dire s'ils se trouvent tous dans le rein
+	 * @param lgermes : la liste des germes
+	 * @return true si tous bien placés
+	 */
+	public boolean germesReinBienPlaces(ArrayList<Germe> lgermes){
+		
+		int[][] image = ip.getIntArray();
+		int nbFaux = 0;
+		
+		for(Germe g : lgermes){
+			if(g.getLabelObjet() instanceof Rein){
+				if(image[g.getX()][g.getY()]<Constantes.SEUIL_INF_COULEUR_REIN)nbFaux++;
+			}
+		}
+		return nbFaux==0;
+	}
 	
 	
 	
+	
+	/**
+	 * Main de test, non utilisé pour l'exécution normale
+	 * @param args
+	 */
 	public static void main(String[] args) {
-		Croissance_Regions c = new Croissance_Regions();
+		/*Croissance_Regions c = new Croissance_Regions();
 		LectureFichier l = new LectureFichier();
 		BaseDeCas base = l.parserXML("BaseDeCas.xml");
 		Probleme p = new Probleme();
-		
+		*/
 		/*ColonneVertebrale c1 = new ColonneVertebrale();
 		c1.setPosition(new Point(391,374));
 		
@@ -809,6 +821,8 @@ public class Croissance_Regions implements PlugInFilter {
 		p.ajouterRelationFloue(rs3);
 		
 		c.getMeilleurProbleme2(p, base);*/
+		
+		/*
 		JFileChooser dialogue = new JFileChooser("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\CT");
 		Path path = null;
 		if (dialogue.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
@@ -823,7 +837,7 @@ public class Croissance_Regions implements PlugInFilter {
 		c.ip=i;
 		c.h=c.ip.getHeight();
 		c.w=c.ip.getWidth();
-		
+		*/
 		//CROISSANCE DE REGIONS MANUELLE POUR L'IMAGE LISA_2
 		/*
 		ArrayList<Germe> lgermes = new ArrayList<Germe>();

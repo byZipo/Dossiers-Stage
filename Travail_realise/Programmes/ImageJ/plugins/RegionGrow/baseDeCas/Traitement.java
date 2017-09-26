@@ -99,6 +99,10 @@ public class Traitement {
 		this.radius=val;
 	}
 	
+	/**
+	 * définit le type de traitement
+	 * @param traitement : le traitement
+	 */
 	public void setTypeTraitementByString(String traitement){
 		try{
 			this.type = TypeTraitement.valueOf(traitement);
@@ -108,7 +112,9 @@ public class Traitement {
 	}
 	
 	
-	
+	/**
+	 * affiche le traitement
+	 */
 	public String toString(){
 		return "Type : "+type+" , radius:"+radius+" , seuil:"+seuil;
 	}

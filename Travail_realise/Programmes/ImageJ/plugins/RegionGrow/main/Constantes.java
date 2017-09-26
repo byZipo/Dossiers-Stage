@@ -59,6 +59,7 @@ public final class Constantes {
 	//définit l'intensité minimale en niveau de gris d'un rein sur les scanners (avec prétraitement)
 	public static final int SEUIL_INF_COULEUR_REIN = 180;
 	
+	//le chemin vers la base de cas
 	public static final String CHEMIN_BASE_DE_CAS = "C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\BaseDeCas";
 	
 }

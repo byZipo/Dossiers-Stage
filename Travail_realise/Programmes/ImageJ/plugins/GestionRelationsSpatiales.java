@@ -65,108 +65,6 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		pixelsA = new int[w][h];
 		pixelsCopy = ip.getIntArray();
 		
-		
-		
-		/*Point ref2 = new Point((w/2),(h/2)+1);
-		aDroiteDe(ref2);
-		
-		Point ref3 = new Point((w/2)+1,(h/2));
-		aDroiteDe(ref3);*/
-		
-		
-		//calcul
-		//pour chaque point de la forme de référence (A OPTIMISER en "pour chaque point du contour de la forme")
-		// EN FAIT PAS BESOIN, LE CENTRE DE LA FORME SUFFIT, POUR LES TESTS ON PREND DONC UN SEUL POINT
-		
-		
-		//calcul du centre de gravité de la colonne vertébrale (point de référence)
-		/*Point ref = new Point(391, 374);
-		Point ref2 = new Point(154,72);
-		pixelsA[(int)ref.getX()][(int)ref.getY()]=-50;
-		pixelsA[(int)ref2.getX()][(int)ref2.getY()]=-50;*/
-		
-		/*int[][] haut = enHautDe(ref);
-		int[][] droite = aDroiteDe(ref);
-		int[][] proche = moyennementProcheDe(ref);
-		int[][] gauche = aGaucheDe(ref);
-		
-		int[][] fusion = fusion(droite,proche);
-		int[][] fusion2 = fusion(fusion, haut);
-		
-		fusion2 = normaliser(fusion2);
-		
-		//dessin de l'image + des relations spatiales floues calculées
-		dessin(fusion2);
-		*/
-		
-		/****************************************************/
-		/*********** MAIN DE TEST **************************/
-		
-		
-		
-		/*ArrayList<RelationSpatiale> rel = new ArrayList<RelationSpatiale>();
-		
-		//objets
-		ColonneVertebrale c1 = new ColonneVertebrale();
-		c1.setPosition(new Point(391,374));
-		
-		ReinDroit rein = new ReinDroit();
-		rein.setPosition(new Point(154,72));
-
-		
-		//relations
-		AGaucheDe rs1 = new AGaucheDe();
-		rs1.setReference(c1);
-		rs1.setSeuilInf(90);
-		rs1.setSeuilSup(270);
-		rs1.setDegreMax(180);
-		
-		EnHautDe rs2 = new EnHautDe();
-		rs2.setReference(c1);
-		rs2.setSeuilInf(0);
-		rs2.setSeuilSup(180);
-		rs2.setDegreMax(90);
-		
-		MoyennementProcheDe rs3 = new MoyennementProcheDe();
-		rs3.setReference(c1);
-		
-		ADroiteDe rs4 = new ADroiteDe();
-		rs4.setReference(rein);
-		rs4.setSeuilInf(90);
-		rs4.setSeuilSup(270);
-		rs4.setDegreMax(0);
-		
-		MoyennementProcheDe rs5 = new MoyennementProcheDe();
-		rs5.setReference(rein);
-		
-		AGaucheDe rs6 = new AGaucheDe();
-		rs6.setReference(rein);
-		rs6.setSeuilInf(90);
-		rs6.setSeuilSup(270);
-		rs6.setDegreMax(180);
-		
-		EnBasDe rs7 = new EnBasDe();
-		rs7.setReference(rein);
-		rs7.setSeuilInf(180);
-		rs7.setSeuilSup(360);
-		rs7.setDegreMax(270);
-		
-		//ajouts dans la liste
-		rel.add(rs1);
-		rel.add(rs2);
-		rel.add(rs3);
-		//rel.add(rs4);
-		//rel.add(rs5);
-		rel.add(rs7);
-		
-		
-		//calcul + affichage
-		Point germe = calculeGerme(rel);
-		IJ.log("POISITION GERME TUMEUR : "+germe.getX()+" "+germe.getY());*/
-		
-		/******************************************************/
-		
-
 	}
 	
 	
@@ -200,7 +98,6 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		dessin(tab);
 		
 		//on retourne le meilleur pixel de la carte qui devient le germe
-		
 		return getGerme(tab);
 	}
 	
@@ -220,8 +117,6 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 					int[] cpy = {pixelsCopy[i][j],pixelsCopy[i][j],pixelsCopy[i][j]}; 
 					ipr.putPixel(i,j,cpy); //dessin de l'image de base la où il n'y a pas de relations spatiales floues
 				}
-				//if(fusion2[i][j]==255)ipr.putPixel(i,j,BLANC);
-				//else ipr.putPixel(i,j,0);
 			}
 		}
 		Point germe = this.getGerme(fusion2); //calcul du germe
@@ -300,6 +195,10 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		
 	}
 	
+	/**
+	 * Main de test, non utilisé pour l'exécution principale du programme
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		//selection de l'image a segmenter
 		//le repertoire par defaut du JFileChooser est constitue a l'aide de \\ et non pas des \
@@ -322,6 +221,6 @@ public class GestionRelationsSpatiales implements PlugInFilter{
 		c1.setPosition(new Point(264,318));
 		pd.setReference(c1);
 		mlsdkf.add(pd);
-		Point p  = g.calculeGerme(mlsdkf);
+		//Point p  = g.calculeGerme(mlsdkf);
 	}
 }

@@ -17,7 +17,10 @@ public class MainClass {
 	
 	public MainClass(){
 		
-		DeuxiemeMain();
+		validationCroisee();
+		
+		
+		/* ZONE DE TESTS */
 		
 		//selection de l'image a segmenter
 		//le repertoire par defaut du JFileChooser est constitue a l'aide de \\ et non pas des \
@@ -30,17 +33,20 @@ public class MainClass {
 		Croissance_Regions c = new Croissance_Regions();
 		//GestionRelationsSpatiales g = new GestionRelationsSpatiales(im.getWidth(), im.getHeight());
 		//il suffit de faire appel aux methodes de base d'un plugin ImageJ : setup() et run()
-		
-		
 		c.setup(path.toString(), im);
-		//g.setup("", im);
 		ImageProcessor i = im.getProcessor();
 		c.run(i);
 		
-		//g.run(i);
+		/* FIN ZONE DE TESTS */
+		
 	}
 	
-	public void DeuxiemeMain(){
+	/**
+	 * Main d'exécution pour la validation croisée
+	 * lance l'exécution des 16 cas de la base successivement
+	 */
+	public void validationCroisee(){
+		//les indices vont de 3 à 18 car les deux premiers cas ne sont pas conformes (mauvais format)
 		for (int i = 3; i <= 18; i++) {
 			String path = "C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\BaseDeCas\\"+i+".png";
 			ImagePlus im = new ImagePlus(path);
@@ -51,7 +57,10 @@ public class MainClass {
 		}
 	}
 	
-
+	/**
+	 * MAIN PRINCIPAL POUR EXECUTER LE PROGRAMME
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		new MainClass();
 	}

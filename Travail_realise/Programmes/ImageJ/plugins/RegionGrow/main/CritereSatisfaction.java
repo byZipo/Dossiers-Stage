@@ -1,10 +1,7 @@
 package RegionGrow.main;
 
 import java.awt.Color;
-import java.nio.file.Path;
 import java.util.Arrays;
-
-import javax.swing.JFileChooser;
 
 import ij.ImagePlus;
 import ij.plugin.filter.PlugInFilter;
@@ -60,10 +57,10 @@ public class CritereSatisfaction implements PlugInFilter{
 	
 	
 	/**
-	 * Calcule le coefficient de Dice pour chaque objet segmenté entre deux images (de mêmes dimensions)
-	 * @param tab1 : la première image
-	 * @param tab2 : la deuxième image
-	 * @return : le coefficient, un double entre 0 et 1
+	 * calcule l'indice DICE pour chaque structure anatomique entre deux images
+	 * @param tab1 : premiere image
+	 * @param tab2 : deuxieme image
+	 * @return un tableau contenant le DICE pour chaque structure (= pour chaque couleur convertie en niveaux de gris)
 	 */
 	public double[] getDiceParObjet(int[][] tab1, int[][] tab2){
 		if(tab1.length != tab2.length || tab1[0].length != tab2[0].length){
@@ -90,12 +87,21 @@ public class CritereSatisfaction implements PlugInFilter{
 		return res;
 	}
 	
+	/**
+	 * affiche le contenu d'un tableau à une dimension
+	 * @param tab : le tableau à afficher
+	 */
 	public void afficherTab1D(double[] tab) {
 		for (int i = 0; i < tab.length; i++) {
 			System.out.println("i="+i+"->"+tab[i]);
 		}
 	}
 	
+	/**
+	 * afficher le dice pour les structures anatomiques en fonction de leur couleur :
+	 * (88 = tumeur, 61 = rein, 66 = artère, 59 = veine)
+	 * @param tab : le tableau des DICE pour chaque couleur
+	 */
 	public void afficherDiceObjets(double[] tab){
 		System.out.println("Tumeur: "+tab[88]);
 		System.out.println("Rein Sein: "+tab[61]);
@@ -131,7 +137,12 @@ public class CritereSatisfaction implements PlugInFilter{
 		return (double)(intersection)/(A+B-intersection);
 	}
 	
-	
+	/**
+	 * calcule l'indice IU pour chaque structure anatomique entre deux images
+	 * @param tab1 : premiere image
+	 * @param tab2 : deuxieme image
+	 * @return un tableau contenant l'IU pour chaque structure (= pour chaque couleur convertie en niveaux de gris)
+	 */
 	public double[] getIUParObjet(int[][] tab1, int[][] tab2){
 		if(tab1.length != tab2.length || tab1[0].length != tab2[0].length){
 			System.err.println("ERREUR DICE : les images ne sont pas de mêmes dimensions");
@@ -158,6 +169,11 @@ public class CritereSatisfaction implements PlugInFilter{
 	}
 	
 	
+	/**
+	 * fonction "bricolage" post-traitement pour supprimer le gris résultant
+	 * lors de l'éxécution d'un algo de Watershed
+	 * @param c : l'image
+	 */
 	public void supprimerGris(ColorProcessor c){
 		
 		
@@ -191,11 +207,15 @@ public class CritereSatisfaction implements PlugInFilter{
 		/*FileSaver save = new FileSaver(imageDT);
 		save.saveAsPng();*/
 		
-		
 	}
 	
 	
-	
+	/**
+	 * calcule la valeur du critere SSIM entre deux images
+	 * @param ip1 : première image
+	 * @param ip2 : deuxième image
+	 * @return : la valeur du critère SSIM
+	 */
 	public double getSSIM(ImageProcessor ip1, ImageProcessor ip2){
 		
 		
@@ -222,6 +242,12 @@ public class CritereSatisfaction implements PlugInFilter{
 	}
 	
 	
+	/**
+	 * calcule la valeur du critere MSSIM entre deux images
+	 * @param ip1 : première image
+	 * @param ip2 : deuxième image
+	 * @return : la valeur du critère MSSIM
+	 */
 	public double getMSSIM(ImageProcessor ip1, ImageProcessor ip2){
 		
 		int pas = 50;
@@ -244,7 +270,11 @@ public class CritereSatisfaction implements PlugInFilter{
 	}
 	
 	
-	public void verifierResultats(){
+	/**
+	 * Calcule DICE + IU sur les images résultat de la validation croisée
+	 * par rapport aux vérités terrain
+	 */
+	public void resultatsValidationCroisee(){
 		
 		
 		double[] diceMoyen = new double[256];
@@ -252,7 +282,7 @@ public class CritereSatisfaction implements PlugInFilter{
 		double[][] diceMedian = new double[256][16];
 		double[][] iuMedian = new double[256][16];
 		for (int i = 3; i <= 18; i++) {
-			String pathResultats = "C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\Resultats\\";
+			String pathResultats = "C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\ResultatsSansAdaptation\\";
 			String pathTerrain = "C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\VeritesTerrain\\";
 			pathResultats +=i+".png";
 			pathTerrain +=i+".png";
@@ -327,8 +357,12 @@ public class CritereSatisfaction implements PlugInFilter{
 	
 	
 	public static void main(String[] args) {
+		
 		CritereSatisfaction d = new CritereSatisfaction();
 		
+		/* ZONE DE TESTS */
+		
+		/*
 		JFileChooser dialogue = new JFileChooser("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\CT");
 		Path path = null;
 		if (dialogue.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
@@ -357,22 +391,10 @@ public class CritereSatisfaction implements PlugInFilter{
 		System.out.println(d.getDice(tab1, tab2));
 		System.out.println(d.getIU(tab1, tab2));
 		d.getDiceParObjet(tab1, tab2);
-		d.getIUParObjet(tab1, tab2);
-		
-		
-		
-		System.out.println("#########################################");
-		d.verifierResultats();
-		
-		//System.out.println(d.getSSIM(c1, c2));
-		//System.out.println(d.getMSSIM(c1, c2));
-		
-		
+		d.getIUParObjet(tab1, tab2);*/
 		
 		/////////// SUPPRESSION GRIS WATERSHED //////////////
-		
 		/*
-		
 		JFileChooser dialogue3 = new JFileChooser("C:\\Users\\Thibault\\Documents\\M2-Info\\Stage\\Images\\CT");
 		Path path3 = null;
 		if (dialogue3.showOpenDialog(null)== JFileChooser.APPROVE_OPTION) {
@@ -383,9 +405,7 @@ public class CritereSatisfaction implements PlugInFilter{
 		ColorProcessor c3 = im3.getProcessor().convertToRGB().convertToColorProcessor();
 		
 		d.supprimerGris(c3);
-		
 		*/
-		
 		
 		
 		/*
@@ -393,21 +413,27 @@ public class CritereSatisfaction implements PlugInFilter{
 		o.open();
 		FFT fft = new FFT();
 		fft.run("");
-		
 		*/
-		/*int centerOfMass2 = Measurements.CENTER_OF_MASS;
-		int skewness2 = Measurements.SKEWNESS;*/
 		
+		/*
+		int centerOfMass2 = Measurements.CENTER_OF_MASS;
+		int skewness2 = Measurements.SKEWNESS;
+		*/
 		
-/*		
+		/*		
 		System.out.println(Measurements.CENTER_OF_MASS);
 		System.out.println(Measurements.SKEWNESS);
 		System.out.println(Measurements.KURTOSIS);
 		System.out.println(Measurements.MEDIAN);
 		System.out.println(Measurements.MEDIAN);
 		System.out.println(Measurements.STD_DEV);
+		 */
 		
-*/
+		/* FIN ZONE DE TESTS */
+		
+		System.out.println("#########################################");
+		d.resultatsValidationCroisee();
+		
 	}
 	
 
